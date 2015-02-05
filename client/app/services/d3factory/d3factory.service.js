@@ -4,7 +4,36 @@ angular.module('ariadneApp')
   .factory('d3Factory', function ($q) {
     // Service logic
 
-    var drawForce = function(graphData){
+    var drawForce = function(entities, links){
+
+      var graphData = {
+        nodes: [],
+        links: []
+      };
+      var entityKey = {};
+      var entityInt = 0;
+      angular.forEach(entities, function(entity, key){
+        var pushed = {
+          name: entity.mentref[0]._,
+          group: entity.$.type
+        }
+        entityKey[entity.$.eid] = entityInt;
+        entityInt += 1;
+        graphData['nodes'].push(pushed);
+      });
+      angular.forEach(links, function(link, key){
+        var pushed = {
+          source: entityKey[link.rel_entity_arg[0].$.eid],
+          target: entityKey[link.rel_entity_arg[1].$.eid],
+          value: link.relmentions[0].relmention[0].$.score
+        }
+        console.log(pushed)
+        graphData['links'].push(pushed);
+      })
+
+        console.log('graphData')
+        console.log(graphData)
+
         console.log('drawing')
         var width = 960,
             height = 500
@@ -60,8 +89,8 @@ angular.module('ariadneApp')
 
     // Public API here
     return {
-      drawForce: function (data) {
-        drawForce(data)
+      drawForce: function (entities, links) {
+        drawForce(entities, links)
       }
     };
   });
