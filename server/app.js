@@ -14,9 +14,6 @@ var app = express();
 var server = require('http').createServer(app);
 require('./config/express')(app);
 require('./routes')(app);
-var url = require('url');
-var querystring = require('querystring');
-var xmlescape = require('xml-escape');
 
 
 // Start server

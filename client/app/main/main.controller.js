@@ -8,4 +8,10 @@ angular.module('ariadneApp')
       $scope.awesomeThings = awesomeThings;
     });
 
+    $scope.testRelationship = function(){
+      $http.post('/api/watson').success(function(data) {
+        console.log(data)
+      });
+    };
+
   });
