@@ -6,7 +6,7 @@ var https = require('https');
 var url = require('url');
 var querystring = require('querystring');
 var xmlescape = require('xml-escape');
-
+var parseString = require('xml2js').parseString;
 
 var router = express.Router();
 
@@ -75,8 +75,11 @@ router.post('/', function(req, res) {
       });
 
       result.on('end', function() {
-        //var escaped = xmlescape(resp_string)
-        return res.send(resp_string)
+        var resp_json = '';
+        parseString(resp_string, function (err, result) {
+            resp_json = result
+        });
+        return res.send(resp_json)
       })
 
     });

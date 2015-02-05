@@ -14,10 +14,11 @@ angular.module('ariadneApp')
           rt: 'xml',
           txt: $scope.documentText
       }
-      console.log(postData)
       $http.post('/api/watson', postData).success(function(data) {
         console.log(data)
-        $scope.watsonResponse = data;
+        $scope.watsonResponses = data;
+        $scope.entities = $scope.watsonResponses.rep.doc[0].entities[0].entity;
+        console.log($scope.entities)
       });
     };
 
