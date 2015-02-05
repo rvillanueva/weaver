@@ -1,0 +1,7 @@
+applications:
+- services:
+  - Relationship Extraction-r3
+  name: re-nodejs-rjvillan
+  command: node server/app.js
+  path: .
+  memory: 128M
