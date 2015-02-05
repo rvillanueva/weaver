@@ -9,8 +9,15 @@ angular.module('ariadneApp')
     });
 
     $scope.testRelationship = function(){
-      $http.post('/api/watson').success(function(data) {
+      var postData = {
+          sid: 'ie-en-news',
+          rt: 'xml',
+          txt: $scope.documentText
+      }
+      console.log(postData)
+      $http.post('/api/watson', postData).success(function(data) {
         console.log(data)
+        $scope.watsonResponse = data;
       });
     };
 

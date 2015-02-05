@@ -17,9 +17,9 @@ var appInfo = JSON.parse(process.env.VCAP_APPLICATION || "{}");
 // TODO: Get application information and use it in your app.
 
 // defaults for dev outside bluemix
-var service_url = 'https://gateway.watsonplatform.net/laser/service/api/v1/sire/03f07fbf-24e9-49e9-863a-62028cf78047';
-var service_username = '17b5ed5a-8b4e-4607-bb4e-e8faad68bec1';
-var service_password = 'XFrRZy1LbetU';
+var service_url = process.env.RELATIONSHIP_URL;
+var service_username = process.env.RELATIONSHIP_USER;
+var service_password = process.env.RELATIONSHIP_SECRET;
 
 // VCAP_SERVICES contains all the credentials of services bound to
 // this application. For details of its content, please refer to
@@ -52,11 +52,6 @@ var auth = 'Basic ' + new Buffer(service_username + ':' + service_password).toSt
 // Handle the form POST containing the text to identify with Watson and reply with the language
 router.post('/', function(req, res) {
     var parts = url.parse(service_url);
-    req.body = {
-      sid: 'ie-en-news',
-      txt: 'Ryan visited IBM in May 2013.',
-      rt: 'xml'
-    }
 
     // create the request options from our form to POST to Watson
     var options = {
