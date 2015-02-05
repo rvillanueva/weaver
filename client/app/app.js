@@ -5,7 +5,8 @@ angular.module('ariadneApp', [
   'ngResource',
   'ngSanitize',
   'ngRoute',
-  'ui.bootstrap'
+  'ui.bootstrap',
+  'ngAria'
 ])
   .config(function ($routeProvider, $locationProvider) {
     $routeProvider
