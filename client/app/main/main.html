@@ -24,80 +24,114 @@
     </div>
 </script>
 
-
-
 <div class="container">
-  <div class="panel panel-default">
-  <div class="panel-heading">Documents
-    <span class="pull-right">
-      <button class="btn btn-default btn-sm" ng-click="open('lg')"><span class="glyphicon glyphicon-plus"></span> Add Document</button>
-    </span>
-</div>
-  <div class="panel-body">
-    <span ng-if="documents.length == 0">No documents. Add a few to analyze!</span>
-    <div class="list-group" ng-if="documents.length > 0">
-      <a href="#" class="list-group-item" ng-repeat="doc in documents" >
-        {{doc.title}}
-      </a>
-    </div>
-  </div>
-</div>
-  <div class="col-lg-6" ng-if="documents.length > 0">
-    <span class="btn btn-primary btn-md" ng-click="getRelation()">Analyze</span>
-    <br><br>
-    &nbsp;
-  </div>
-</div>
-
-<div class="container" ng-hide="!relationships">
-  <tabset>
-    <tab heading="People" class="padding" active="tab.active">
-      <br>
-        <div class="col-lg-4" ng-repeat="person in persons">
-          <div class="panel panel-default">
-          <div class="panel-heading">{{person.mentref[0]._}}</div>
-          <div class="panel-body">
-            {{person.$.score}}
-          </div>
-          </div>
-        </div>
-    </tab>
-    <tab heading="Organizations" active="">
-      <br>
-      <div class="col-lg-4" ng-repeat="org in organizations">
+  <div class="row">
+    <div>
+      <div class="col-lg-4">
         <div class="panel panel-default">
-        <div class="panel-heading">{{org.mentref[0]._}}</div>
+        <div class="panel-heading">Documents
+          <span class="pull-right">
+            <button class="btn btn-default btn-sm" ng-click="open('lg')"><span class="glyphicon glyphicon-plus"></span> Add Document</button>
+          </span>
+      </div>
         <div class="panel-body">
-          {{org.$.score}}
-        </div>
+          <span ng-if="documents.length == 0">No documents. Add a few to analyze!</span>
+          <div class="list-group" ng-if="documents.length > 0">
+            <a href="#" class="list-group-item" ng-repeat="doc in documents" >
+              {{doc.title}}
+            </a>
+          </div>
         </div>
       </div>
-    </tab>
-    <tab heading="Timeline" active="">
-      Tab test
-    </tab>
-    <tab heading="Network Graph" active="">
-      <div id="canvas"></div>
-    </tab>
-    <tab heading="All" active="" disabled="tab.disabled">
-      <table class="table table-striped table-hover">
-    <thead>
-      <tr>
-        <th>Entity</th>
-        <th>Type</th>
-        <th>Id</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr ng-repeat="entity in entities">
-        <td>{{entity.mentref[0]._}}</td>
-        <td>{{entity.$.type}}</td>
-        <td>{{entity.$.eid}}
-      </tr>
-    </tbody>
-  </table>
-    </tab>
-  </tabset>
+        <div class="col-lg-6" ng-if="documents.length > 0">
+          <span class="btn btn-primary btn-md" ng-click="getRelation()">Analyze</span>
+          <br><br>
+          &nbsp;
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-8">
+      <div ng-hide="!relationships">
+        <tabset>
+          <tab heading="Network Graph" active="">
+            <div class="form-group">
+              <label for="docTitle" class="col-lg-2 control-label">Type</label>
+              <div class="col-lg-10">
+                <select ng-model="graphFilter" ng-change="redraw(graphFilter)">
+                  <option value="PERSON">Person</option>
+                  <option value="PEOPLE">People</option>
+                  <option value="LOCATION">Locations</option>
+                  <option value="ORGANIZATION">Organizations</option>
+                </select>
+              </div>
+            </div>
+            <div id="canvas"></div>
+          </tab>
+          <tab heading="People" class="padding" active="tab.active">
+            <br>
+              <div class="col-lg-6" ng-repeat="person in persons">
+                <div class="panel panel-default">
+                <div class="panel-heading">{{person.mentref[0]._}}</div>
+                <div class="panel-body">
+                  {{person.$.score}}
+                  <div ng-repeat="mention in person.mentref" class="small-text">
+                    <i>"...{{index.mentions[mention.$.mid].snippets.pre}}<strong>{{index.mentions[mention.$.mid].snippets.term}}</strong>{{index.mentions[mention.$.mid].snippets.post}}..."</i><br><br>
+                  </div>
+                </div>
+                </div>
+              </div>
+          </tab>
+          <tab heading="Organizations" active="">
+            <br>
+            <div class="col-lg-6" ng-repeat="org in organizations">
+              <div class="panel panel-default">
+              <div class="panel-heading">{{org.mentref[0]._}}</div>
+              <div class="panel-body">
+                {{org.$.score}}
+                <div ng-repeat="mention in org.mentref" class="small-text">
+                  <i>"...{{index.mentions[mention.$.mid].snippets.pre}}<strong>{{index.mentions[mention.$.mid].snippets.term}}</strong>{{index.mentions[mention.$.mid].snippets.post}}..."</i><br><br>
+                </div>
+              </div>
+              </div>
+            </div>
+          </tab>
+          <tab heading="Timeline" active="">
+            <br>
+            <div class="col-lg-6" ng-repeat="event in events">
+              <div class="panel panel-default">
+              <div class="panel-heading">{{event.mentref[0]._}}</div>
+              <div class="panel-body">
+                {{event.$.score}}<br>
+                {{event.$.type}}<br>
+                <div ng-repeat="mention in event.mentref" class="small-text">
+                  <i>"...{{index.mentions[mention.$.mid].snippets.pre}}<strong>{{index.mentions[mention.$.mid].snippets.term}}</strong>{{index.mentions[mention.$.mid].snippets.post}}..."</i><br><br>
+                </div>
+              </div>
+              </div>
+            </div>
+          </tab>
+          <tab heading="All" active="" disabled="tab.disabled">
+            <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>Entity</th>
+              <th>Type</th>
+              <th>Id</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="entity in entities">
+              <td>{{entity.mentref[0]._}}</td>
+              <td>{{entity.$.type}}</td>
+              <td>{{entity.$.eid}}</td>
+            </tr>
+          </tbody>
+        </table>
+          </tab>
+        </tabset>
+      </div>
+    </div>
+  </div>
 </div>
 
 <footer class="footer">

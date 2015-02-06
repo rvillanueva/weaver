@@ -4,7 +4,10 @@ angular.module('ariadneApp')
   .factory('d3Factory', function ($q) {
     // Service logic
 
-    var drawForce = function(entities, links){
+    var svg;
+    var node;
+
+    var setForce = function(entities, links){
 
       var graphData = {
         nodes: [],
@@ -22,23 +25,23 @@ angular.module('ariadneApp')
         graphData['nodes'].push(pushed);
       });
       angular.forEach(links, function(link, key){
-        var pushed = {
-          source: entityKey[link.rel_entity_arg[0].$.eid],
-          target: entityKey[link.rel_entity_arg[1].$.eid],
-          value: link.relmentions[0].relmention[0].$.score
+        if (typeof entityKey[link.rel_entity_arg[0].$.eid] !== 'undefined' && typeof entityKey[link.rel_entity_arg[1].$.eid] !== 'undefined'){
+          var pushed = {
+            source: entityKey[link.rel_entity_arg[0].$.eid],
+            target: entityKey[link.rel_entity_arg[1].$.eid],
+            value: link.relmentions[0].relmention[0].$.score
+          }
+          graphData['links'].push(pushed);
         }
-        console.log(pushed)
-        graphData['links'].push(pushed);
       })
 
         console.log('graphData')
         console.log(graphData)
 
-        console.log('drawing')
-        var width = 960,
-            height = 500
+        var width = 800,
+            height = 700
 
-        var svg = d3.select("#canvas").append("svg")
+        svg = d3.select("#canvas").append("svg")
             .attr("width", width)
             .attr("height", height);
 
@@ -58,23 +61,37 @@ angular.module('ariadneApp')
           .enter().append("line")
             .attr("class", "link");
 
-        var node = svg.selectAll(".node")
+        node = svg.selectAll(".node")
             .data(graphData.nodes)
           .enter().append("g")
             .attr("class", "node")
             .call(force.drag);
 
-        node.append("image")
-            .attr("xlink:href", "https://github.com/favicon.ico")
-            .attr("x", -8)
-            .attr("y", -8)
-            .attr("width", 16)
-            .attr("height", 16);
+        link.style("stroke-width", 2)
+            .style("fill", "#AAAAAA")
+            .on("mouseover", function(d){
+              var linkSelection = d3.select(this).style("stroke-width", 4)
+              .on('mouseout', function(d) { linkSelection.style('stroke-width', 2); })
+            })
+
+
+        node.append("svg:circle")
+            .attr("cx", 0)
+            .attr("cy", 0)
+            .attr("r", 5)
+            .style("fill", "#AAAAAA")
+            .on("mouseover", function(d){
+              var nodeSelection = d3.select(this).style("fill", "#009793")
+              .on('mouseout', function(d) { nodeSelection.style("fill", "#AAAAAA"); })
+            })
 
         node.append("text")
             .attr("dx", 12)
             .attr("dy", ".35em")
-            .text(function(d) { return d.name });
+            .text(function(d) {
+              var textSelection = d3.select(this).style("fill", "#AAAAAA")
+              return d.name;
+            });
 
         force.on("tick", function() {
           link.attr("x1", function(d) { return d.source.x; })
@@ -87,10 +104,27 @@ angular.module('ariadneApp')
 
     }
 
+    var updateForce = function(type){
+      console.log('filled')
+      var filtered = node.filter(function(d) {
+        return d.group == type;
+      })
+      filtered.selectAll("circle")
+        .attr("r",8)
+        .style("fill", "#000000")
+      filtered.selectAll("text")
+        .style("font-size","14px")
+        .style("fill", "#000000")
+      console.log(filtered)
+    }
+
     // Public API here
     return {
-      drawForce: function (entities, links) {
-        drawForce(entities, links)
+      setForce: function (entities, links) {
+        setForce(entities, links)
+      },
+      updateForce: function(type){
+        updateForce(type);
       }
     };
   });

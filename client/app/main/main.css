@@ -37,3 +37,7 @@
   pointer-events: none;
   font: 10px sans-serif;
 }
+
+.small-text {
+  font-size: 10px;
+}
