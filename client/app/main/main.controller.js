@@ -38,6 +38,7 @@ angular.module('ariadneApp')
           console.log('triggered')
         }
         d3Factory.setForce($scope.entities, $scope.links);
+        d3Factory.updateForce($scope.graphFilter)
       });
 
     };

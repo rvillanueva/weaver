@@ -76,22 +76,8 @@ angular.module('ariadneApp')
 
 
         node.append("svg:circle")
-            .attr("cx", 0)
-            .attr("cy", 0)
-            .attr("r", 5)
-            .style("fill", "#AAAAAA")
-            .on("mouseover", function(d){
-              var nodeSelection = d3.select(this).style("fill", "#009793")
-              .on('mouseout', function(d) { nodeSelection.style("fill", "#AAAAAA"); })
-            })
 
         node.append("text")
-            .attr("dx", 12)
-            .attr("dy", ".35em")
-            .text(function(d) {
-              var textSelection = d3.select(this).style("fill", "#AAAAAA")
-              return d.name;
-            });
 
         force.on("tick", function() {
           link.attr("x1", function(d) { return d.source.x; })
@@ -103,19 +89,42 @@ angular.module('ariadneApp')
         });
 
     }
-
     var updateForce = function(type){
-      console.log('filled')
-      var filtered = node.filter(function(d) {
+      node.selectAll("circle")
+        .attr("cx", 0)
+        .attr("cy", 0)
+        .attr("r", 5)
+        .style("fill", "#AAAAAA")
+        .on("mouseover", function(d){
+          var nodeSelection = d3.select(this).style("fill", "#009793")
+          .on('mouseout', function(d) {
+            if(d.group == type){
+              nodeSelection.style("fill", "#000000");
+            } else {
+              nodeSelection.style("fill", "#AAAAAA");
+            }
+          })
+        })
+      node.selectAll("text")
+        .attr("dx", 12)
+        .attr("dy", ".35em")
+        .text(function(d) {
+          var textSelection = d3.select(this).style("fill", "#AAAAAA")
+          return d.name;
+        });
+      var filteredNode = node.filter(function(d) {
         return d.group == type;
       })
-      filtered.selectAll("circle")
+      filteredNode.selectAll("circle")
+        .transition()
         .attr("r",8)
         .style("fill", "#000000")
-      filtered.selectAll("text")
+
+      filteredNode.selectAll("text")
+        .transition()
         .style("font-size","14px")
         .style("fill", "#000000")
-      console.log(filtered)
+      console.log(filteredNode)
     }
 
     // Public API here
