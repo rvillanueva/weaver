@@ -41,3 +41,16 @@
 .small-text {
   font-size: 10px;
 }
+
+.modal {
+    display: block;
+    background-color: rgba(0, 0, 0, 0.5)
+}
+
+.hide {
+    display: none;
+}
+
+.centered {
+  text-align: center;
+}

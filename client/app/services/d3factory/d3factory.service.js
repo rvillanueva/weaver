@@ -2,10 +2,14 @@
 
 angular.module('ariadneApp')
   .factory('d3Factory', function ($q) {
-    // Service logic
 
     var svg;
     var node;
+    var activeColor = "#E8871E";
+    var passiveColor = "#A0ACAD"
+    var highlightColor = "#3B3B58"
+    var width = 800,
+        height = 600
 
     var setForce = function(entities, links){
 
@@ -37,9 +41,6 @@ angular.module('ariadneApp')
 
         console.log('graphData')
         console.log(graphData)
-
-        var width = 800,
-            height = 700
 
         svg = d3.select("#canvas").append("svg")
             .attr("width", width)
@@ -89,19 +90,20 @@ angular.module('ariadneApp')
         });
 
     }
-    var updateForce = function(type){
+    var updateForce = function(type, index){
       node.selectAll("circle")
         .attr("cx", 0)
         .attr("cy", 0)
         .attr("r", 5)
         .style("fill", "#AAAAAA")
         .on("mouseover", function(d){
-          var nodeSelection = d3.select(this).style("fill", "#009793")
+          $("#details").html(d.group)
+          var nodeSelection = d3.select(this).style("fill", activeColor)
           .on('mouseout', function(d) {
             if(d.group == type){
-              nodeSelection.style("fill", "#000000");
+              nodeSelection.style("fill", highlightColor);
             } else {
-              nodeSelection.style("fill", "#AAAAAA");
+              nodeSelection.style("fill", passiveColor);
             }
           })
         })
@@ -109,7 +111,7 @@ angular.module('ariadneApp')
         .attr("dx", 12)
         .attr("dy", ".35em")
         .text(function(d) {
-          var textSelection = d3.select(this).style("fill", "#AAAAAA")
+          var textSelection = d3.select(this).style("fill", passiveColor)
           return d.name;
         });
       var filteredNode = node.filter(function(d) {
@@ -118,12 +120,12 @@ angular.module('ariadneApp')
       filteredNode.selectAll("circle")
         .transition()
         .attr("r",8)
-        .style("fill", "#000000")
+        .style("fill", highlightColor)
 
       filteredNode.selectAll("text")
         .transition()
         .style("font-size","14px")
-        .style("fill", "#000000")
+        .style("fill", highlightColor)
       console.log(filteredNode)
     }
 
@@ -132,8 +134,8 @@ angular.module('ariadneApp')
       setForce: function (entities, links) {
         setForce(entities, links)
       },
-      updateForce: function(type){
-        updateForce(type);
+      updateForce: function(type, index){
+        updateForce(type, index);
       }
     };
   });
