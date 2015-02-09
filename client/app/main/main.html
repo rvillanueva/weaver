@@ -32,7 +32,7 @@
           <tab heading="Documents">
             <br>
               <div class="col-lg-6">
-                  <button class="btn btn-default btn-sm" ng-click="open('lg')"><span class="glyphicon glyphicon-plus"></span> Add Document</button>
+                  <button class="btn btn-default btn-sm" ng-click="open('lg')" ng-disabled="analyzing"><span class="glyphicon glyphicon-plus"></span> Add Document</button>
                   <br><br>
                   <span ng-if="documents.length == 0">No documents. Add a few to analyze!</span>
                   <div class="list-group" ng-if="documents.length > 0">
@@ -77,6 +77,8 @@
                   <div class="panel-body">
                     <div id="details">
                     </div>
+                    <br>
+                    <button class="btn btn-default btn-md" ng-click="saveJSON(relationships)"><span class="glyphicon glyphicon-download-alt"></span> Save JSON</button>
                   </div>
                 </div>
               </div>
@@ -84,13 +86,19 @@
           </tab>
           <tab heading="People" class="padding" ng-hide="!relationships">
             <br>
-              <div class="col-lg-6" ng-repeat="person in persons">
+              <div class="col-lg-4" ng-repeat="person in persons">
                 <div class="panel panel-default">
-                <div class="panel-heading">{{person.mentref[0]._}}</div>
+                <div class="panel-heading"><h4>{{person.mentref[0]._}}</h4></div>
                 <div class="panel-body">
-                  {{person.$.score}}
-                  <div ng-repeat="mention in person.mentref" class="small-text">
-                    "...{{index.mentions[mention.$.mid].snippets.pre}}<strong>{{index.mentions[mention.$.mid].snippets.term}}</strong>{{index.mentions[mention.$.mid].snippets.post}}..."</i><br><br>
+                  Accuracy: {{person.$.score * 100 | number: 0}}%<br>
+                  <br>
+                  Mentions:
+                  <span ng-repeat="mention in person.mentref">
+                    <a href="#"><span class="glyphicon glyphicon-bookmark" popover="...{{index.mentions[mention.$.mid].snippets.pre}}*{{index.mentions[mention.$.mid].snippets.term}}*{{index.mentions[mention.$.mid].snippets.post}}..." popover-trigger="mouseenter" popover-placement="top" popover-popup-delay="250" popover-append-to-body="true"></span></a>&nbsp;
+                  </span>
+                  <br><br>
+                  <div>
+                    <button class="btn btn-sm btn-primary">Relevant</button> <button class="btn btn-sm btn-default">Merge</button> <button class="btn btn-sm btn-warning">Not Relevant</button>
                   </div>
                 </div>
                 </div>
@@ -98,13 +106,19 @@
           </tab>
           <tab heading="Organizations" ng-hide="!relationships">
             <br>
-            <div class="col-lg-6" ng-repeat="org in organizations">
+            <div class="col-lg-4" ng-repeat="org in organizations">
               <div class="panel panel-default">
-              <div class="panel-heading">{{org.mentref[0]._}}</div>
+              <div class="panel-heading"><h4>{{org.mentref[0]._}}</h4></div>
               <div class="panel-body">
-                {{org.$.score}}
-                <div ng-repeat="mention in org.mentref" class="small-text">
-                  <i>"...{{index.mentions[mention.$.mid].snippets.pre}}<strong>{{index.mentions[mention.$.mid].snippets.term}}</strong>{{index.mentions[mention.$.mid].snippets.post}}..."</i><br><br>
+                Accuracy: {{org.$.score * 100 | number: 0}}%<br>
+                <br>
+                Mentions:
+                <span ng-repeat="mention in org.mentref">
+                  <a href="#"><span class="glyphicon glyphicon-bookmark" popover="...{{index.mentions[mention.$.mid].snippets.pre}}*{{index.mentions[mention.$.mid].snippets.term}}*{{index.mentions[mention.$.mid].snippets.post}}..." popover-trigger="mouseenter" popover-placement="top" popover-popup-delay="250" popover-append-to-body="true"></span></a>&nbsp;
+                </span>
+                <br><br>
+                <div>
+                  <button class="btn btn-sm btn-primary">Relevant</button> <button class="btn btn-sm btn-default">Merge</button> <button class="btn btn-sm btn-warning">Not Relevant</button>
                 </div>
               </div>
               </div>
@@ -112,14 +126,20 @@
           </tab>
           <tab heading="Timeline" ng-hide="!relationships">
             <br>
-            <div class="col-lg-6" ng-repeat="event in events">
+            <div class="col-lg-4" ng-repeat="event in events">
               <div class="panel panel-default">
-              <div class="panel-heading">{{event.mentref[0]._}}</div>
+              <div class="panel-heading"><h4>{{event.mentref[0]._}}</h4></div>
               <div class="panel-body">
-                {{event.$.score}}<br>
-                {{event.$.type}}<br>
-                <div ng-repeat="mention in event.mentref" class="small-text">
-                  <i>"...{{index.mentions[mention.$.mid].snippets.pre}}<strong>{{index.mentions[mention.$.mid].snippets.term}}</strong>{{index.mentions[mention.$.mid].snippets.post}}..."</i><br><br>
+                Accuracy: {{event.$.score * 100 | number: 0}}%<br>
+                Type: {{event.$.type}}<br>
+                <br>
+                Mentions:
+                <span ng-repeat="mention in event.mentref">
+                  <a href="#"><span class="glyphicon glyphicon-bookmark" popover="...{{index.mentions[mention.$.mid].snippets.pre}}*{{index.mentions[mention.$.mid].snippets.term}}*{{index.mentions[mention.$.mid].snippets.post}}..." popover-trigger="mouseenter" popover-placement="top" popover-popup-delay="250" popover-append-to-body="true"></span></a>&nbsp;
+                </span>
+                <br><br>
+                <div>
+                  <button class="btn btn-sm btn-primary">Relevant</button> <button class="btn btn-sm btn-default">Merge</button> <button class="btn btn-sm btn-warning">Not Relevant</button>
                 </div>
               </div>
               </div>
@@ -151,6 +171,6 @@
 
 <footer class="footer">
   <div class="container">
-      <p>Ariadne by <a href="https://github.com/rvillanueva">Ryan Villanueva</a></p>
+      <p>Weaver by <a href="https://github.com/rvillanueva">Ryan Villanueva</a></p>
   </div>
 </footer>

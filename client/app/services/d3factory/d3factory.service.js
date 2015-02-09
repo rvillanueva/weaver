@@ -20,13 +20,21 @@ angular.module('ariadneApp')
       var entityKey = {};
       var entityInt = 0;
       angular.forEach(entities, function(entity, key){
-        var pushed = {
-          name: entity.mentref[0]._,
-          group: entity.$.type
+        var linkCheck = false;
+        angular.forEach(links, function(link, key){
+          if (entity.$.eid == link.rel_entity_arg[0].$.eid || entity.$.eid == link.rel_entity_arg[1].$.eid){
+            linkCheck = true;
+          }
+        })
+        if (linkCheck == true){
+          var pushed = {
+            name: entity.mentref[0]._,
+            group: entity.$.type
+          }
+          entityKey[entity.$.eid] = entityInt;
+          entityInt += 1;
+          graphData['nodes'].push(pushed);
         }
-        entityKey[entity.$.eid] = entityInt;
-        entityInt += 1;
-        graphData['nodes'].push(pushed);
       });
       angular.forEach(links, function(link, key){
         if (typeof entityKey[link.rel_entity_arg[0].$.eid] !== 'undefined' && typeof entityKey[link.rel_entity_arg[1].$.eid] !== 'undefined'){
@@ -48,8 +56,8 @@ angular.module('ariadneApp')
 
         var force = d3.layout.force()
             .gravity(.1)
-            .distance(75)
-            .charge(-100)
+            .distance(100)
+            .charge(-200)
             .size([width, height]);
 
         force

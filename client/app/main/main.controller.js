@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ariadneApp')
-  .controller('MainCtrl', function ($scope, $http, $filter, $modal, keyFactory, d3Factory) {
+  .controller('MainCtrl', function ($scope, $http, $filter, $modal, keyFactory, d3Factory, $position) {
     var graphData = [];
     $scope.documents = [{
       title: 'Ukraine Crisis',
@@ -14,6 +14,30 @@ angular.module('ariadneApp')
     $scope.removeDoc = function(index){
       console.log(index)
       $scope.documents = $scope.documents.slice(index+1)
+    }
+
+    $scope.saveJSON = function(data, filename){
+
+        if(!data) {
+            console.error('Console.save: No data')
+            return;
+        }
+
+        if(!filename) filename = 'relationships.json'
+
+        if(typeof data === "object"){
+            data = JSON.stringify(data, undefined, 4)
+        }
+
+        var blob = new Blob([data], {type: 'text/json'}),
+            e    = document.createEvent('MouseEvents'),
+            a    = document.createElement('a')
+
+        a.download = filename
+        a.href = window.URL.createObjectURL(blob)
+        a.dataset.downloadurl =  ['text/json', a.download, a.href].join(':')
+        e.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
+        a.dispatchEvent(e)
     }
 
     $scope.getRelation = function(){
@@ -55,8 +79,8 @@ angular.module('ariadneApp')
 
     $scope.open = function (size) {
        var modalInstance = $modal.open({
-         templateUrl: '../components/modal/modal.html',
-         controller: 'ModalInstanceCtrl',
+         templateUrl: '../components/docmodal/docmodal.html',
+         controller: 'DocModalInstanceCtrl',
          size: size,
          backdrop: true,
          resolve: {
@@ -82,7 +106,7 @@ angular.module('ariadneApp')
 });
 
 
-angular.module('ariadneApp').controller('ModalInstanceCtrl', function ($scope, $modalInstance, items) {
+angular.module('ariadneApp').controller('DocModalInstanceCtrl', function ($scope, $modalInstance, items) {
 
   $scope.ok = function () {
     $modalInstance.close($scope.addDoc);
