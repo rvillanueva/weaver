@@ -5,7 +5,6 @@ angular.module('ariadneApp')
     // Service logic
     // ...
 
-    var meaningOfLife = 42;
 
     // Public API here
     return {

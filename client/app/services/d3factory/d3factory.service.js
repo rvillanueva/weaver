@@ -11,7 +11,7 @@ angular.module('ariadneApp')
     var width = 800,
         height = 600
 
-    var setForce = function(entities, links){
+    var parseData = function(entities, links, search){
 
       var graphData = {
         nodes: [],
@@ -19,24 +19,42 @@ angular.module('ariadneApp')
       };
       var entityKey = {};
       var entityInt = 0;
+      var searchedEntityKey;
+
+      // If the search term matches the entity, push entity
+      // If search term matches an entity that's linked to this entity, push entity
+      // If link includes an entity that matches the search term, push link
       angular.forEach(entities, function(entity, key){
-        var linkCheck = false;
-        angular.forEach(links, function(link, key){
-          if (entity.$.eid == link.rel_entity_arg[0].$.eid || entity.$.eid == link.rel_entity_arg[1].$.eid){
-            linkCheck = true;
+        // If no search terms, for each entity check to see if there is an associated link.
+        // If so, push entity to graph
+          var linkCheck = false;
+          var searchCheck = false;
+          console.log('search: ' + search)
+          angular.forEach(links, function(link, key){
+            // If search term is present and entity id is equal to either entity id of the link, toggle link check to true
+            if (entity.$.eid == link.rel_entity_arg[0].$.eid || entity.$.eid == link.rel_entity_arg[1].$.eid){
+                linkCheck = true;
+            }
+          })
+
+          if (search == entity.$.eid){
+
           }
-        })
-        if (linkCheck == true){
-          var pushed = {
-            name: entity.mentref[0]._,
-            group: entity.$.type
+
+          // If link check is true, push entity
+          if (linkCheck == true){
+            var pushed = {
+              name: entity.mentref[0]._,
+              group: entity.$.type
+            }
+            // Add entry to indicate the graph index associated with the entity eid
+            entityKey[entity.$.eid] = entityInt;
+            entityInt += 1;
+            graphData['nodes'].push(pushed);
           }
-          entityKey[entity.$.eid] = entityInt;
-          entityInt += 1;
-          graphData['nodes'].push(pushed);
-        }
-      });
+        });
       angular.forEach(links, function(link, key){
+        // If
         if (typeof entityKey[link.rel_entity_arg[0].$.eid] !== 'undefined' && typeof entityKey[link.rel_entity_arg[1].$.eid] !== 'undefined'){
           var pushed = {
             source: entityKey[link.rel_entity_arg[0].$.eid],
@@ -46,6 +64,12 @@ angular.module('ariadneApp')
           graphData['links'].push(pushed);
         }
       })
+      return graphData;
+    }
+
+    var setForce = function(entities, links, search){
+
+      var graphData = parseData(entities, links, search);
 
         console.log('graphData')
         console.log(graphData)
@@ -98,7 +122,7 @@ angular.module('ariadneApp')
         });
 
     }
-    var updateForce = function(type, index){
+    var updateForce = function(type, search, index){
       node.selectAll("circle")
         .attr("cx", 0)
         .attr("cy", 0)
@@ -139,8 +163,8 @@ angular.module('ariadneApp')
 
     // Public API here
     return {
-      setForce: function (entities, links) {
-        setForce(entities, links)
+      setForce: function (entities, links, search) {
+        setForce(entities, links, search)
       },
       updateForce: function(type, index){
         updateForce(type, index);

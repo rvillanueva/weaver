@@ -51,7 +51,7 @@ angular.module('ariadneApp')
           rt: 'xml',
           txt: concatenated,
       }
-      $http.post('/api/watson', postData).success(function(data) {
+      $http.post('/api/watson/relationships', postData).success(function(data) {
         $scope.analyzing = false;
         $scope.finished = true;
         console.log(data)
@@ -76,6 +76,25 @@ angular.module('ariadneApp')
 
     };
 
+    $scope.testSearch = function(){
+      var ciPostData = {
+        ids: ['DevOps'],
+        corpus: 'ibmresearcher',
+        user: 'public',
+        limit: 20
+      };
+      $http({
+        url: '/api/watson/conceptinsights/semantic_search',
+        method: "GET",
+        params: ciPostData,
+      }).success(function(data) {
+        console.log(data)
+      }).error(function(err){
+        console.log(err)
+      })
+      console.log('sent search!')
+    }
+
 
     $scope.open = function (size) {
        var modalInstance = $modal.open({
@@ -97,9 +116,12 @@ angular.module('ariadneApp')
        });
      };
 
-  $scope.redraw = function(type){
+  $scope.redraw = function(type, index){
     console.log(type)
-    d3Factory.updateForce(type)
+    d3Factory.updateForce(type, index)
+  }
+
+  $scope.resetGraph = function(){
   }
 
 

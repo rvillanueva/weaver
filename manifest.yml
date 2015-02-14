@@ -1,6 +1,7 @@
 applications:
 - services:
   - Relationship Extraction-r3
+  - Concept Insights-0c
   name: re-nodejs-ariadne
   command: node server/app.js
   path: .

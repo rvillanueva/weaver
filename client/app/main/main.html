@@ -60,9 +60,17 @@
                 <br>
                 <div class="form-group">
                   <br>
+                  <label for="docTitle" class="col-lg-2 control-label">Search</label>
+                  <div class="col-lg-10">
+                    <input type="text" ng-model="graphSearch"></input> <button class="btn btn-sm btn-primary" ng-click="graphFilter(graphFilter, graphSearch)">Search</button>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <br>
                   <label for="docTitle" class="col-lg-2 control-label">Type</label>
                   <div class="col-lg-10">
-                    <select ng-model="graphFilter" ng-change="redraw(graphFilter)">
+                    <select ng-model="graphFilter" ng-change="redraw(graphFilter, graphSearch)">
                       <option value="PERSON">Person</option>
                       <option value="PEOPLE">People</option>
                       <option value="LOCATION">Locations</option>
@@ -172,5 +180,6 @@
 <footer class="footer">
   <div class="container">
       <p>Weaver by <a href="https://github.com/rvillanueva">Ryan Villanueva</a></p>
+      <button class="btn btn-lg btn-primary" ng-click="testSearch()">Test</button>
   </div>
 </footer>
