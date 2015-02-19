@@ -52,12 +52,24 @@ angular.module('ariadneApp')
         db.push(data);
         return 'Success';
       },
-      get: function (path) {
-
-        return db;
+      get: function () {
+        var deferred = $q.defer();
+        var retrieve = function(){
+          deferred.resolve(db)
+        }
+        retrieve();
+        return deferred.promise;
       },
-      getSources: function (path) {
+      getSources: function () {
         return db.sources;
+      },
+      getEntities: function () {
+        var deferred = $q.defer();
+        var retrieve = function(){
+          deferred.resolve(db.entities)
+        }
+        retrieve();
+        return deferred.promise;
       },
       addSource: function (postData) {
         var deferred = $q.defer();

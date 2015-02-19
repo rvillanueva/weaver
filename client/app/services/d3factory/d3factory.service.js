@@ -11,8 +11,9 @@ angular.module('ariadneApp')
     var width = 800,
         height = 600
 
-    var parseData = function(entities, links, search, data){
-
+    var parseData = function(data, search){
+      var entities = data.entities;
+      var links = data.relations;
       var graphData = {
         nodes: [],
         links: []
@@ -74,9 +75,11 @@ angular.module('ariadneApp')
       return graphData;
     }
 
-    var setForce = function(entities, links, search, data){
+    var setForce = function(data, search){
+      var entities = data.entities;
+      var links = data.relations;
 
-      var graphData = parseData(entities, links, search, data);
+      var graphData = parseData(data, search);
 
         console.log('graphData')
         console.log(graphData)
@@ -130,7 +133,7 @@ angular.module('ariadneApp')
         });
 
     }
-    var updateForce = function(type, search, data){
+    var updateForce = function(data, type, search){
       node.selectAll("circle")
         .attr("cx", 0)
         .attr("cy", 0)
@@ -173,11 +176,11 @@ angular.module('ariadneApp')
 
     // Public API here
     return {
-      setForce: function (entities, links, search, data) {
-        setForce(entities, links, search, data)
+      setForce: function (data, search) {
+        setForce(data, search, data)
       },
-      updateForce: function(type, search, data){
-        updateForce(type, search, data);
+      updateForce: function(data, type, search){
+        updateForce(data, type, search);
       }
     };
   });

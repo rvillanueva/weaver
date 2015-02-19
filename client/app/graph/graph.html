@@ -1,0 +1,40 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+<div class="row">
+  <div class="col-lg-8">
+    <div id="canvas"></div>
+  </div>
+  <div class="col-lg-4">
+    <br>
+    <div class="form-group">
+      <br>
+      <label for="docTitle" class="col-lg-2 control-label">Search</label>
+      <div class="col-lg-10">
+        <input type="text" ng-model="graphSearch"></input> <button class="btn btn-sm btn-primary" ng-click="graphFilter(graphFilter, graphSearch)">Search</button>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <br>
+      <label for="docTitle" class="col-lg-2 control-label">Type</label>
+      <div class="col-lg-10">
+        <select ng-model="graphFilter" ng-change="redraw(graphFilter, graphSearch)">
+          <option value="PERSON">Person</option>
+          <option value="PEOPLE">People</option>
+          <option value="LOCATION">Locations</option>
+          <option value="ORGANIZATION">Organizations</option>
+          <option value="GPE">Geopolitical Entity</option>
+        </select>
+      </div>
+    </div>
+    <br>
+    <div class="panel panel-default">
+      <div class="panel-heading">Details</div>
+      <div class="panel-body">
+        <div id="details">
+        </div>
+        <br>
+        <button class="btn btn-default btn-md" ng-click="saveJSON(relationships)"><span class="glyphicon glyphicon-download-alt"></span> Save JSON</button>
+      </div>
+    </div>
+  </div>
+</div>

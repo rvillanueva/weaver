@@ -5,6 +5,21 @@ angular.module('ariadneApp')
     $scope.menu = [{
       'title': 'Home',
       'link': '/'
+    }, {
+      'title': 'Graph',
+      'link': '/graph'
+    },
+    {
+      'title': 'Entities',
+      'link': '/entities'
+    },
+    {
+      'title': 'Map',
+      'link': '/map'
+    },
+    {
+      'title': 'Timeline',
+      'link': '/timeline'
     }];
 
     $scope.isCollapsed = true;

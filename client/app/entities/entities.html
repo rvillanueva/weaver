@@ -1,0 +1,52 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+<div class="container">
+  <div class="col-md-12">
+    <div class="form-group">
+      <label for="entityFilter" class="col-lg-2 control-label">Type</label>
+      <div class="col-lg-10">
+        <select id="entityFilter" ng-model="entityFilter">
+          <option value="PERSON">Person</option>
+          <option value="PEOPLE">People</option>
+          <option value="LOCATION">Locations</option>
+          <option value="ORGANIZATION">Organizations</option>
+          <option value="GPE">Geopolitical Entity</option>
+        </select>
+      </div>
+  </div>
+  <br>
+  <br>
+    <div class="col-lg-4" ng-repeat="entity in entities | entityFilter:entityFilter">
+      <div class="panel panel-default">
+      <div class="panel-heading"><h4>{{entity.mentref[0]._}}</h4></div>
+      <div class="panel-body">
+        Accuracy: {{entity.$.score * 100 | number: 0}}%<br>
+        <br>
+        Mentions:
+        <span ng-repeat="mention in entity.mentref">
+          <a href="#"><span class="glyphicon glyphicon-bookmark" popover="...{{db.mentions[mention.$.mid].snippets.pre}}*{{db.mentions[mention.$.mid].snippets.term}}*{{db.mentions[mention.$.mid].snippets.post}}..." popover-trigger="mouseenter" popover-placement="top" popover-popup-delay="250" popover-append-to-body="true"></span></a>&nbsp;
+        </span>
+        <br><br>
+        <div>
+          <button class="btn btn-sm btn-primary">Relevant</button> <button class="btn btn-sm btn-default">Merge</button> <button class="btn btn-sm btn-warning">Not Relevant</button>
+        </div>
+      </div>
+      </div>
+    </div>
+</div>
+
+<table class="table table-striped table-hover">
+<thead>
+<tr>
+  <th>Entity</th>
+  <th>Type</th>
+  <th>Id</th>
+</tr>
+</thead>
+<tbody>
+<tr ng-repeat="entity in entities">
+  <td>{{entity.mentref[0]._}}</td>
+  <td>{{entity.$.type}}</td>
+  <td>{{entity.$.eid}}</td>
+</tr>
+</tbody>
+</table>
