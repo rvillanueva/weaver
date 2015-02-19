@@ -51,14 +51,15 @@ angular.module('ariadneApp')
         $scope.analyzing = false;
         $scope.finished = true;
         console.log(data)
+        $scope.db = data;
         $scope.entities = data.entities;
         $scope.links = data.relations;
         $scope.persons = $filter('entityFilter')($scope.entities, 'PERSON');
         $scope.organizations = $filter('entityFilter')($scope.entities, 'ORGANIZATION');
         $scope.events = $filter('entityFilter')($scope.entities, 'EVENTS');
         $scope.mention = data.mentions;
-        d3Factory.setForce($scope.entities, $scope.links, $scope.index);
-        d3Factory.updateForce($scope.graphFilter)
+        d3Factory.setForce($scope.entities, $scope.links, $scope.index, $scope.db);
+        d3Factory.updateForce($scope.graphFilter, $scope.graphSearch, $scope.db)
       });
 
     };
@@ -84,9 +85,9 @@ angular.module('ariadneApp')
        });
      };
 
-  $scope.redraw = function(type, index){
+  $scope.redraw = function(type, index, data){
     console.log(type)
-    d3Factory.updateForce(type, index)
+    d3Factory.updateForce(type, index, $scope.db)
   }
 
   $scope.resetGraph = function(){

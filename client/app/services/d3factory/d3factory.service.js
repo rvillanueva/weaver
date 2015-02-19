@@ -11,7 +11,7 @@ angular.module('ariadneApp')
     var width = 800,
         height = 600
 
-    var parseData = function(entities, links, search){
+    var parseData = function(entities, links, search, data){
 
       var graphData = {
         nodes: [],
@@ -43,10 +43,15 @@ angular.module('ariadneApp')
 
           // If link check is true, push entity
           if (linkCheck == true){
+
+
+
             var pushed = {
               name: entity.mentref[0]._,
-              group: entity.$.type
+              group: entity.$.type,
+              mention: data.mentions[entity.mentref[0].$.mid].snippets.pre + data.mentions[entity.mentref[0].$.mid].snippets.term + data.mentions[entity.mentref[0].$.mid].snippets.post
             }
+            console.log(pushed.mention)
             // Add entry to indicate the graph index associated with the entity eid
             entityKey[entity.$.eid] = entityInt;
             entityInt += 1;
@@ -59,7 +64,9 @@ angular.module('ariadneApp')
           var pushed = {
             source: entityKey[link.rel_entity_arg[0].$.eid],
             target: entityKey[link.rel_entity_arg[1].$.eid],
-            value: link.relmentions[0].relmention[0].$.score
+            value: link.relmentions[0].relmention[0].$.score,
+            mentions: link.relmentions[0].relmention[0].rel_mention_arg,
+            type: link.$.type
           }
           graphData['links'].push(pushed);
         }
@@ -67,9 +74,9 @@ angular.module('ariadneApp')
       return graphData;
     }
 
-    var setForce = function(entities, links, search){
+    var setForce = function(entities, links, search, data){
 
-      var graphData = parseData(entities, links, search);
+      var graphData = parseData(entities, links, search, data);
 
         console.log('graphData')
         console.log(graphData)
@@ -103,6 +110,7 @@ angular.module('ariadneApp')
         link.style("stroke-width", 2)
             .style("fill", "#AAAAAA")
             .on("mouseover", function(d){
+              $("#details").html(d.mentions[0]._ + " is " + d.type + " " + d.mentions[1]._)
               var linkSelection = d3.select(this).style("stroke-width", 4)
               .on('mouseout', function(d) { linkSelection.style('stroke-width', 2); })
             })
@@ -122,14 +130,16 @@ angular.module('ariadneApp')
         });
 
     }
-    var updateForce = function(type, search, index){
+    var updateForce = function(type, search, data){
       node.selectAll("circle")
         .attr("cx", 0)
         .attr("cy", 0)
         .attr("r", 5)
         .style("fill", "#AAAAAA")
         .on("mouseover", function(d){
-          $("#details").html(d.group)
+          //Need to update to show all mentions
+          console.log(data.mentions[d.mention])
+          $("#details").html(d.mention + "<br><br>" + d.group)
           var nodeSelection = d3.select(this).style("fill", activeColor)
           .on('mouseout', function(d) {
             if(d.group == type){
@@ -163,11 +173,11 @@ angular.module('ariadneApp')
 
     // Public API here
     return {
-      setForce: function (entities, links, search) {
-        setForce(entities, links, search)
+      setForce: function (entities, links, search, data) {
+        setForce(entities, links, search, data)
       },
-      updateForce: function(type, index){
-        updateForce(type, index);
+      updateForce: function(type, search, data){
+        updateForce(type, search, data);
       }
     };
   });
