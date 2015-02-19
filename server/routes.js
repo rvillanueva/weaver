@@ -11,8 +11,6 @@ module.exports = function(app) {
   // Insert routes below
   app.use('/api/things', require('./api/thing'));
   app.use('/api/watson/relationships', require('./api/watson/relationships'));
-  app.use('/api/watson/conceptinsights', require('./api/watson/conceptinsights'));
-
 
   // All undefined asset or api routes should return a 404
   app.route('/:url(api|auth|components|app|bower_components|assets)/*')
