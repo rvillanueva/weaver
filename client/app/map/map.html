@@ -1,5 +1,7 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
 <div class="col-md-12">
-This is the map view.
+  <ui-gmap-google-map center='map.center' zoom='map.zoom'>
+    <ui-gmap-marker ng-repeat="place in places" idKey='$index' coords='place.position' ></ui-gmap-marker>
+  </ui-gmap-google-map>
 </div>

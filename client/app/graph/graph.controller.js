@@ -12,7 +12,6 @@ angular.module('ariadneApp')
       $scope.db = data;
       $scope.entities = data.entities;
       $scope.links = data.relations;
-      $scope.dates = $filter('entityFilter')($scope.entities, 'DATE');
       $scope.mention = data.mentions;
       d3Factory.setForce($scope.db, $scope.index);
       d3Factory.updateForce($scope.db, $scope.graphFilter, $scope.graphSearch)

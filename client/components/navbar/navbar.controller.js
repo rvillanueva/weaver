@@ -3,7 +3,7 @@
 angular.module('ariadneApp')
   .controller('NavbarCtrl', function ($scope, $location) {
     $scope.menu = [{
-      'title': 'Home',
+      'title': 'Sources',
       'link': '/'
     }, {
       'title': 'Graph',

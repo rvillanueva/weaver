@@ -157,6 +157,8 @@ angular.module('ariadneApp')
         .attr("dy", ".35em")
         .text(function(d) {
           var textSelection = d3.select(this).style("fill", passiveColor)
+          .transition()
+          .style("font-size","12px")
           return d.name;
         });
       var filteredNode = node.filter(function(d) {

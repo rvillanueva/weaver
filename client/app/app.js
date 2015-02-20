@@ -6,7 +6,8 @@ angular.module('ariadneApp', [
   'ngSanitize',
   'ngRoute',
   'ui.bootstrap',
-  'ngAria'
+  'ngAria',
+  'uiGmapgoogle-maps'
 ])
   .config(function ($routeProvider, $locationProvider) {
     $routeProvider
@@ -15,4 +16,12 @@ angular.module('ariadneApp', [
       });
 
     $locationProvider.html5Mode(true);
-  });
+  })
+
+  .config(function(uiGmapGoogleMapApiProvider) {
+    uiGmapGoogleMapApiProvider.configure({
+        //    key: 'your api key',
+        v: '3.17',
+        libraries: 'weather,geometry,visualization'
+    });
+  })
