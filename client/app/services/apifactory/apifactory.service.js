@@ -43,12 +43,32 @@ angular.module('ariadneApp')
     }
 
 
+    var mentionIndex = function(data){
+      var text = '';
+      text = data.rep.doc[0].text[0];
+      var distance = 100;
+      var mentions = data.rep.doc[0].mentions[0].mention;
+      angular.forEach(mentions, function(mention, key){
+        var pre = text.substring((mention.$.begin*1 - distance), mention.$.begin*1);
+        var term = text.substring(mention.$.begin*1, mention.$.end*1 + 1);
+        var post = text.substring(mention.$.end*1 + 1, mention.$.end*1 + distance);
+        db.mentions[mention.$.mid] = {
+          begin: mention.$.begin,
+          end: mention.$.end,
+          snippets: {
+            pre: pre,
+            term: term,
+            post: post
+          },
+        }
+      })
+    }
 
 
 
     // Public API here
     return {
-      post: function (path, data) {
+      post: function (data, path) {
         db.push(data);
         return 'Success';
       },
@@ -62,6 +82,11 @@ angular.module('ariadneApp')
       },
       getSources: function () {
         return db.sources;
+      },
+      updateEntity: function (data, key) {
+        console.log(db)
+        db.entities[key] = data;
+        return db.entities[key];
       },
       getEntities: function () {
         var deferred = $q.defer();
@@ -86,7 +111,6 @@ angular.module('ariadneApp')
               relationships: data
             },
             text: data.rep.doc[0].text,
-            //title: postData.title
           }
           var timestamp = Date.now()
           db.sources[timestamp] = saved;
@@ -96,35 +120,31 @@ angular.module('ariadneApp')
           angular.forEach(entities, function(entity, key){
             db.entities[entity.$.eid] = entity
           })
+          // Attach relations to entities
           angular.forEach(relations, function(relation, key){
             db.relations[relation.$.rid] = relation;
-          })
-          //$scope.persons = $filter('entityFilter')($scope.entities, 'PERSON');
-          //$scope.organizations = $filter('entityFilter')($scope.entities, 'ORGANIZATION');
-          //$scope.events = $filter('entityFilter')($scope.entities, 'EVENTS');
-          var mentionIndex = function(){
-            var text = '';
-            text = data.rep.doc[0].text[0];
-            console.log(text)
-            var distance = 70;
-            var mentions = data.rep.doc[0].mentions[0].mention;
-            angular.forEach(mentions, function(mention, key){
-              var pre = text.substring((mention.$.begin*1 - distance), mention.$.begin*1);
-              var term = text.substring(mention.$.begin*1, mention.$.end*1 + 1);
-              var post = text.substring(mention.$.end*1 + 1, mention.$.end*1 + distance);
-              db.mentions[mention.$.mid] = {
-                begin: mention.$.begin,
-                end: mention.$.end,
-                snippets: {
-                  pre: pre,
-                  term: term,
-                  post: post
-                },
-              }
-            })
-          }
+            // If no relations tagged to entity, create array
+            if (!db.entities[relation.rel_entity_arg[0].$.eid].relations){
+              db.entities[relation.rel_entity_arg[0].$.eid].relations = [];
+            }
+            if (!db.entities[relation.rel_entity_arg[1].$.eid].relations){
+              db.entities[relation.rel_entity_arg[1].$.eid].relations = [];
+            }
 
-          mentionIndex();
+            var source = relation.$;
+            var target = relation.$;
+
+            source.role = 'source'
+            target.role = 'target'
+
+            // Attach relation to source entity
+            db.entities[relation.rel_entity_arg[0].$.eid].relations.push(source)
+
+            // Attach relation to target entity
+            db.entities[relation.rel_entity_arg[1].$.eid].relations.push(target)
+          })
+
+          mentionIndex(data);
 
           deferred.resolve(db)
         });

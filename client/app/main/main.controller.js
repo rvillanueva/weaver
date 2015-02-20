@@ -10,7 +10,6 @@ angular.module('ariadneApp')
     $scope.details = {}
 
     $scope.removeDoc = function(index){
-      console.log(index)
       $scope.documents = $scope.documents.slice(index+1)
     }
 

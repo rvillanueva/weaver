@@ -30,7 +30,6 @@ angular.module('ariadneApp')
         // If so, push entity to graph
           var linkCheck = false;
           var searchCheck = false;
-          console.log('search: ' + search)
           angular.forEach(links, function(link, key){
             // If search term is present and entity id is equal to either entity id of the link, toggle link check to true
             if (entity.$.eid == link.rel_entity_arg[0].$.eid || entity.$.eid == link.rel_entity_arg[1].$.eid){
@@ -52,7 +51,6 @@ angular.module('ariadneApp')
               group: entity.$.type,
               mention: data.mentions[entity.mentref[0].$.mid].snippets.pre + data.mentions[entity.mentref[0].$.mid].snippets.term + data.mentions[entity.mentref[0].$.mid].snippets.post
             }
-            console.log(pushed.mention)
             // Add entry to indicate the graph index associated with the entity eid
             entityKey[entity.$.eid] = entityInt;
             entityInt += 1;
@@ -80,9 +78,6 @@ angular.module('ariadneApp')
       var links = data.relations;
 
       var graphData = parseData(data, search);
-
-        console.log('graphData')
-        console.log(graphData)
 
         svg = d3.select("#canvas").append("svg")
             .attr("width", width)
@@ -141,7 +136,6 @@ angular.module('ariadneApp')
         .style("fill", "#AAAAAA")
         .on("mouseover", function(d){
           //Need to update to show all mentions
-          console.log(data.mentions[d.mention])
           $("#details").html(d.mention + "<br><br>" + d.group)
           var nodeSelection = d3.select(this).style("fill", activeColor)
           .on('mouseout', function(d) {
@@ -173,7 +167,6 @@ angular.module('ariadneApp')
         .transition()
         .style("font-size","14px")
         .style("fill", highlightColor)
-      console.log(filteredNode)
     }
 
     // Public API here
