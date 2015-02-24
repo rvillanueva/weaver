@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ariadneApp')
-  .factory('apiFactory', function ($q, $http) {
+  .factory('apiFactory', function ($q, $http, $filter) {
     // Service logic
     var db = {
       "events" : {
@@ -64,6 +64,10 @@ angular.module('ariadneApp')
       })
     }
 
+    var parseDate = function(text, ref, type){
+
+
+    }
 
 
     // Public API here
@@ -119,6 +123,18 @@ angular.module('ariadneApp')
 
           angular.forEach(entities, function(entity, key){
             db.entities[entity.$.eid] = entity
+
+            // If date, parse using Chrono
+            if (entity.$.type == "DATE"){
+              var ref = new Date(2012, 12, 4)
+              var header = {
+                text: null,
+                ref: null
+              }
+              $http.post('/api/chrono/parse', header).success(function(data) {
+
+              })
+            }
           })
           // Attach relations to entities
           angular.forEach(relations, function(relation, key){
@@ -144,11 +160,29 @@ angular.module('ariadneApp')
             db.entities[relation.rel_entity_arg[1].$.eid].relations.push(target)
           })
 
-          mentionIndex(data);
 
+          mentionIndex(data);
+          console.log(db)
           deferred.resolve(db)
         });
         return deferred.promise;
-      }
+      },
+      parseDate: function (text, ref, type) {
+        var deferred = $q.defer();
+        var header = {
+          text: text,
+          ref: ref
+        }
+        if(type=='full'){
+          $http.post('/api/chrono/parse', header).success(function(data) {
+            deferred.resolve(data);
+          })
+        } else {
+          $http.post('/api/chrono/date', header).success(function(data) {
+            deferred.resolve(data);
+          })
+        }
+        return deferred.promise;
+      },
     };
   });

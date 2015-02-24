@@ -49,6 +49,12 @@ angular.module('ariadneApp')
        });
      };
 
+     $scope.test = function(){
+       apiFactory.parseDate('The Friday before last', null, 'full').then(function(data){
+         console.log(data)
+       });
+     }
+
 });
 
 

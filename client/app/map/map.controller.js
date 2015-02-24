@@ -20,14 +20,10 @@ angular.module('ariadneApp')
         var marker = place;
         marker.options = {
           show: false,
-          onClick: function(){
-            console.log('Clicked!');
-            ret.show = !ret.show;
-          }
         }
         marker.mentions = [];
         angular.forEach(marker.mentref, function(mention, key){
-          var snippet = $scope.source.mentions[mention.$.mid].snippets.term;
+          var snippet = $scope.source.mentions[mention.$.mid].snippets;
           marker.mentions.push(snippet)
         })
         $scope.markers.push(marker);

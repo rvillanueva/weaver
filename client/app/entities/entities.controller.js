@@ -4,10 +4,10 @@ angular.module('ariadneApp')
   .controller('EntitiesCtrl', function ($scope, apiFactory) {
     $scope.entityFilter = "PERSON"
 
-    apiFactory.getEntities().then(function(data) {
-      $scope.entities = data;
+    apiFactory.get().then(function(data) {
+      $scope.db = data
+      $scope.entities = $scope.db.entities;
       console.log(data)
-      console.log('entities got')
     });
 
   });

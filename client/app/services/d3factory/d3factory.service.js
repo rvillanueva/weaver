@@ -37,18 +37,18 @@ angular.module('ariadneApp')
             }
           })
 
-          if (search == entity.$.eid){
-
-          }
-
           // If link check is true, push entity
           if (linkCheck == true){
 
+            var type = entity.$.type
 
+            if (entity.$.type.indexOf("EVENT") >= 0){
+              type = "EVENT"
+            }
 
             var pushed = {
               name: entity.mentref[0]._,
-              group: entity.$.type,
+              group: type,
               mention: data.mentions[entity.mentref[0].$.mid].snippets.pre + data.mentions[entity.mentref[0].$.mid].snippets.term + data.mentions[entity.mentref[0].$.mid].snippets.post
             }
             // Add entry to indicate the graph index associated with the entity eid
