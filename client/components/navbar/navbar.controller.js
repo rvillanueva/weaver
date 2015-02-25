@@ -10,16 +10,16 @@ angular.module('ariadneApp')
       'link': '/graph'
     },
     {
-      'title': 'Entities',
-      'link': '/entities'
+      'title': 'Timeline',
+      'link': '/timeline'
     },
     {
       'title': 'Map',
       'link': '/map'
     },
     {
-      'title': 'Timeline',
-      'link': '/timeline'
+      'title': 'Entities',
+      'link': '/entities'
     }];
 
     $scope.isCollapsed = true;

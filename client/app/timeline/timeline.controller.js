@@ -6,7 +6,6 @@ angular.module('ariadneApp')
       $scope.entities = data.entities;
       $scope.dates = $filter('entityFilter')($scope.entities, 'DATE');
       $scope.mentions = data.mentions;
-      console.log($scope.dates['-E127'])
       var timelineData = {
           "timeline":
           {
@@ -15,8 +14,8 @@ angular.module('ariadneApp')
               "text":"Events associated with a date will be displayed here.",
               "date": [
                   {
-                      "startDate":new Date("2015,1,1"),
-                      "endDate":"2011,12,11",
+                      "startDate":"2015,1,1",
+                      "endDate":"2015,1,2",
                       "headline":"Event Example",
                       "text":"If there are recognized events in your content, they will be displayed here.",
                   }
@@ -26,34 +25,70 @@ angular.module('ariadneApp')
       }
 
       var placeholder = true;
+      var times = ['year','month','day','hour','minute','second'];
+      var knownVals = {
+        year: 0,
+        month: 1,
+        day: 2,
+        weekday: 2,
+        hour: 3,
+        minute: 4,
+        second: 5
+      }
+      var bookends = ['start','end']
 
       angular.forEach($scope.dates, function(date, key){
         if (date.date.length > 0){
-          var start = "" + date.date[0].start.impliedValues.year + "," +date.date[0].start.impliedValues.month + "," + date.date[0].start.impliedValues.day + "," + date.date[0].start.impliedValues.hour + "," + date.date[0].start.impliedValues.minute + "," + date.date[0].start.impliedValues.second;
+          var start = "";
+          var end = "";
+          var smallestKnown = {
+            start: null,
+            end: null
+          }
+          angular.forEach(date.date[0].start.knownValues, function(knownVal, kvKey){
+            smallestKnown.start = knownVals[kvKey]
+          })
+          if(date.date[0].end){
+            angular.forEach(date.date[0].end.knownValues, function(knownVal, kvKey){
+              smallestKnown.end = knownVals[kvKey]
+            })
+          }
 
+          angular.forEach(times, function(time, timeKey){
+            if (timeKey <= smallestKnown.start){
+              if(time !== 'year'){
+                start = start.concat(",");
+              };
+                start = start.concat(date.date[0].start.impliedValues[time])
+            }
+            if (date.date[0].end && timeKey <= smallestKnown.end){
+              if(time !== 'year'){
+                end = end.concat(",");
+              };
+                end = end.concat(date.date[0].end.impliedValues[time])
+            }
+          })
           var pushed = {
             headline: date.$.eid,
             text: $scope.mentions[date.mentref[0].$.mid].snippets.pre + "<strong>"+$scope.mentions[date.mentref[0].$.mid].snippets.term+"</strong>"+$scope.mentions[date.mentref[0].$.mid].snippets.post,
             startDate: start,
+            endDate: end
           }
 
-          if (date.date[0].end){
-            var end = "" + date.date[0].end.impliedValues.year + "," + date.date[0].end.impliedValues.month + "," + date.date[0].end.impliedValues.day + "," + date.date[0].end.impliedValues.hour + "," + date.date[0].end.impliedValues.minute + "," + date.date[0].end.second;
-            pushed.endDate = end
-          }
-          timelineData.timeline.date.push(pushed)
+          timelineData.timeline.date.push(pushed);
           if (placeholder == true){
             timelineData.timeline.date.splice(0)
             placeholder = false;
           }
         }
       })
-          createStoryJS({
-              width:              '100%',
-              height:             '600',
-              source:             timelineData,
-              embed_id:           'timeline-embed',               //OPTIONAL USE A DIFFERENT DIV ID FOR EMBED
-          })
+
+      createStoryJS({
+          width:              '100%',
+          height:             '600',
+          source:             timelineData,
+          embed_id:           'timeline-embed'
+      })
 
     });
 
