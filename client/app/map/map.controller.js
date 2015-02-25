@@ -73,6 +73,7 @@ angular.module('ariadneApp')
             overflowCount ++;
             $scope.codeAddresses($scope.placesQueue);
             // Overflow starts at 2 seconds and grows exponentially for each overflow
+            console.log(overflowCount + ' geocode attempt')
           }, 1000 * Math.pow((overflowCount+1),2));
         }
       }

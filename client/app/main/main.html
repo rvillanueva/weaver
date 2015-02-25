@@ -38,7 +38,14 @@
                 <span class="pull-right"><span class="glyphicon glyphicon-minus-sign" ng-click="removeDoc($index)"></span></span>
               </a>
             </div>
-            <br>
+            <div ng-if="analyzed">
+              Analyzed Documents<br>
+              <div class="list-group" ng-if="documents.length > 0">
+                <a href="#" class="list-group-item" ng-repeat="doc in analyzed" >
+                  {{doc.title}}
+                </a>
+              </div>
+            </div>
         </div>
         <div class="col-lg-6 centered" ng-if="documents.length > 0">
           <br>

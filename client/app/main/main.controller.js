@@ -16,8 +16,14 @@ angular.module('ariadneApp')
     $scope.getRelation = function(){
       $scope.analyzing = true;
       var concatenated = '';
+      $scope.postData = []
       angular.forEach($scope.documents, function(doc, key){
-        $scope.postData = concatenated.concat(doc.txt);
+        var pushed = {
+          title: doc.title,
+          text: doc.txt,
+          date: doc.date
+        }
+        $scope.postData.push(pushed)
       })
 
       apiFactory.addSource($scope.postData).then(function(data) {

@@ -17,17 +17,28 @@
   <br>
     <div class="col-lg-4" ng-repeat="entity in entities | entityFilter:entityFilter">
       <div class="panel panel-default">
-      <div class="panel-heading"><h4>{{entity.mentref[0]._}}</h4></div>
+      <div class="panel-heading"><span><h4>{{entity.mentref[0]._}}</h4></span>
+        <span class="pull-right">
+          <button class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-ok"></i></button> <button class="btn btn-sm btn-default"><i class="glyphicon glyphicon-link"></i></button> <button class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-remove"></i></button>
+        </span>
+      </div>
       <div class="panel-body">
         Accuracy: {{entity.$.score * 100 | number: 0}}%<br>
-        <br>
         Mentions:
         <span ng-repeat="mention in entity.mentref">
           <a href="#"><span class="glyphicon glyphicon-bookmark" popover="...{{db.mentions[mention.$.mid].snippets.pre}}*{{db.mentions[mention.$.mid].snippets.term}}*{{db.mentions[mention.$.mid].snippets.post}}..." popover-trigger="mouseenter" popover-placement="top" popover-popup-delay="250" popover-append-to-body="true"></span></a>&nbsp;
-        </span>
-        <br><br>
+        </span><br><br>
+        <ul>
+          <li ng-repeat="relation in entity.relations">
+            <span>
+              {{relation.type}} {{relations[relation.rid].relmentions[0].relmention[0].rel_mention_arg[1]._}}
+            </span>
+            <!--<span>
+              {{relations[relation.rid].relmentions[0].relmention[0].rel_mention_arg[1]._}} {{relation.type}} {{entity.mentref[0]._}}
+            </span>-->
+          </li>
+      </ul>
         <div>
-          <button class="btn btn-sm btn-primary">Relevant</button> <button class="btn btn-sm btn-default">Merge</button> <button class="btn btn-sm btn-warning">Not Relevant</button>
         </div>
       </div>
       </div>

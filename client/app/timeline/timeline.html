@@ -4,6 +4,7 @@
   <div class="panel panel-default">
   <div class="panel-heading"><h4>{{date.mentref[0]._}}</h4></div>
   <div class="panel-body">
+    Date: {{date.date[0].ref | date:'medium'}}<br>
     Accuracy: {{date.$.score * 100 | number: 0}}%<br>
     Type: {{date.$.type}}<br>
     <br>

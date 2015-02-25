@@ -105,9 +105,10 @@ angular.module('ariadneApp')
         var header = {
             sid: 'ie-en-news',
             rt: 'xml',
-            txt: postData,
+            txt: postData[0].text,
         }
-        $http.post('/api/watson/relationships', header).success(function(data) {
+        //$http.post('/api/watson/relationships', header).success(function(data) {
+        $http.get('/app/dummy.json').success(function(data){
           console.log(data)
           var saved = {
             active: true,
@@ -115,6 +116,9 @@ angular.module('ariadneApp')
               relationships: data
             },
             text: data.rep.doc[0].text,
+            date: postData[0].date,
+            created: new Date(),
+            title: postData[0].title,
           }
           var timestamp = Date.now()
           db.sources[timestamp] = saved;
@@ -126,13 +130,17 @@ angular.module('ariadneApp')
 
             // If date, parse using Chrono
             if (entity.$.type == "DATE"){
-              var ref = new Date(2012, 12, 4)
+              var ref = null;
+              if (saved.date){
+                ref = new Date(saved.date);
+              }
               var header = {
-                text: null,
-                ref: null
+                text: entity.mentref[0]._,
+                ref: ref
               }
               $http.post('/api/chrono/parse', header).success(function(data) {
-
+                entity.date = data
+                console.log(data)
               })
             }
           })
@@ -162,7 +170,6 @@ angular.module('ariadneApp')
 
 
           mentionIndex(data);
-          console.log(db)
           deferred.resolve(db)
         });
         return deferred.promise;

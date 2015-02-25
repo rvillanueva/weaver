@@ -7,6 +7,7 @@ angular.module('ariadneApp')
     apiFactory.get().then(function(data) {
       $scope.db = data
       $scope.entities = $scope.db.entities;
+      $scope.relations = $scope.db.relations;
       console.log(data)
     });
 
