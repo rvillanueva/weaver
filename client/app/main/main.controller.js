@@ -10,7 +10,7 @@ angular.module('ariadneApp')
     $scope.details = {}
 
     $scope.removeDoc = function(index){
-      $scope.documents = $scope.documents.slice(index+1)
+      $scope.documents = $scope.documents.splice(index+1)
     }
 
     $scope.getRelation = function(){
