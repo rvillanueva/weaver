@@ -107,8 +107,10 @@ angular.module('ariadneApp')
             rt: 'xml',
             txt: postData[0].text,
         }
-        //$http.post('/api/watson/relationships', header).success(function(data) {
-        $http.get('/app/dummy.json').success(function(data){
+        console.log(header.txt)
+        $http.post('/api/watson/relationships', header).success(function(data) {
+        // Dummy data
+        //$http.get('/app/dummy.json').success(function(data){
           console.log(data)
           var saved = {
             active: true,
@@ -189,6 +191,17 @@ angular.module('ariadneApp')
             deferred.resolve(data);
           })
         }
+        return deferred.promise;
+      },
+      getUrl: function (url) {
+        var deferred = $q.defer();
+        $http({
+            url: ('/api/unfluff'),
+            method: "GET",
+            params: {url: url}
+         }).success(function(data) {
+          deferred.resolve(data);
+        })
         return deferred.promise;
       },
     };

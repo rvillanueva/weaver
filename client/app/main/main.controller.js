@@ -10,7 +10,7 @@ angular.module('ariadneApp')
     $scope.details = {}
 
     $scope.removeDoc = function(index){
-      $scope.documents = $scope.documents.splice(index+1)
+      $scope.documents = $scope.documents.splice(index+1, 1)
     }
 
     $scope.getRelation = function(){
@@ -18,13 +18,14 @@ angular.module('ariadneApp')
       var concatenated = '';
       $scope.postData = []
       angular.forEach($scope.documents, function(doc, key){
-        var pushed = {
-          title: doc.title,
-          text: doc.txt,
-          date: doc.date
-        }
-        $scope.postData.push(pushed)
+        concatenated = concatenated.concat(doc.txt);
+        console.log(doc)
+        $scope.postData.push(doc);
       })
+
+      $scope.postData[0].text = concatenated;
+
+      console.log(concatenated)
 
       apiFactory.addSource($scope.postData).then(function(data) {
         $scope.analyzing = false;
@@ -35,11 +36,13 @@ angular.module('ariadneApp')
 
     };
 
-    $scope.open = function (size) {
-       var modalInstance = $modal.open({
+    $scope.add = function (type) {
+       var modalInstance;
+      if (type == 'text'){
+        modalInstance = $modal.open({
          templateUrl: '../components/docmodal/docmodal.html',
          controller: 'DocModalInstanceCtrl',
-         size: size,
+         size: 'lg',
          backdrop: true,
          resolve: {
            items: function () {
@@ -47,6 +50,20 @@ angular.module('ariadneApp')
            }
          }
        });
+      }
+      if (type == 'url'){
+        modalInstance = $modal.open({
+         templateUrl: '../components/urlmodal/urlmodal.html',
+         controller: 'UrlModalInstanceCtrl',
+         size: 'lg',
+         backdrop: true,
+         resolve: {
+           items: function () {
+             return $scope.items;
+           }
+         }
+       });
+      }
 
        modalInstance.result.then(function (pushed) {
          $scope.documents.push(pushed);
@@ -56,21 +73,88 @@ angular.module('ariadneApp')
      };
 
      $scope.test = function(){
-       apiFactory.parseDate('The Friday before last', null, 'full').then(function(data){
-         console.log(data)
-       });
-     }
 
-});
+     }
+  });
 
 
 angular.module('ariadneApp').controller('DocModalInstanceCtrl', function ($scope, $modalInstance, items) {
 
+$scope.addText = {
+  type: 'text'
+};
+
   $scope.ok = function () {
-    $modalInstance.close($scope.addDoc);
+    $modalInstance.close($scope.addText);
   };
 
   $scope.cancel = function () {
     $modalInstance.dismiss('cancel');
   };
+
+  $scope.clear = function () {
+    $scope.addText.date = null;
+  };
+
+  $scope.toggleMin = function() {
+    $scope.minDate = $scope.minDate ? null : new Date();
+  };
+  $scope.toggleMin();
+
+  $scope.open = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+
+    $scope.opened = true;
+  };
+
+  $scope.dateOptions = {
+    formatYear: 'yy',
+    startingDay: 1
+  };
+
+  $scope.format = 'dd-MMMM-yyyy';
+});
+
+angular.module('ariadneApp').controller('UrlModalInstanceCtrl', function ($scope, $modalInstance, apiFactory) {
+
+  $scope.addUrl = {
+    type: 'url'
+  };
+
+  $scope.ok = function () {
+    apiFactory.getUrl($scope.addUrl.url).then(function(data){
+      $scope.addUrl.txt = data.text
+      $scope.addUrl.title = data.title;
+      console.log($scope.addUrl)
+      $modalInstance.close($scope.addUrl);
+    })
+  };
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+
+  $scope.clear = function () {
+    $scope.addUrl.date = null;
+  };
+
+  $scope.toggleMin = function() {
+    $scope.minDate = $scope.minDate ? null : new Date();
+  };
+  $scope.toggleMin();
+
+  $scope.open = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+
+    $scope.opened = true;
+  };
+
+  $scope.dateOptions = {
+    formatYear: 'yy',
+    startingDay: 1
+  };
+
+  $scope.format = 'dd-MMMM-yyyy';
 });

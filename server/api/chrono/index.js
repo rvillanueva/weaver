@@ -12,7 +12,7 @@ router.post('/date', function(req, res){
     ref = req.body.ref
   }
   var response = chrono.parseDate(req.body.text, ref);
-  console.log(req)
+  console.log(req);
   return res.send(response);
 });
 

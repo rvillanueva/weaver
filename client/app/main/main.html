@@ -29,7 +29,9 @@
     <div class="col-lg-12">
       <div>
         <div class="col-lg-6">
-            <button class="btn btn-default btn-sm" ng-click="open('lg')" ng-disabled="analyzing"><span class="glyphicon glyphicon-plus"></span> Add Document</button>
+            <button class="btn btn-default btn-sm" ng-click="add('text')" ng-disabled="analyzing"><span class="glyphicon glyphicon-plus"></span> Add Text</button>
+            &nbsp; &nbsp;
+            <button class="btn btn-default btn-sm" ng-click="add('url')" ng-disabled="analyzing"><span class="glyphicon glyphicon-plus"></span> Add URL</button>
             <br><br>
             <span ng-if="documents.length == 0">No documents. Add a few to analyze!</span>
             <div class="list-group" ng-if="documents.length > 0">

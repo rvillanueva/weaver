@@ -14,6 +14,7 @@ angular.module('ariadneApp')
               "text":"Events associated with a date will be displayed here.",
               "date": [
                   {
+                      "placeholder": true,
                       "startDate":"2015,1,1",
                       "endDate":"2015,1,2",
                       "headline":"Event Example",
@@ -53,6 +54,7 @@ angular.module('ariadneApp')
               smallestKnown.end = knownVals[kvKey]
             })
           }
+          console.log(timelineData)
 
           angular.forEach(times, function(time, timeKey){
             if (timeKey <= smallestKnown.start){
@@ -74,15 +76,14 @@ angular.module('ariadneApp')
             startDate: start,
             endDate: end
           }
+          console.log(pushed)
 
           timelineData.timeline.date.push(pushed);
-          if (placeholder == true){
-            timelineData.timeline.date.splice(0)
-            placeholder = false;
+          if (timelineData.timeline.date[0].placeholder == true){
+            timelineData.timeline.date.splice(0, 1)
           }
         }
       })
-
       createStoryJS({
           width:              '100%',
           height:             '600',
