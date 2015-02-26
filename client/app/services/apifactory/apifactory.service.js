@@ -19,6 +19,9 @@ angular.module('ariadneApp')
       entities: {},
       relations: {},
       mentions:{},
+      social:{
+        twitter:{}
+      },
       "persons" : {
         "hash" : {
           "mentions" : [ {
@@ -200,6 +203,18 @@ angular.module('ariadneApp')
             method: "GET",
             params: {url: url}
          }).success(function(data) {
+          deferred.resolve(data);
+        })
+        return deferred.promise;
+      },
+      getTwitterUser: function (screenname) {
+        var deferred = $q.defer();
+        $http({
+            url: ('/api/twitter/user'),
+            method: "GET",
+            params: {screen_name: screenname}
+         }).success(function(data) {
+          db.social.twitter[screenname] = data;
           deferred.resolve(data);
         })
         return deferred.promise;

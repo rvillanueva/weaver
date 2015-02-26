@@ -13,6 +13,8 @@ module.exports = function(app) {
   app.use('/api/watson/relationships', require('./api/watson/relationships'));
   app.use('/api/chrono', require('./api/chrono'));
   app.use('/api/unfluff', require('./api/unfluff'));
+  app.use('/api/twitter', require('./api/twitter'));
+
 
 
   // All undefined asset or api routes should return a 404

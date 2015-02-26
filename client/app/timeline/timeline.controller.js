@@ -54,20 +54,26 @@ angular.module('ariadneApp')
               smallestKnown.end = knownVals[kvKey]
             })
           }
-          console.log(timelineData)
-
           angular.forEach(times, function(time, timeKey){
             if (timeKey <= smallestKnown.start){
-              if(time !== 'year'){
+              if (time !== 'year'){
                 start = start.concat(",");
               };
+              if (date.date[0].start.knownValues[time]){
+                start = start.concat(date.date[0].start.knownValues[time])
+              } else {
                 start = start.concat(date.date[0].start.impliedValues[time])
+              }
             }
             if (date.date[0].end && timeKey <= smallestKnown.end){
-              if(time !== 'year'){
+              if (time !== 'year'){
                 end = end.concat(",");
               };
+              if (date.date[0].end.knownValues[time]){
+                end = end.concat(date.date[0].end.knownValues[time])
+              } else {
                 end = end.concat(date.date[0].end.impliedValues[time])
+              }
             }
           })
           var pushed = {
@@ -76,14 +82,14 @@ angular.module('ariadneApp')
             startDate: start,
             endDate: end
           }
-          console.log(pushed)
-
           timelineData.timeline.date.push(pushed);
           if (timelineData.timeline.date[0].placeholder == true){
             timelineData.timeline.date.splice(0, 1)
           }
         }
       })
+      console.log(timelineData)
+
       createStoryJS({
           width:              '100%',
           height:             '600',
