@@ -16,7 +16,7 @@ angular.module('ariadneApp')
           }
         }
       },
-      entities: {
+      entities_test: {
         entity_uid: {
           refs: [
             {
@@ -30,8 +30,21 @@ angular.module('ariadneApp')
           ]
         }
       },
-      relations: {},
+      entities: {
+      },
       mentions:{},
+      social:{
+        twitter:{
+
+        }
+      },
+      index: {
+        batch_uid:{
+          entities:{
+            eid: 'uid'
+          }
+        }
+      },
       "sources" : {
         "batch_uid" : {
           analysis : {
@@ -56,6 +69,17 @@ angular.module('ariadneApp')
       }
     }
 
+    var rebuild = function(){
+      var entities = db.entities
+      angular.forEach(entities, function(entity, eKey){
+        var refs = entity.refs;
+        for (i = 0; i < refs.length; i++) {
+          if (i = 0){
+            refs[i]
+          }
+        }
+      })
+    }
 
     var mentionIndex = function(data){
       var text = '';
@@ -136,14 +160,17 @@ angular.module('ariadneApp')
             created: new Date(),
             title: postData[0].title,
           }
-          var timestamp = Date.now()
-          db.sources[timestamp] = saved;
+          var batchId = uuid.v1()
+          db.sources[batchId] = saved;
           var entities = data.rep.doc[0].entities[0].entity;
           var relations = data.rep.doc[0].relations[0].relation;
 
           angular.forEach(entities, function(entity, key){
-            db.entities[entity.$.eid] = entity
-
+            var entityId = uuid.v1()
+            db.entities[entityId] = {
+              batch: batchId,
+              eid: entity.$.eid
+            }
             // If date, parse using Chrono
             if (entity.$.type == "DATE"){
               var ref = null;

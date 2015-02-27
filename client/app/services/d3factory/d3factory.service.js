@@ -28,6 +28,8 @@ angular.module('ariadneApp')
       angular.forEach(entities, function(entity, key){
         // If no search terms, for each entity check to see if there is an associated link.
         // If so, push entity to graph
+        console.log(entity)
+
           var linkCheck = false;
           var searchCheck = false;
           angular.forEach(links, function(link, key){
