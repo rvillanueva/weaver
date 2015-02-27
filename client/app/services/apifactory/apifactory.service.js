@@ -16,31 +16,42 @@ angular.module('ariadneApp')
           }
         }
       },
-      entities: {},
-      relations: {},
-      mentions:{},
-      social:{
-        twitter:{}
-      },
-      "persons" : {
-        "hash" : {
-          "mentions" : [ {
-            "mentref" : "-E48",
-            "set" : "hash"
-          } ],
-          "name" : "John Kerry"
+      entities: {
+        entity_uid: {
+          refs: [
+            {
+              batch: "batch_uid",
+              eid: "-E12"
+            },
+            {
+              batch: "batch_uid",
+              eid: "-E11"
+            }
+          ]
         }
       },
+      relations: {},
+      mentions:{},
       "sources" : {
-        "hash" : {
-          "active" : true,
-          "analysis" : {
+        "batch_uid" : {
+          analysis : {
             "relationships" : "relationshipdata",
-            "usermodel" : "usermodeldata"
+            originals: {
+              "relationships": "relationshipdatapure"
+            },
           },
-          "text" : "text here",
-          "title" : "title here",
-          "type" : "text"
+          docs: {
+            doc_uid: {
+              "text" : "text here",
+              "title" : "title here",
+              "type" : "text",
+              "url": "url",
+              "date": "date",
+              "start": "start",
+              "end": "end",
+              "response":"response"
+            }
+          }
         }
       }
     }
