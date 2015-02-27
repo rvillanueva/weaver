@@ -45,14 +45,21 @@ angular.module('ariadneApp')
           }
         }
       },
+<<<<<<< HEAD
       "sources" : {
         "batch_uid" : {
           analysis : {
+=======
+      "sources_example" : {
+        //"uid" : {
+          "analysis" : {
+>>>>>>> dev2
             "relationships" : "relationshipdata",
             originals: {
               "relationships": "relationshipdatapure"
             },
           },
+<<<<<<< HEAD
           docs: {
             doc_uid: {
               "text" : "text here",
@@ -66,6 +73,19 @@ angular.module('ariadneApp')
             }
           }
         }
+=======
+          "docs":[{
+            "text" : "text here",
+            "title" : "title here",
+            "type" : "text"
+          }]
+
+      //  }
+      },
+      sources: {
+        analysis:{},
+        docs:[]
+>>>>>>> dev2
       }
     }
 
@@ -91,8 +111,8 @@ angular.module('ariadneApp')
         var term = text.substring(mention.$.begin*1, mention.$.end*1 + 1);
         var post = text.substring(mention.$.end*1 + 1, mention.$.end*1 + distance);
         db.mentions[mention.$.mid] = {
-          begin: mention.$.begin,
-          end: mention.$.end,
+          begin: mention.$.begin*1,
+          end: mention.$.end*1,
           snippets: {
             pre: pre,
             term: term,
@@ -105,6 +125,25 @@ angular.module('ariadneApp')
     var parseDate = function(text, ref, type){
 
 
+    }
+
+    var docIndex = function(mid, batch){
+      console.log('docindex')
+      console.log(db)
+      var docInd;
+      var start = db.mentions[mid].begin;
+      var doc = db.sources.docs;
+      console.log(doc)
+      for (var i = 0; i < doc.length; i++) {
+        console.log(i)
+        console.log(doc[i])
+        if(doc[i].start <= start && doc[i].end >= start){
+          console.log('woot')
+          docInd = i
+        }
+      }
+      console.log(docInd)
+      return docInd;
     }
 
 
@@ -140,16 +179,36 @@ angular.module('ariadneApp')
       },
       addSource: function (postData) {
         var deferred = $q.defer();
+        var concatenated = "";
+        var concatPosition = 0;
+        var saved = {
+          analysis: {},
+          created: new Date(),
+          docs: [],
+        }
+
+
+
+        angular.forEach(postData, function(post, pKey){
+          concatenated = concatenated.concat(post.text + " ");
+          post.start = concatPosition;
+          post.end = concatPosition + post.text.length;
+          concatPosition = concatPosition + concatenated.length + 2
+          saved.docs.push(post)
+        });
         var header = {
             sid: 'ie-en-news',
             rt: 'xml',
-            txt: postData[0].text,
+            txt: concatenated,
         }
         console.log(header.txt)
         $http.post('/api/watson/relationships', header).success(function(data) {
         // Dummy data
         //$http.get('/app/dummy.json').success(function(data){
+          mentionIndex(data);
+
           console.log(data)
+<<<<<<< HEAD
           var saved = {
             active: true,
             analysis: {
@@ -162,28 +221,44 @@ angular.module('ariadneApp')
           }
           var batchId = uuid.v1()
           db.sources[batchId] = saved;
+=======
+          saved.analysis.relationships = data;
+          // Reinstate timestamp when multiple analyses available
+          // var timestamp = Date.now()
+          db.sources = saved;
+>>>>>>> dev2
           var entities = data.rep.doc[0].entities[0].entity;
           var relations = data.rep.doc[0].relations[0].relation;
 
           angular.forEach(entities, function(entity, key){
+<<<<<<< HEAD
             var entityId = uuid.v1()
             db.entities[entityId] = {
               batch: batchId,
               eid: entity.$.eid
             }
+=======
+            db.entities[entity.$.eid] = entity
+>>>>>>> dev2
             // If date, parse using Chrono
             if (entity.$.type == "DATE"){
               var ref = null;
-              if (saved.date){
-                ref = new Date(saved.date);
+              var mid = entity.mentref[0].$.mid
+              var docNum = docIndex(mid);
+              console.log(docNum)
+              console.log(saved.docs)
+              console.log(saved.docs[docNum].date)
+              if (saved.docs[docNum].date){
+                ref = new Date(saved.docs[docNum].date);
               }
               var header = {
                 text: entity.mentref[0]._,
                 ref: ref
               }
               $http.post('/api/chrono/parse', header).success(function(data) {
-                entity.date = data
+                console.log('chrono ')
                 console.log(data)
+                entity.date = data
               })
             }
           })
@@ -212,7 +287,6 @@ angular.module('ariadneApp')
           })
 
 
-          mentionIndex(data);
           deferred.resolve(db)
         });
         return deferred.promise;
@@ -241,6 +315,7 @@ angular.module('ariadneApp')
             method: "GET",
             params: {url: url}
          }).success(function(data) {
+           console.log(data)
           deferred.resolve(data);
         })
         return deferred.promise;
