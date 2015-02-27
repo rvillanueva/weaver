@@ -55,10 +55,48 @@ angular.module('ariadneApp')
        });
      };
 
+     $scope.addSearch = function () {
+        var modalInstance = $modal.open({
+          templateUrl: '../components/searchmodal/searchmodal.html',
+          controller: 'SearchModalInstanceCtrl',
+          size: 'lg',
+          backdrop: true,
+       });
+
+        modalInstance.result.then(function (results) {
+          angular.forEach(results.posts, function(result, rKey){
+            var title;
+            if (result.title.length > 0){
+              title = result.title;
+            } else {
+              title = result.thread.title;
+            }
+            var pushed = {
+              text: result.text,
+              title: title,
+              date: result.published,
+            };
+            $scope.documents.push(pushed)
+          })
+        }, function () {
+          console.log('Modal dismissed at: ' + new Date());
+        });
+      };
+
      $scope.test = function(){
-      apiFactory.getTwitterUser('RyanJVillanueva').then(function(data){
+      //apiFactory.getTwitterUser('RyanJVillanueva').then(function(data){
+      //  console.log(data)
+      //})
+      var params = {
+        format: 'json',
+        q: 'ISIS',
+        language: 'english',
+        size: 10
+      }
+      apiFactory.getNews(params).then(function(data){
         console.log(data)
       })
+
      }
   });
 
@@ -80,11 +118,6 @@ $scope.addText = {
   $scope.clear = function () {
     $scope.addText.date = null;
   };
-
-  $scope.toggleMin = function() {
-    $scope.minDate = $scope.minDate ? null : new Date();
-  };
-  $scope.toggleMin();
 
   $scope.open = function($event) {
     $event.preventDefault();
@@ -108,9 +141,56 @@ angular.module('ariadneApp').controller('UrlModalInstanceCtrl', function ($scope
       var date = $scope.addUrl.date;
       $scope.addUrl = data;
       $scope.addUrl.type = 'url'
-      $scope.addUrl.date = date;
+      if (date){
+        $scope.addUrl.date = date;
+      }
       console.log($scope.addUrl)
       $modalInstance.close($scope.addUrl);
+    })
+  };
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+
+  $scope.clear = function () {
+    $scope.addUrl.date = null;
+  };
+
+  $scope.toggleMin = function() {
+    $scope.minDate = $scope.minDate ? null : new Date();
+  };
+  $scope.toggleMin();
+
+  $scope.open = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+
+    $scope.opened = true;
+  };
+
+  $scope.dateOptions = {
+    formatYear: 'yy',
+    startingDay: 1
+  };
+
+  $scope.format = 'dd-MMMM-yyyy';
+});
+
+angular.module('ariadneApp').controller('SearchModalInstanceCtrl', function ($scope, $modalInstance, apiFactory) {
+  $scope.search;
+
+  $scope.ok = function (){
+    var params = {
+      format: 'json',
+      q: $scope.search.term,
+      language: 'english',
+      size: 10,
+      site_type: 'news',
+    }
+    apiFactory.getNews(params).then(function(data){
+      console.log(data)
+      $modalInstance.close(data);
     })
   };
 

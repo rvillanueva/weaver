@@ -33,6 +33,7 @@ angular.module('ariadneApp')
       entities: {
       },
       mentions:{},
+      relations:{},
       social:{
         twitter:{
 
@@ -45,35 +46,15 @@ angular.module('ariadneApp')
           }
         }
       },
-<<<<<<< HEAD
-      "sources" : {
-        "batch_uid" : {
-          analysis : {
-=======
       "sources_example" : {
         //"uid" : {
           "analysis" : {
->>>>>>> dev2
             "relationships" : "relationshipdata",
             originals: {
               "relationships": "relationshipdatapure"
             },
           },
-<<<<<<< HEAD
-          docs: {
-            doc_uid: {
-              "text" : "text here",
-              "title" : "title here",
-              "type" : "text",
-              "url": "url",
-              "date": "date",
-              "start": "start",
-              "end": "end",
-              "response":"response"
-            }
-          }
-        }
-=======
+
           "docs":[{
             "text" : "text here",
             "title" : "title here",
@@ -85,7 +66,6 @@ angular.module('ariadneApp')
       sources: {
         analysis:{},
         docs:[]
->>>>>>> dev2
       }
     }
 
@@ -208,48 +188,24 @@ angular.module('ariadneApp')
           mentionIndex(data);
 
           console.log(data)
-<<<<<<< HEAD
-          var saved = {
-            active: true,
-            analysis: {
-              relationships: data
-            },
-            text: data.rep.doc[0].text,
-            date: postData[0].date,
-            created: new Date(),
-            title: postData[0].title,
-          }
-          var batchId = uuid.v1()
-          db.sources[batchId] = saved;
-=======
           saved.analysis.relationships = data;
           // Reinstate timestamp when multiple analyses available
           // var timestamp = Date.now()
           db.sources = saved;
->>>>>>> dev2
           var entities = data.rep.doc[0].entities[0].entity;
           var relations = data.rep.doc[0].relations[0].relation;
 
           angular.forEach(entities, function(entity, key){
-<<<<<<< HEAD
-            var entityId = uuid.v1()
-            db.entities[entityId] = {
-              batch: batchId,
-              eid: entity.$.eid
-            }
-=======
             db.entities[entity.$.eid] = entity
->>>>>>> dev2
             // If date, parse using Chrono
             if (entity.$.type == "DATE"){
               var ref = null;
               var mid = entity.mentref[0].$.mid
               var docNum = docIndex(mid);
-              console.log(docNum)
-              console.log(saved.docs)
-              console.log(saved.docs[docNum].date)
-              if (saved.docs[docNum].date){
-                ref = new Date(saved.docs[docNum].date);
+              if (docNum){
+                if (typeof saved.docs[docNum].date !== 'undefined'){
+                  ref = new Date(saved.docs[docNum].date);
+                }
               }
               var header = {
                 text: entity.mentref[0]._,
@@ -328,6 +284,17 @@ angular.module('ariadneApp')
             params: {screen_name: screenname}
          }).success(function(data) {
           db.social.twitter[screenname] = data;
+          deferred.resolve(data);
+        })
+        return deferred.promise;
+      },
+      getNews: function (params) {
+        var deferred = $q.defer();
+        $http({
+            url: ('/api/webhose'),
+            method: "GET",
+            params: params,
+         }).success(function(data) {
           deferred.resolve(data);
         })
         return deferred.promise;

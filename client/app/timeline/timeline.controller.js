@@ -47,11 +47,15 @@ angular.module('ariadneApp')
             end: null
           }
           angular.forEach(date.date[0].start.knownValues, function(knownVal, kvKey){
-            smallestKnown.start = knownVals[kvKey]
+            if (smallestKnown.start < knownVals[kvKey]){
+              smallestKnown.start = knownVals[kvKey]
+            }
           })
           if(date.date[0].end){
             angular.forEach(date.date[0].end.knownValues, function(knownVal, kvKey){
-              smallestKnown.end = knownVals[kvKey]
+              if (smallestKnown.end < knownVals[kvKey]){
+                smallestKnown.end = knownVals[kvKey]
+              }
             })
           }
           angular.forEach(times, function(time, timeKey){

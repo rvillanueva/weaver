@@ -5,7 +5,8 @@
   <div class="panel panel-default">
   <div class="panel-heading"><h4>{{date.mentref[0]._}}</h4></div>
   <div class="panel-body">
-    Date: {{date.date[0].ref | date:'medium'}}<br>
+    Start Date: {{date.date[0].start.date | date:'medium'}}<br>
+    End Date: {{date.date[0].end.date | date:'medium'}}<br>
     Accuracy: {{date.$.score * 100 | number: 0}}%<br>
     Type: {{date.$.type}}<br>
     <br>
@@ -14,9 +15,6 @@
       <a href="#"><span class="glyphicon glyphicon-bookmark" popover="...{{db.mentions[mention.$.mid].snippets.pre}}*{{db.mentions[mention.$.mid].snippets.term}}*{{db.mentions[mention.$.mid].snippets.post}}..." popover-trigger="mouseenter" popover-placement="top" popover-popup-delay="250" popover-append-to-body="true"></span></a>&nbsp;
     </span>
     <br><br>
-    <div>
-      <button class="btn btn-sm btn-primary">Relevant</button> <button class="btn btn-sm btn-default">Merge</button> <button class="btn btn-sm btn-warning">Not Relevant</button>
-    </div>
   </div>
   </div>
 </div>

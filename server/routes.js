@@ -14,6 +14,8 @@ module.exports = function(app) {
   app.use('/api/chrono', require('./api/chrono'));
   app.use('/api/unfluff', require('./api/unfluff'));
   app.use('/api/twitter', require('./api/twitter'));
+  app.use('/api/webhose', require('./api/webhose'));
+
 
 
 
