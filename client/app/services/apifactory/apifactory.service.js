@@ -3,7 +3,7 @@
 angular.module('ariadneApp')
   .factory('apiFactory', function ($q, $http, $filter) {
     // Service logic
-    var db = {
+    var boilerplate = {
       "events" : {
         "hash" : {
           "mentions" : [ {
@@ -69,6 +69,8 @@ angular.module('ariadneApp')
       }
     }
 
+    var db = boilerplate;
+
     var rebuild = function(){
       var entities = db.entities
       angular.forEach(entities, function(entity, eKey){
@@ -107,7 +109,7 @@ angular.module('ariadneApp')
 
     }
 
-    var docIndex = function(mid, batch){
+    var docIndex = function(mid){
       console.log('docindex')
       console.log(db)
       var docInd;
@@ -158,6 +160,7 @@ angular.module('ariadneApp')
         return deferred.promise;
       },
       addSource: function (postData) {
+        db = boilerplate;
         var deferred = $q.defer();
         var concatenated = "";
         var concatPosition = 0;
@@ -298,6 +301,9 @@ angular.module('ariadneApp')
           deferred.resolve(data);
         })
         return deferred.promise;
+      },
+      idDoc: function (mid) {
+        docIndex(mid);
       },
     };
   });

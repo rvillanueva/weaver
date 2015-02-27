@@ -84,7 +84,11 @@ angular.module('ariadneApp')
             headline: date.$.eid,
             text: $scope.mentions[date.mentref[0].$.mid].snippets.pre + "<strong>"+$scope.mentions[date.mentref[0].$.mid].snippets.term+"</strong>"+$scope.mentions[date.mentref[0].$.mid].snippets.post,
             startDate: start,
-            endDate: end
+            endDate: end,
+            asset: {}
+          }
+          if($scope.dates.image){
+            pushed.asset.media = $scope.dates.image
           }
           timelineData.timeline.date.push(pushed);
           if (timelineData.timeline.date[0].placeholder == true){
