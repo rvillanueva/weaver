@@ -21,3 +21,7 @@
 .modal-danger .modal-header {
   background: #d9534f;
 }
+
+.centered {
+  text-align: center;
+}

@@ -1,8 +1,17 @@
 <div class="modal-header">
     <h3 class="modal-title">Search Web</h3>
-    Uses Webhose.io to retrieve latest news, discussions, and blogs.
+    Retrieve latest news, discussions, and blogs. Yahoo is pure news articles while Webhose.io retrieves news, comments, blogs, and discussions.
 </div>
 <br>
+<div class="form-group">
+  <label for="api" class="col-lg-2 control-label">Source</label>
+  <div class="col-lg-10">
+    <select id="api" ng-model="api">
+      <option value="yahoo">Yahoo News</option>
+      <option value="webhose">Webhose.io</option>
+    </select>
+  </div>
+</div><br>
 <div class="form-group">
   <label for="url" class="col-lg-2 control-label">Search Term</label>
   <div class="col-lg-10">
@@ -11,8 +20,9 @@
 </div>
   &nbsp;
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="ok()">OK</button>
-    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-primary" ng-click="ok()" ng-if="!analyzing">OK</button>
+    <button class="btn btn-warning" ng-click="cancel()" ng-if="!analyzing">Cancel</button>
+    <img src="../assets/images/watson.gif" class="centered" ng-if="analyzing">
 </div>
 
 <!---<div class="modal-header">

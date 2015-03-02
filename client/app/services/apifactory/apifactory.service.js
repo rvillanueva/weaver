@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ariadneApp')
-  .factory('apiFactory', function ($q, $http, $filter) {
+  .factory('apiFactory', function ($q, $http, $filter, $timeout) {
     // Service logic
     var boilerplate = {
       "events" : {
@@ -291,14 +291,65 @@ angular.module('ariadneApp')
         })
         return deferred.promise;
       },
-      getNews: function (params) {
+      getNews: function (params, api) {
         var deferred = $q.defer();
+        var url;
+        if(api == 'webhose'){
+          url = '/api/webhose'
+        } else {
+          url = '/api/yahoo/news'
+        }
         $http({
-            url: ('/api/webhose'),
+            url: url,
             method: "GET",
             params: params,
-         }).success(function(data) {
-          deferred.resolve(data);
+         }).success(function(results) {
+           var docs = [];
+           var proms = [];
+           if(api == 'webhose'){
+             angular.forEach(results.posts, function(result, rKey){
+               var title;
+               if (result.title.length > 0){
+                 title = result.title;
+               } else {
+                 title = result.thread.title;
+               }
+               var pushed = {
+                 text: result.text,
+                 title: title,
+                 date: result.published,
+               };
+               docs.push(pushed)
+             })
+             deferred.resolve(docs);
+
+           } else if (api == 'yahoo'){
+             var urls = []
+             console.log(results)
+             for (var i = 0; i < results.length; i++){
+               urls.push(results[i].url);
+             }
+              $http({
+                 url: ('/api/unfluff'),
+                 method: "GET",
+                 params: {url: urls}
+              }).success(function(data) {
+                console.log(data)
+                // Would like to tag on additional data but can't figure out why resolve is triggering before
+                for (var i = 0; i < data.length; i++){
+                  var pushed = data[i];
+                  pushed.title = results[i].title;
+                  pushed.source = results[i].source;
+                  pushed.date = results[i].date;
+                  console.log(pushed);
+                  docs.push(pushed);
+                  if (docs.length == data.length){
+                    console.log(docs)
+                    deferred.resolve(docs);
+                  }
+                }
+             })
+           }
         })
         return deferred.promise;
       },
