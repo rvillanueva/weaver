@@ -21,9 +21,13 @@ router.get('/', function(req, res){
         getData += chunk;
       });
       response.on("end", function() {
-        var data = extractor(getData, 'en');
-        console.log(data);
-        send.push(data);
+        if (getData){
+          var data = extractor(getData, 'en');
+          console.log(data);
+          send.push(data);
+        } else {
+          send.push(null)
+        }
         console.log(send.length)
         if (send.length == urls.length && array){
           complete = true;

@@ -48,7 +48,7 @@
           &nbsp;
           <span ng-if="documents.length == 0">No documents. Add a few to analyze!</span>
           <div class="list-group" ng-if="documents.length > 0">
-            <a href="#" class="list-group-item" ng-repeat="doc in documents" >
+            <a href="#" class="list-group-item" ng-repeat="doc in documents" ng-click="viewDoc($index)">
               {{doc.title}}
               <span class="pull-right"><span class="glyphicon glyphicon-minus-sign" ng-click="removeDoc($index)"></span></span>
             </a>
@@ -62,8 +62,13 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-6 centered" ng-if="documents.length > 0">
-
+        <div class="col-lg-6">
+          <img ng-src="{{viewer.image}}" style="height: 200px" ng-if="viewer.image"></img>
+          <br>
+          <h3>{{viewer.title}}</h3>
+          <div ng-if="viewer.source">({{viewer.source}})<br></div>
+          <div ng-if="viewer.date"><strong>Date:</strong> {{viewer.date | date:'medium'}}<br><br></div>
+          <div style="white-space:pre-wrap;">{{viewer.text}}</div>
         </div>
       </div>
     </div>

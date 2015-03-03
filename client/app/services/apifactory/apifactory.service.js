@@ -92,6 +92,7 @@ angular.module('ariadneApp')
         var pre = text.substring((mention.$.begin*1 - distance), mention.$.begin*1);
         var term = text.substring(mention.$.begin*1, mention.$.end*1 + 1);
         var post = text.substring(mention.$.end*1 + 1, mention.$.end*1 + distance);
+        db.mentions[mention.$.mid] = mention.$.mid;
         db.mentions[mention.$.mid] = {
           begin: mention.$.begin*1,
           end: mention.$.end*1,
@@ -144,7 +145,12 @@ angular.module('ariadneApp')
         return deferred.promise;
       },
       getSources: function () {
-        return db.sources;
+        var deferred = $q.defer();
+        var retrieve = function(){
+          deferred.resolve(db.sources)
+        }
+        retrieve();
+        return deferred.promise;
       },
       updateEntity: function (data, key) {
         console.log(db)
@@ -335,16 +341,20 @@ angular.module('ariadneApp')
                  params: {url: urls}
               }).success(function(data) {
                 console.log(data)
-                // Would like to tag on additional data but can't figure out why resolve is triggering before
+                var offset = 0;
                 for (var i = 0; i < data.length; i++){
-                  var pushed = data[i];
-                  pushed.title = results[i].title;
-                  pushed.source = results[i].source;
-                  pushed.date = results[i].date;
-                  console.log(pushed);
-                  docs.push(pushed);
-                  if (docs.length == data.length){
-                    console.log(docs)
+                  console.log(data);
+                  if (data[i]){
+                    var pushed = data[i];
+                    pushed.title = results[i].title;
+                    pushed.source = results[i].source;
+                    pushed.date = results[i].date;
+                    console.log(pushed);
+                    docs.push(pushed);
+                  } else {
+                    offset +=1;
+                  }
+                  if (docs.length == data.length - offset){
                     deferred.resolve(docs);
                   }
                 }

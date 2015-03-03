@@ -5,6 +5,8 @@ angular.module('ariadneApp')
     $scope.places = [];
     $scope.markers = [];
 
+    $scope.icon = "../assets/images/war.svg";
+
     uiGmapGoogleMapApi.then(function(maps) {
       $scope.map = { center: { latitude: 45, longitude: -73 }, zoom: 4 };
 
@@ -28,6 +30,8 @@ angular.module('ariadneApp')
         })
         $scope.markers.push(marker);
       }
+
+
 
       $scope.codeAddress = function(place) {
         geocoder.geocode( { 'address': place.mentref[0]._}, function(results, status) {

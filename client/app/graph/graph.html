@@ -1,9 +1,6 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 <div class="row">
-  <div class="col-lg-8">
-    <div id="canvas"></div>
-  </div>
-  <div class="col-lg-4">
+  <div class="col-lg-6">
     <br>
     <div class="form-group">
       <br>
@@ -29,14 +26,16 @@
       </div>
     </div>
     <br>
-    <div class="panel panel-default">
-      <div class="panel-heading">Details</div>
-      <div class="panel-body">
-        <div id="details">
-        </div>
-        <br>
-        <button class="btn btn-default btn-md" ng-click="saveJSON(relationships)"><span class="glyphicon glyphicon-download-alt"></span> Save JSON</button>
-      </div>
+  </div>
+  <div class="col-lg-6">
+    <div id="details">
     </div>
+    <br>
+    <button class="btn btn-default btn-md" ng-click="saveJSON(relationships)"><span class="glyphicon glyphicon-download-alt"></span> Save JSON</button>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-12">
+    <div id="canvas"></div>
   </div>
 </div>
