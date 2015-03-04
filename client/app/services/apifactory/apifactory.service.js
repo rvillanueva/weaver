@@ -83,11 +83,41 @@ angular.module('ariadneApp')
       })
     }
 
+
+
+    var parseDate = function(text, ref, type){
+    }
+
+    var docIndex = function(mid){
+      console.log('docindex')
+      console.log(db)
+      var docInd;
+      var start = db.mentions[mid].begin;
+      var doc = db.sources.docs;
+      console.log(doc)
+      for (var i = 0; i < doc.length; i++) {
+        console.log(i)
+        console.log(doc[i])
+        if(doc[i].start <= start && doc[i].end >= start){
+          docInd = i
+        }
+      }
+      console.log(docInd)
+      return docInd;
+    }
+
+    var sentsIndex = {};
+    var docsIndex = [];
+    var db;
+    var sents;
+
     var mentionIndex = function(data){
       var text = '';
-      text = data.rep.doc[0].text[0];
+      console.log(data)
+      var relationships = data.sources.analysis.relationships
+      text = relationships.rep.doc[0].text[0];
       var distance = 100;
-      var mentions = data.rep.doc[0].mentions[0].mention;
+      var mentions = relationships.rep.doc[0].mentions[0].mention;
       angular.forEach(mentions, function(mention, key){
         var pre = text.substring((mention.$.begin*1 - distance), mention.$.begin*1);
         var term = text.substring(mention.$.begin*1, mention.$.end*1 + 1);
@@ -105,29 +135,9 @@ angular.module('ariadneApp')
       })
     }
 
-    var parseDate = function(text, ref, type){
 
 
-    }
 
-    var docIndex = function(mid){
-      console.log('docindex')
-      console.log(db)
-      var docInd;
-      var start = db.mentions[mid].begin;
-      var doc = db.sources.docs;
-      console.log(doc)
-      for (var i = 0; i < doc.length; i++) {
-        console.log(i)
-        console.log(doc[i])
-        if(doc[i].start <= start && doc[i].end >= start){
-          console.log('woot')
-          docInd = i
-        }
-      }
-      console.log(docInd)
-      return docInd;
-    }
 
 
     // Public API here
@@ -176,8 +186,6 @@ angular.module('ariadneApp')
           docs: [],
         }
 
-
-
         angular.forEach(postData, function(post, pKey){
           concatenated = concatenated.concat(post.text + " ");
           post.start = concatPosition;
@@ -193,9 +201,7 @@ angular.module('ariadneApp')
         console.log(header.txt)
         $http.post('/api/watson/relationships', header).success(function(data) {
         // Dummy data
-        //$http.get('/app/dummy.json').success(function(data){
-          mentionIndex(data);
-
+        //$http.get('/app/dummy.json').success(function(data)
           console.log(data)
           saved.analysis.relationships = data;
           // Reinstate timestamp when multiple analyses available
@@ -204,6 +210,8 @@ angular.module('ariadneApp')
           var entities = data.rep.doc[0].entities[0].entity;
           var relations = data.rep.doc[0].relations[0].relation;
 
+          mentionIndex(db);
+
           angular.forEach(entities, function(entity, key){
             db.entities[entity.$.eid] = entity
             // If date, parse using Chrono
@@ -211,6 +219,7 @@ angular.module('ariadneApp')
               var ref = null;
               var mid = entity.mentref[0].$.mid
               var docNum = docIndex(mid);
+              // Retrieve document reference date
               if (docNum){
                 if (typeof saved.docs[docNum].date !== 'undefined'){
                   ref = new Date(saved.docs[docNum].date);
@@ -251,6 +260,15 @@ angular.module('ariadneApp')
             db.entities[relation.rel_entity_arg[1].$.eid].relations.push(target)
           })
 
+
+          angular.forEach(sents, function(sent, sKey){
+            for (var i = 0; i < db.sources.docs.length; i++){
+              console.log(sent)
+                if(sent.$.begin >= db.sources.docs[i].$.begin &&  sent.$.begin > db.sources.docs[i].$.end){
+                  sent.docId = i;
+                }
+            }
+          })
 
           deferred.resolve(db)
         });
@@ -365,6 +383,41 @@ angular.module('ariadneApp')
       },
       idDoc: function (mid) {
         docIndex(mid);
+      },
+      getSnippet: function (mid, buffer) {
+        if(!sents){
+          getDocs();
+        }
+        var deferred = $q.defer();
+        var beginning = db.mentions[mid].begin;
+        var targetDocIndex = sents[sid].docId
+        var text = db.sources.analysis.relationships.text;
+        var term = text.slice(db.mentions[mid].begin, db.mentions[mid].begin);
+        var pre = '';
+        var post = '';
+        angular.forEach(sents, function(sent, sKey){
+          var preFound = false;
+          var postFound = false;
+          for (var i = buffer; i > 0; i--){
+            console.log(i)
+            if(sents[sKey-i] > 0 && sents[sKey-i].docIndex == targetDocIndex && !preFound){
+              pre = text.slice(sents[sKey-i].begin, db.mentions[mid].begin-1);
+            }
+            if(sents[sKey+i] > 0 && sents[sKey+i].docIndex == targetDocIndex && !postFound){
+              post = text.slice(db.mentions[mid].end+1, sents[sKey+i].end);
+            }
+          }
+          if (term && pre && post){
+            var postData = {
+              pre: pre,
+              post: post,
+              term: term
+            }
+            deferred.resolve(postData);
+          }
+        })
+
+        return deferred.promise;
       },
     };
   });
