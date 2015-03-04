@@ -80,7 +80,7 @@ angular.module('ariadneApp')
               }
             }
           })
-          apiFactory.getSnippet(date.mentref[0].$.mid, 3).then(function(data){
+          apiFactory.getSnippet(date.mentref[0].$.mid, 2).then(function(data){
             var snippet = data;
             var phrase;
             if(snippet.phrase.length > 80){
@@ -88,9 +88,11 @@ angular.module('ariadneApp')
             } else {
               phrase = snippet.phrase;
             }
+            var termStart = snippet.phrase.indexOf(snippet.term);
+            var pushText = snippet.phrase.slice(0,termStart) + "<strong>" + snippet.term + "</strong>" + snippet.phrase.slice(termStart + snippet.term.length, termStart + snippet.term.length + snippet.phrase.length) + snippet.postPhrase;
             var pushed = {
               headline: phrase,
-              text: snippet.pre + "<strong>" + snippet.term + "</strong>" + snippet.post,
+              text: pushText,
               startDate: start,
               endDate: end,
               asset: {}

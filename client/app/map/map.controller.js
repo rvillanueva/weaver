@@ -5,7 +5,7 @@ angular.module('ariadneApp')
     $scope.places = [];
     $scope.markers = [];
 
-    $scope.icon = "../assets/images/war.svg";
+    $scope.icon = "/assets/images/war.png";
 
     uiGmapGoogleMapApi.then(function(maps) {
       $scope.map = { center: { latitude: 45, longitude: -73 }, zoom: 4 };

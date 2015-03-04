@@ -1,19 +1,19 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 <div class="row">
-  <div class="col-lg-6">
+</div>
+<div class="row">
+  <div class="col-lg-9">
+    <div id="canvas"></div>
+  </div>
+  <div class="col-lg-3">
     <br>
     <div class="form-group">
       <br>
-      <label for="docTitle" class="col-lg-2 control-label">Search</label>
-      <div class="col-lg-10">
-        <input type="text" ng-model="graphSearch"></input> <button class="btn btn-sm btn-primary" ng-click="graphFilter(graphFilter, graphSearch)">Search</button>
-      </div>
+      <label for="docTitle" class="control-label">Search</label><br>
+      <input type="text" ng-model="graphSearch"></input> <button class="btn btn-sm btn-primary" ng-click="graphFilter(graphFilter, graphSearch)">Search</button>
     </div>
-
     <div class="form-group">
-      <br>
-      <label for="docTitle" class="col-lg-2 control-label">Type</label>
-      <div class="col-lg-10">
+      <label for="docTitle" class="control-label">Type</label><br>
         <select ng-model="graphFilter" ng-change="redraw(graphFilter, graphSearch)">
           <option value="PERSON">Person</option>
           <option value="PEOPLE">People</option>
@@ -23,19 +23,11 @@
           <option value="EVENT">Events</option>
           <option value="DATE">Dates</option>
         </select>
-      </div>
     </div>
-    <br>
-  </div>
-  <div class="col-lg-6">
     <div id="details">
     </div>
     <br>
     <button class="btn btn-default btn-md" ng-click="saveJSON(relationships)"><span class="glyphicon glyphicon-download-alt"></span> Save JSON</button>
-  </div>
-</div>
-<div class="row">
-  <div class="col-lg-12">
-    <div id="canvas"></div>
+    <br>
   </div>
 </div>

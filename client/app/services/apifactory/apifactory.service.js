@@ -394,15 +394,17 @@ angular.module('ariadneApp')
         var pre = '';
         var post = '';
         var phrase = '';
+        var postPhrase = '';
         var preFound = false;
         var postFound = false;
         var sents = db.sents;
+        var phraseStart;
+        var phraseEnd;
         var sid;
         var sidBackup;
         // Find correct sent
         for (var i = 0; i < sents.length; i++){
           console.log('sent checked: ' + i)
-          console.log(sents[i])
           if(sents[i].tokens[0].token[0].$.begin <= begin){
             if(sents[i].tokens[0].token[0].$.end > end){
               sid = i;
@@ -417,10 +419,14 @@ angular.module('ariadneApp')
         if(!sid){
           sid = sidBackup;
         }
+
+        phraseStart = sents[sid].tokens[0].token[0].$.begin*1;
+        phraseEnd = sents[sid].tokens[0].token[sents[sid].tokens[0].token.length-1].$.begin*1
+
         console.log('sid: ' + sid)
         console.log(sents[sid].docId)
         if(sents[sid+1]){
-          phrase = text.slice(sents[sid].tokens[0].token[0].$.begin*1, sents[sid+1].tokens[0].token[0].$.begin*1-1)
+          phrase = text.slice(phraseStart, phraseEnd)
         }
         // Find buffer sentences
         for (var i = buffer; i > 0; i--){
@@ -440,11 +446,12 @@ angular.module('ariadneApp')
               console.log('post end: ' + sents[sid+i].tokens[0].token[0].$.end)
               var postEnd;
               if(sents[sid+i+1]){
-                postEnd = sents[sid+i+1].tokens[0].token[0].$.end*1
+                postEnd = sents[sid+i].tokens[0].token[sents[sid+i].tokens[0].token.length-1].$.end*1+1
               } else {
                 postEnd = null;
               }
               post = text.slice((end*1)+1, postEnd);
+              postPhrase = text.slice(phraseEnd, postEnd);
 
               postFound = true;
             }
@@ -457,12 +464,15 @@ angular.module('ariadneApp')
         }
         if(!post){
           post = text.slice(end)
+          postPhrase = text.slice(phraseEnd)
         }
         var postData = {
           pre: pre,
           post: post,
           term: term,
-          phrase: phrase
+          phrase: phrase,
+          postPhrase: postPhrase,
+          docIndex: targetDocIndex
         }
         deferred.resolve(postData);
 

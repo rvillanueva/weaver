@@ -8,8 +8,8 @@ angular.module('ariadneApp')
     var activeColor = "#E8871E";
     var passiveColor = "#A0ACAD"
     var highlightColor = "#3B3B58"
-    var width = 1200,
-        height = 800
+    var width = 1000,
+        height = 1000
 
     var parseData = function(data, search){
       var entities = data.entities;
