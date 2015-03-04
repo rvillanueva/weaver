@@ -89,20 +89,14 @@ angular.module('ariadneApp')
     }
 
     var docIndex = function(mid){
-      console.log('docindex')
-      console.log(db)
       var docInd;
       var start = db.mentions[mid].begin;
       var doc = db.sources.docs;
-      console.log(doc)
       for (var i = 0; i < doc.length; i++) {
-        console.log(i)
-        console.log(doc[i])
         if(doc[i].start <= start && doc[i].end >= start){
           docInd = i
         }
       }
-      console.log(docInd)
       return docInd;
     }
 
@@ -384,9 +378,7 @@ angular.module('ariadneApp')
       getSnippet: function (mid, buffer) {
         var deferred = $q.defer();
         var begin = db.mentions[mid].begin;
-        console.log('begin: ' + begin)
         var end = db.mentions[mid].end;
-        console.log('end: ' + end)
 
         var targetDocIndex = docIndex(mid);
         var text = db.sources.analysis.relationships.rep.doc[0].text[0];
@@ -404,7 +396,6 @@ angular.module('ariadneApp')
         var sidBackup;
         // Find correct sent
         for (var i = 0; i < sents.length; i++){
-          console.log('sent checked: ' + i)
           if(sents[i].tokens[0].token[0].$.begin <= begin){
             if(sents[i].tokens[0].token[0].$.end > end){
               sid = i;
@@ -422,28 +413,17 @@ angular.module('ariadneApp')
 
         phraseStart = sents[sid].tokens[0].token[0].$.begin*1;
         phraseEnd = sents[sid].tokens[0].token[sents[sid].tokens[0].token.length-1].$.begin*1
-
-        console.log('sid: ' + sid)
-        console.log(sents[sid].docId)
         if(sents[sid+1]){
           phrase = text.slice(phraseStart, phraseEnd)
         }
         // Find buffer sentences
         for (var i = buffer; i > 0; i--){
-          console.log('buffer check ' + i);
-          console.log('targetdocindex: ' + targetDocIndex)
           if((sid-i) > 0 && sents[sid-i].docId == targetDocIndex && !preFound){
-            console.log('pre found!')
-            console.log('pre start: ' + sents[sid-i].tokens[0].token[0].$.begin*1)
-            console.log('pre end: ' + begin)
             pre = text.slice(sents[sid-i].tokens[0].token[0].$.begin*1, (begin*1));
             preFound = true;
           }
           if(sents[sid+i] && !postFound){
             if(sents[sid+i].docId == targetDocIndex){
-              console.log('post found!')
-              console.log('post start: ' + end)
-              console.log('post end: ' + sents[sid+i].tokens[0].token[0].$.end)
               var postEnd;
               if(sents[sid+i+1]){
                 postEnd = sents[sid+i].tokens[0].token[sents[sid+i].tokens[0].token.length-1].$.end*1+1
@@ -456,7 +436,6 @@ angular.module('ariadneApp')
               postFound = true;
             }
           }
-          console.log('done')
         }
 
         if (!pre){

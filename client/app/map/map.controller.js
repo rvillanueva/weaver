@@ -1,16 +1,23 @@
 'use strict';
 
 angular.module('ariadneApp')
-  .controller('MapCtrl', function ($scope, $filter, $timeout, uiGmapGoogleMapApi, apiFactory) {
+  .controller('MapCtrl', function ($scope, $filter, $timeout, $q, uiGmapGoogleMapApi, apiFactory) {
     $scope.places = [];
     $scope.markers = [];
 
-    $scope.icon = "/assets/images/war.png";
-
     uiGmapGoogleMapApi.then(function(maps) {
-      $scope.map = { center: { latitude: 45, longitude: -73 }, zoom: 4 };
+
+      var myLatlng = new google.maps.LatLng(41.210722,-73.803173);
 
       var geocoder = new google.maps.Geocoder();
+
+      var mapOptions = {
+        zoom: 8,
+        center: myLatlng
+      }
+
+      var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+
       var overflow = false;
       var overflowTimerActive = false;
       var overflowCount = 0;
@@ -19,16 +26,44 @@ angular.module('ariadneApp')
 
       // Attach marker data to place data and push to markers
       var addMarker = function(place){
-        var marker = place;
-        marker.options = {
-          show: false,
-        }
-        marker.mentions = [];
-        angular.forEach(marker.mentref, function(mention, key){
-          var snippet = $scope.source.mentions[mention.$.mid].snippets;
-          marker.mentions.push(snippet)
+        var position = new google.maps.LatLng(place.geo.latitude,place.geo.longitude);
+        var marker = new google.maps.Marker({
+            position: position,
+            map: map,
+            title: place.mentref[0]._,
+            icon: "/assets/images/war.png",
+            mentions: []
+        });
+
+        var prom = [];
+
+        var contentString = '<strong>' + marker.title + '</strong><br><br><ul>';
+
+        angular.forEach(place.mentref, function(mention, mKey){
+          var deferred = $q.defer();
+          apiFactory.getSnippet(mention.$.mid,1).then(function(data){
+            var snippet = data;
+            console.log(snippet)
+            if(mKey < 5){
+              contentString = contentString + '<li>' + snippet.phrase + '</li>';
+            }
+            marker.mentions.push(snippet);
+            deferred.resolve('complete')
+          });
+          prom.push(deferred.promise)
         })
-        $scope.markers.push(marker);
+
+        $q.all(prom).then(function(){
+          contentString = contentString + '</ul>'
+          var infowindow = new google.maps.InfoWindow({
+              content: contentString
+          });
+          google.maps.event.addListener(marker, 'click', function() {
+            infowindow.open(map,marker);
+          });
+          $scope.markers.push(marker);
+        })
+
       }
 
 
@@ -36,10 +71,7 @@ angular.module('ariadneApp')
       $scope.codeAddress = function(place) {
         geocoder.geocode( { 'address': place.mentref[0]._}, function(results, status) {
           if (status == google.maps.GeocoderStatus.OK) {
-            var position = {
-              latitude: results[0].geometry.location.k,
-              longitude: results[0].geometry.location.C
-            }
+            var position = new google.maps.LatLng(results[0].geometry.location.k, results[0].geometry.location.C)
             place.geo = {
               latitude: results[0].geometry.location.k,
               longitude: results[0].geometry.location.C,
@@ -47,12 +79,19 @@ angular.module('ariadneApp')
             },
             place.id = place.$.eid;
             if (centerSet == false){
-              $scope.map.center = position;
+              map.setCenter(position)
               centerSet = true;
             }
             addMarker(place)
+
+            // To add the marker to the map, use the 'map' property
+
+
+
             // Update place data with geocode data
             apiFactory.updateEntity(place, place.$.eid)
+
+
             console.log(place)
           } else {
             console.log("Geocode was not successful for the following reason: " + status);
@@ -98,7 +137,6 @@ angular.module('ariadneApp')
         })
         $scope.codeAddresses($scope.placesQueue)
       });
-
 
     });
 

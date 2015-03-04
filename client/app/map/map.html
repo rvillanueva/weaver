@@ -1,11 +1,2 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
-<ui-gmap-google-map center='map.center' zoom='map.zoom'>
-  <ui-gmap-markers models="markers" coords="'geo'" ng-if="places" options="'options'" icon="'icon'">
-    <ui-gmap-windows show="show">
-      <div ng-non-bindable>
-        <strong>{{mentref[0]._}}</strong>
-        <br>
-         &nbsp;</div>
-    </ui-gmap-windows>
-  </ui-gmap-markers>
-</ui-gmap-google-map>
+<div id="map-canvas"></div>
