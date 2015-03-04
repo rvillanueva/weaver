@@ -106,10 +106,7 @@ angular.module('ariadneApp')
       return docInd;
     }
 
-    var sentsIndex = {};
     var docsIndex = [];
-    var db;
-    var sents;
 
     var mentionIndex = function(data){
       var text = '';
@@ -209,6 +206,7 @@ angular.module('ariadneApp')
           db.sources = saved;
           var entities = data.rep.doc[0].entities[0].entity;
           var relations = data.rep.doc[0].relations[0].relation;
+          db.sents = data.rep.doc[0].sents[0].sent;
 
           mentionIndex(db);
 
@@ -260,15 +258,14 @@ angular.module('ariadneApp')
             db.entities[relation.rel_entity_arg[1].$.eid].relations.push(target)
           })
 
-
-          angular.forEach(sents, function(sent, sKey){
-            for (var i = 0; i < db.sources.docs.length; i++){
-              console.log(sent)
-                if(sent.$.begin >= db.sources.docs[i].$.begin &&  sent.$.begin > db.sources.docs[i].$.end){
-                  sent.docId = i;
-                }
+          for (var i = 0; i < db.sents.length; i++){
+            for (var j = 0; j < db.sources.docs.length; j++){
+              if(db.sents[i].tokens[0].token[0].$.begin >= db.sources.docs[j].start && db.sents[i].tokens[0].token[0].$.begin < db.sources.docs[j].end){
+                db.sents[i].docId = j;
+              }
             }
-          })
+          }
+
 
           deferred.resolve(db)
         });
@@ -385,37 +382,89 @@ angular.module('ariadneApp')
         docIndex(mid);
       },
       getSnippet: function (mid, buffer) {
-        if(!sents){
-          getDocs();
-        }
         var deferred = $q.defer();
-        var beginning = db.mentions[mid].begin;
-        var targetDocIndex = sents[sid].docId
-        var text = db.sources.analysis.relationships.text;
-        var term = text.slice(db.mentions[mid].begin, db.mentions[mid].begin);
+        var begin = db.mentions[mid].begin;
+        console.log('begin: ' + begin)
+        var end = db.mentions[mid].end;
+        console.log('end: ' + end)
+
+        var targetDocIndex = docIndex(mid);
+        var text = db.sources.analysis.relationships.rep.doc[0].text[0];
+        var term = text.slice(begin*1, end*1+1);
         var pre = '';
         var post = '';
-        angular.forEach(sents, function(sent, sKey){
-          var preFound = false;
-          var postFound = false;
-          for (var i = buffer; i > 0; i--){
-            console.log(i)
-            if(sents[sKey-i] > 0 && sents[sKey-i].docIndex == targetDocIndex && !preFound){
-              pre = text.slice(sents[sKey-i].begin, db.mentions[mid].begin-1);
+        var phrase = '';
+        var preFound = false;
+        var postFound = false;
+        var sents = db.sents;
+        var sid;
+        var sidBackup;
+        // Find correct sent
+        for (var i = 0; i < sents.length; i++){
+          console.log('sent checked: ' + i)
+          console.log(sents[i])
+          if(sents[i].tokens[0].token[0].$.begin <= begin){
+            if(sents[i].tokens[0].token[0].$.end > end){
+              sid = i;
             }
-            if(sents[sKey+i] > 0 && sents[sKey+i].docIndex == targetDocIndex && !postFound){
-              post = text.slice(db.mentions[mid].end+1, sents[sKey+i].end);
+          } else {
+            if(!sidBackup){
+              sidBackup = i-1;
             }
           }
-          if (term && pre && post){
-            var postData = {
-              pre: pre,
-              post: post,
-              term: term
-            }
-            deferred.resolve(postData);
+        }
+        // If no sid identified, use the backup when it switched
+        if(!sid){
+          sid = sidBackup;
+        }
+        console.log('sid: ' + sid)
+        console.log(sents[sid].docId)
+        if(sents[sid+1]){
+          phrase = text.slice(sents[sid].tokens[0].token[0].$.begin*1, sents[sid+1].tokens[0].token[0].$.begin*1-1)
+        }
+        // Find buffer sentences
+        for (var i = buffer; i > 0; i--){
+          console.log('buffer check ' + i);
+          console.log('targetdocindex: ' + targetDocIndex)
+          if((sid-i) > 0 && sents[sid-i].docId == targetDocIndex && !preFound){
+            console.log('pre found!')
+            console.log('pre start: ' + sents[sid-i].tokens[0].token[0].$.begin*1)
+            console.log('pre end: ' + begin)
+            pre = text.slice(sents[sid-i].tokens[0].token[0].$.begin*1, (begin*1));
+            preFound = true;
           }
-        })
+          if(sents[sid+i] && !postFound){
+            if(sents[sid+i].docId == targetDocIndex){
+              console.log('post found!')
+              console.log('post start: ' + end)
+              console.log('post end: ' + sents[sid+i].tokens[0].token[0].$.end)
+              var postEnd;
+              if(sents[sid+i+1]){
+                postEnd = sents[sid+i+1].tokens[0].token[0].$.end*1
+              } else {
+                postEnd = null;
+              }
+              post = text.slice((end*1)+1, postEnd);
+
+              postFound = true;
+            }
+          }
+          console.log('done')
+        }
+
+        if (!pre){
+          pre = text.slice(sents[sid].tokens[0].token[0].$.begin,begin);
+        }
+        if(!post){
+          post = text.slice(end)
+        }
+        var postData = {
+          pre: pre,
+          post: post,
+          term: term,
+          phrase: phrase
+        }
+        deferred.resolve(postData);
 
         return deferred.promise;
       },

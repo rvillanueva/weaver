@@ -80,20 +80,29 @@ angular.module('ariadneApp')
               }
             }
           })
-          var pushed = {
-            headline: date.$.eid,
-            text: $scope.mentions[date.mentref[0].$.mid].snippets.pre + "<strong>"+$scope.mentions[date.mentref[0].$.mid].snippets.term+"</strong>"+$scope.mentions[date.mentref[0].$.mid].snippets.post,
-            startDate: start,
-            endDate: end,
-            asset: {}
-          }
-          if($scope.dates.image){
-            pushed.asset.media = $scope.dates.image
-          }
-          timelineData.timeline.date.push(pushed);
-          if (timelineData.timeline.date[0].placeholder == true){
-            timelineData.timeline.date.splice(0, 1)
-          }
+          apiFactory.getSnippet(date.mentref[0].$.mid, 3).then(function(data){
+            var snippet = data;
+            var phrase;
+            if(snippet.phrase.length > 80){
+              phrase = snippet.phrase.slice(0,80) + '...';
+            } else {
+              phrase = snippet.phrase;
+            }
+            var pushed = {
+              headline: phrase,
+              text: snippet.pre + "<strong>" + snippet.term + "</strong>" + snippet.post,
+              startDate: start,
+              endDate: end,
+              asset: {}
+            }
+            if($scope.dates.image){
+              pushed.asset.media = $scope.dates.image;
+            }
+            timelineData.timeline.date.push(pushed);
+            if (timelineData.timeline.date[0].placeholder == true){
+              timelineData.timeline.date.splice(0, 1);
+            }
+          })
         }
       })
       console.log(timelineData)
