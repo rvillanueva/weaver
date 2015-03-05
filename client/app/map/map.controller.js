@@ -26,6 +26,7 @@ angular.module('ariadneApp')
 
       // Attach marker data to place data and push to markers
       var addMarker = function(place){
+        console.log('marker placed')
         var position = new google.maps.LatLng(place.geo.latitude,place.geo.longitude);
         var marker = new google.maps.Marker({
             position: position,
@@ -72,14 +73,17 @@ angular.module('ariadneApp')
           if (status == google.maps.GeocoderStatus.OK) {
             place.geo = {
               latitude: results[0].geometry.location.k,
-              longitude: results[0].geometry.location.C,
+              longitude: results[0].geometry.location.B,
               data: results,
             };
+            console.log(results)
             var position = new google.maps.LatLng(place.geo.latitude, place.geo.longitude)
 
             place.id = place.$.eid;
             if (centerSet == false){
-              map.setCenter(position)
+              if(place.geo.latitude && place.geo.longitude){
+                map.setCenter(position)
+              }
               centerSet = true;
             }
             addMarker(place)
@@ -134,6 +138,5 @@ angular.module('ariadneApp')
         })
         $scope.codeAddresses($scope.placesQueue)
       });
-
-
+    });
   });

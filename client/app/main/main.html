@@ -30,8 +30,7 @@
       <div>
         <div class="col-lg-6">
           <span ng-if="!analyzing && documents.length > 0">
-            <span class="btn btn-primary btn-md" ng-click="getRelation()">Analyze</span>
-            &nbsp; &nbsp; &nbsp; &nbsp;
+            <span class="btn btn-primary btn-md" ng-click="getRelation()">Analyze</span><br><br>
           </span>
           <button class="btn btn-default btn-sm" ng-click="addSearch()"ng-disabled="analyzing"><span class="glyphicon glyphicon-plus"></span> Search</button>
           &nbsp; &nbsp;
@@ -40,6 +39,9 @@
           <button class="btn btn-default btn-sm" disabled="true"><span class="glyphicon glyphicon-plus"></span> Twitter</button>
           &nbsp; &nbsp;
           <button class="btn btn-default btn-sm" ng-click="add('text')" ng-disabled="analyzing"><span class="glyphicon glyphicon-plus"></span> Text</button>
+          &nbsp; &nbsp;
+          <button class="btn btn-default btn-sm" ng-click="saveJSON(documents)"><span class="glyphicon glyphicon-download-alt"></span> Save JSON</button>
+
           <br><br>
           <span ng-if="analyzing">
             <img src="../assets/images/watson.gif">
@@ -82,7 +84,11 @@
               </a>
             </div>
           </div>
-          <button class="btn btn-default btn-sm" ng-click="saveJSON(documents)"><span class="glyphicon glyphicon-download-alt"></span> Save JSON</button>
+          <span ng-if="!analyzing && documents.length > 0">
+            <br><br>
+            <span class="btn btn-primary btn-md" ng-click="getRelation()">Analyze</span><br><br>
+          </span>
+
         </div>
         <div class="col-lg-6">
           <img ng-src="{{viewer.image}}" style="height: 200px" ng-if="viewer.image"></img>
