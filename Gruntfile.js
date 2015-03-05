@@ -243,7 +243,10 @@ module.exports = function (grunt) {
 
     // Performs rewrites based on rev and the useminPrepare configuration
     usemin: {
-      html: ['<%= yeoman.dist %>/public/{,*/}*.html'],
+      html: [
+        '<%= yeoman.dist %>/public/{,*/}*.html',
+        '<%= yeoman.dist %>/public/components/searchmodal/{,*/}*.html',
+      ],
       css: ['<%= yeoman.dist %>/public/{,*/}*.css'],
       js: ['<%= yeoman.dist %>/public/{,*/}*.js'],
       options: {

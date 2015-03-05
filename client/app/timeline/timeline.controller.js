@@ -84,8 +84,8 @@ angular.module('ariadneApp')
             apiFactory.getSnippet(date.mentref[0].$.mid, 2).then(function(data){
               var snippet = data;
               var phrase;
-              if(snippet.phrase.length > 80){
-                phrase = snippet.phrase.slice(0,80) + '...';
+              if(snippet.phrase.length > 60){
+                phrase = snippet.phrase.slice(0,60) + '...';
               } else {
                 phrase = snippet.phrase;
               }

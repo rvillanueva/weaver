@@ -22,8 +22,7 @@
     "twitter": "^1.2.1",
     "unfluff": "^0.10.0",
     "xml-escape": "1.0.0",
-    "xml2js": "^0.4.4",
-    "yaboss": "^0.1.2"
+    "xml2js": "^0.4.4"
   },
   "devDependencies": {
     "grunt": "~0.4.4",
