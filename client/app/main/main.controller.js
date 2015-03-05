@@ -46,7 +46,7 @@ angular.module('ariadneApp')
        var modalInstance;
       if (type == 'text'){
         modalInstance = $modal.open({
-         templateUrl: '../components/docmodal/docmodal.html',
+         templateUrl: '/components/docmodal/docmodal.html',
          controller: 'DocModalInstanceCtrl',
          size: 'lg',
          backdrop: true,
@@ -54,7 +54,7 @@ angular.module('ariadneApp')
       }
       if (type == 'url'){
         modalInstance = $modal.open({
-         templateUrl: '../components/urlmodal/urlmodal.html',
+         templateUrl: '/components/urlmodal/urlmodal.html',
          controller: 'UrlModalInstanceCtrl',
          size: 'lg',
          backdrop: true,
@@ -73,7 +73,7 @@ angular.module('ariadneApp')
 
      $scope.addSearch = function () {
         var modalInstance = $modal.open({
-          templateUrl: '../components/searchmodal/searchmodal.html',
+          templateUrl: '/components/searchmodal/searchmodal.html',
           controller: 'SearchModalInstanceCtrl',
           size: 'lg',
           backdrop: true,
@@ -121,11 +121,11 @@ angular.module('ariadneApp')
 
     $scope.sampleDocs = [{
       title: 'News Search: \"Al Qaeda\"',
-      url: '/assets/sample_data/alqaeda.json',
+      url: '/app/sample_data/alqaeda.json',
       image: '/assets/images/alqaeda.jpg'
     },{
       title: 'Wikileaks Embassy Cables: \"China\"',
-      url: '/assets/sample_data/china.json',
+      url: '/app/sample_data/china.json',
       image: '/assets/images/china.jpg'
     }]
 

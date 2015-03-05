@@ -1,7 +1,7 @@
 applications:
 - services:
   - Relationship Extraction-r3
-  name: re-nodejs-ariadne
+  name: weaver
   command: node server/app.js
   path: .
   memory: 512M
