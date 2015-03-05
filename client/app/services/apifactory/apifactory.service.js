@@ -222,8 +222,6 @@ angular.module('ariadneApp')
                 ref: ref
               }
               $http.post('/api/chrono/parse', header).success(function(data) {
-                console.log('chrono ')
-                console.log(data)
                 entity.date = data
               })
             }

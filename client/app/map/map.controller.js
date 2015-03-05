@@ -90,9 +90,6 @@ angular.module('ariadneApp')
 
             // Update place data with geocode data
             apiFactory.updateEntity(place, place.$.eid)
-
-
-            console.log(place)
           } else {
             console.log("Geocode was not successful for the following reason: " + status);
             overflow = true;
@@ -138,6 +135,5 @@ angular.module('ariadneApp')
         $scope.codeAddresses($scope.placesQueue)
       });
 
-    });
 
   });
