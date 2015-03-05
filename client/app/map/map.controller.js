@@ -12,7 +12,7 @@ angular.module('ariadneApp')
       var geocoder = new google.maps.Geocoder();
 
       var mapOptions = {
-        zoom: 8,
+        zoom: 6,
         center: myLatlng
       }
 
@@ -31,19 +31,18 @@ angular.module('ariadneApp')
             position: position,
             map: map,
             title: place.mentref[0]._,
-            icon: "/assets/images/war.png",
+            //icon: "/assets/images/war.png",
             mentions: []
         });
 
         var prom = [];
 
         var contentString = '<strong>' + marker.title + '</strong><br><br><ul>';
-
+        angular.forEach(place.relation)
         angular.forEach(place.mentref, function(mention, mKey){
           var deferred = $q.defer();
           apiFactory.getSnippet(mention.$.mid,1).then(function(data){
             var snippet = data;
-            console.log(snippet)
             if(mKey < 5){
               contentString = contentString + '<li>' + snippet.phrase + '</li>';
             }
@@ -71,12 +70,13 @@ angular.module('ariadneApp')
       $scope.codeAddress = function(place) {
         geocoder.geocode( { 'address': place.mentref[0]._}, function(results, status) {
           if (status == google.maps.GeocoderStatus.OK) {
-            var position = new google.maps.LatLng(results[0].geometry.location.k, results[0].geometry.location.C)
             place.geo = {
               latitude: results[0].geometry.location.k,
               longitude: results[0].geometry.location.C,
               data: results,
-            },
+            };
+            var position = new google.maps.LatLng(place.geo.latitude, place.geo.longitude)
+
             place.id = place.$.eid;
             if (centerSet == false){
               map.setCenter(position)
@@ -124,7 +124,7 @@ angular.module('ariadneApp')
       apiFactory.get().then(function(data) {
         $scope.source = data;
         $scope.entities = data.entities;
-        $scope.allPlaces = $filter('entityFilter')($scope.entities, 'GPE');
+        $scope.allPlaces = $filter('entityFilter')($scope.entities, 'GPE', 'NAM');
         $scope.placesQueue = []
 
         angular.forEach($scope.allPlaces, function(place, key){

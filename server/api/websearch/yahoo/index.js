@@ -12,7 +12,7 @@ router.get('/news', function(req, res){
   var params = qs.stringify({
     q: req.query.q,
     format: 'json',
-    count: 5,
+    count: 7,
   });
 
   var oauth = {

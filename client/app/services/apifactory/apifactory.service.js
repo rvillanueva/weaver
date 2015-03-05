@@ -372,7 +372,7 @@ angular.module('ariadneApp')
         })
         return deferred.promise;
       },
-      idDoc: function (mid) {
+      docIndex: function (mid) {
         docIndex(mid);
       },
       getSnippet: function (mid, buffer) {
@@ -410,52 +410,58 @@ angular.module('ariadneApp')
         if(!sid){
           sid = sidBackup;
         }
-
-        phraseStart = sents[sid].tokens[0].token[0].$.begin*1;
-        phraseEnd = sents[sid].tokens[0].token[sents[sid].tokens[0].token.length-1].$.begin*1
-        if(sents[sid+1]){
-          phrase = text.slice(phraseStart, phraseEnd)
-        }
-        // Find buffer sentences
-        for (var i = buffer; i > 0; i--){
-          if((sid-i) > 0 && sents[sid-i].docId == targetDocIndex && !preFound){
-            pre = text.slice(sents[sid-i].tokens[0].token[0].$.begin*1, (begin*1));
-            preFound = true;
+        if(sid){
+          phraseStart = sents[sid].tokens[0].token[0].$.begin*1;
+          phraseEnd = sents[sid].tokens[0].token[sents[sid].tokens[0].token.length-1].$.begin*1
+          if(sents[sid+1]){
+            phrase = text.slice(phraseStart, phraseEnd)
           }
-          if(sents[sid+i] && !postFound){
-            if(sents[sid+i].docId == targetDocIndex){
-              var postEnd;
-              if(sents[sid+i+1]){
-                postEnd = sents[sid+i].tokens[0].token[sents[sid+i].tokens[0].token.length-1].$.end*1+1
-              } else {
-                postEnd = null;
-              }
-              post = text.slice((end*1)+1, postEnd);
-              postPhrase = text.slice(phraseEnd, postEnd);
+          // Find buffer sentences
+          for (var i = buffer; i > 0; i--){
+            if((sid-i) > 0 && sents[sid-i].docId == targetDocIndex && !preFound){
+              pre = text.slice(sents[sid-i].tokens[0].token[0].$.begin*1, (begin*1));
+              preFound = true;
+            }
+            if(sents[sid+i] && !postFound){
+              if(sents[sid+i].docId == targetDocIndex){
+                var postEnd;
+                if(sents[sid+i+1]){
+                  postEnd = sents[sid+i].tokens[0].token[sents[sid+i].tokens[0].token.length-1].$.end*1+1
+                } else {
+                  postEnd = null;
+                }
+                post = text.slice((end*1)+1, postEnd);
+                postPhrase = text.slice(phraseEnd, postEnd);
 
-              postFound = true;
+                postFound = true;
+              }
             }
           }
-        }
 
-        if (!pre){
-          pre = text.slice(sents[sid].tokens[0].token[0].$.begin,begin);
+          if (!pre){
+            pre = text.slice(sents[sid].tokens[0].token[0].$.begin,begin);
+          }
+          if(!post){
+            post = text.slice(end)
+            postPhrase = text.slice(phraseEnd)
+          }
+          var postData = {
+            pre: pre,
+            post: post,
+            term: term,
+            phrase: phrase,
+            postPhrase: postPhrase,
+            docIndex: targetDocIndex
+          }
+          deferred.resolve(postData);
+        } else {
+          deferred.reject('Error: sent id undefined')
         }
-        if(!post){
-          post = text.slice(end)
-          postPhrase = text.slice(phraseEnd)
-        }
-        var postData = {
-          pre: pre,
-          post: post,
-          term: term,
-          phrase: phrase,
-          postPhrase: postPhrase,
-          docIndex: targetDocIndex
-        }
-        deferred.resolve(postData);
 
         return deferred.promise;
+      },
+      getRelation: function (rid) {
+        return db.relations[rid];
       },
     };
   });
