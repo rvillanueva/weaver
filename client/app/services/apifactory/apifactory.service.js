@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ariadneApp')
-  .factory('apiFactory', function ($q, $http, $filter, $timeout) {
+  .factory('apiFactory', function ($q, $http, $filter, $timeout, $rootScope) {
     // Service logic
     var boilerplate = {
       "events" : {
@@ -146,6 +146,7 @@ angular.module('ariadneApp')
         return deferred.promise;
       },
       getSources: function () {
+        console.log('getting')
         var deferred = $q.defer();
         var retrieve = function(){
           deferred.resolve(db.sources)
@@ -258,7 +259,8 @@ angular.module('ariadneApp')
             }
           }
 
-
+          $rootScope.$broadcast('analyzed', true);
+          $rootScope.analyzed = true;
           deferred.resolve(db)
         });
         return deferred.promise;

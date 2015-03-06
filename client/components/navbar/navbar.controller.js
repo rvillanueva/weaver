@@ -1,11 +1,16 @@
 'use strict';
 
 angular.module('ariadneApp')
-  .controller('NavbarCtrl', function ($scope, $location) {
+  .controller('NavbarCtrl', function ($scope, $location, $rootScope) {
     $scope.menu = [{
       'title': 'Sources',
       'link': '/'
-    }, {
+    }]
+    $scope.menuAll = [{
+      'title': 'Sources',
+      'link': '/'
+    },
+    {
       'title': 'Graph',
       'link': '/graph'
     },
@@ -21,6 +26,14 @@ angular.module('ariadneApp')
       'title': 'Entities',
       'link': '/entities'
     }];
+
+    if($rootScope.analyzed == true){
+      $scope.menu = $scope.menuAll;
+    }
+
+    $rootScope.$on('analyzed', function(){
+      $scope.menuAll = $scope.menuExpanded;
+    })
 
     $scope.isCollapsed = true;
 

@@ -9,6 +9,8 @@ angular.module('ariadneApp', [
   'ngAria',
   'uiGmapgoogle-maps'
 ])
+
+
   .config(function ($routeProvider, $locationProvider) {
     $routeProvider
       .otherwise({
@@ -18,6 +20,7 @@ angular.module('ariadneApp', [
     $locationProvider.html5Mode(true);
   })
 
+
   .config(function(uiGmapGoogleMapApiProvider) {
     uiGmapGoogleMapApiProvider.configure({
         //    key: 'your api key',
@@ -25,3 +28,15 @@ angular.module('ariadneApp', [
         libraries: 'weather,geometry,visualization'
     });
   })
+
+  .run(function ($rootScope, $location) {
+     $rootScope.$on('$routeChangeStart', function (event) {
+       if (!$rootScope.analyzed) {
+         console.log('No docs, redirecting to sources');
+         $location.path('/');
+       }
+       else {
+         console.log('ALLOW');
+       }
+     });
+    })
