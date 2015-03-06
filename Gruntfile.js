@@ -245,7 +245,7 @@ module.exports = function (grunt) {
     usemin: {
       html: [
         '<%= yeoman.dist %>/public/{,*/}*.html',
-        '<%= yeoman.dist %>/public/components/searchmodal/{,*/}*.html',
+        '<%= yeoman.dist %>/public/components/**/*.html',
       ],
       css: ['<%= yeoman.dist %>/public/{,*/}*.css'],
       js: ['<%= yeoman.dist %>/public/{,*/}*.js'],

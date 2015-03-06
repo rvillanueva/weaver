@@ -9,15 +9,12 @@ var errors = require('./components/errors');
 module.exports = function(app) {
 
   // Insert routes below
-  app.use('/api/things', require('./api/thing'));
   app.use('/api/watson/relationships', require('./api/watson/relationships'));
   app.use('/api/chrono', require('./api/chrono'));
   app.use('/api/unfluff', require('./api/unfluff'));
   app.use('/api/twitter', require('./api/twitter'));
   app.use('/api/webhose', require('./api/websearch/webhose'));
   app.use('/api/yahoo', require('./api/websearch/yahoo'));
-
-
 
 
 

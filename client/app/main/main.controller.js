@@ -92,8 +92,9 @@ angular.module('ariadneApp')
      $scope.viewDoc = function(index){
        $scope.viewer = $scope.documents[index];
        $scope.viewer.index = index;
-       var oldest = new Date(3000, 1, 1);
-       if($scope.viewer.date < oldest){
+
+       //Just a hack to fix dates from Yahoo. Should figure out why happening.
+       if($scope.viewer.date < 1625496897){
          $scope.viewer.date = $scope.viewer.date*1000;
        }
      }
@@ -213,6 +214,7 @@ angular.module('ariadneApp').controller('DocModalInstanceCtrl', function ($scope
 angular.module('ariadneApp').controller('UrlModalInstanceCtrl', function ($scope, $modalInstance, apiFactory) {
 
   $scope.ok = function () {
+    $scope.analyzing = true;
     apiFactory.getUrl($scope.addUrl.url).then(function(data){
       var date = $scope.addUrl.date;
       $scope.addUrl = data;
@@ -220,6 +222,7 @@ angular.module('ariadneApp').controller('UrlModalInstanceCtrl', function ($scope
       if (date){
         $scope.addUrl.date = date;
       }
+      $scope.analyzing = false;
       $modalInstance.close($scope.addUrl);
     })
   };

@@ -21,9 +21,12 @@
   </div>
 </div>
   &nbsp;
-<div class="modal-footer">
-    <button class="btn btn-primary" ng-click="ok()">OK</button>
-    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+<div class="modal-footer centered">
+  <div class="lefted">
+    <button class="btn btn-primary" ng-click="ok()" ng-if="!analyzing">OK</button>
+    <button class="btn btn-warning" ng-click="cancel()" ng-if="!analyzing">Cancel</button>
+  </div>
+    <img src="/assets/images/watson.gif" ng-if="analyzing">
 </div>
 
 <!---<div class="modal-header">

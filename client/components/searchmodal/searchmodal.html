@@ -19,10 +19,12 @@
   </div>
 </div>
   &nbsp;
-<div class="modal-footer">
+<div class="modal-footer centered">
+  <div class="righted">
     <button class="btn btn-primary" ng-click="ok()" ng-if="!analyzing">OK</button>
     <button class="btn btn-warning" ng-click="cancel()" ng-if="!analyzing">Cancel</button>
-    <img src="../assets/images/watson.gif" class="centered" ng-if="analyzing">
+  </div>
+  <img src="/assets/images/watson.gif" ng-if="analyzing">
 </div>
 
 <!---<div class="modal-header">

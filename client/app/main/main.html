@@ -69,28 +69,22 @@
               <span class="pull-right"><span class="glyphicon glyphicon-minus-sign" ng-click="removeDoc($index)"></span></span>
             </a>
           </div>
-          <div ng-if="analyzed">
-            Analyzed Documents<br>
-            <div class="list-group" ng-if="documents.length > 0">
-              <a href="#" class="list-group-item" ng-repeat="doc in analyzed" >
-                {{doc.title}}
-              </a>
-            </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="centered" ng-if="analyzing">
+            <img src="/assets/images/watson.gif">
           </div>
-        </div>
-        <div class="col-lg-6 centered" ng-if="analyzing">
-            <img src="../assets/images/watson.gif">
-        </div>
-        <div class="col-lg-6" ng-show="!analyzing">
-          <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
-          <span ng-if="viewer.image">
-            <img ng-src="{{viewer.image}}" style="height: 200px"></img>
-            <br>
-          </span>
-          <h3>{{viewer.title}}</h3>
-          <div ng-if="viewer.source">({{viewer.source}})<br></div>
-          <div ng-if="viewer.date"><strong>Date:</strong> {{viewer.date | date:'medium'}}<br><br></div>
-          <div style="white-space:pre-wrap;">{{viewer.text}}</div>
+          <div ng-show="!analyzing">
+            <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+            <span ng-if="viewer.image">
+              <img ng-src="{{viewer.image}}" style="height: 200px"></img>
+              <br>
+            </span>
+            <h3>{{viewer.title}}</h3>
+            <div ng-if="viewer.source">({{viewer.source}})<br></div>
+            <div ng-if="viewer.date"><strong>Date:</strong> {{viewer.date | date:'medium'}}<br><br></div>
+            <div style="white-space:pre-wrap;">{{viewer.text}}</div>
+          </div>
         </div>
       </div>
     </div>
