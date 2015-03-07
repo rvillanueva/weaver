@@ -50,8 +50,12 @@ angular.module('ariadneApp')
 
       if(count.length < 100000){
         apiFactory.addSource($scope.postData).then(function(data) {
+          console.log(data)
           $scope.analyzing = false;
           $location.path('/graph')
+        }, function(error){
+          $scope.addAlert('There seems to be a problem with the Watson Relationship Extraction API. Please try again later.')
+          $scope.analyzing = false;
         });
       } else {
         $scope.analyzing = false;
