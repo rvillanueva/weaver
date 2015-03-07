@@ -31,9 +31,9 @@ angular.module('ariadneApp', [
 
   .run(function ($rootScope, $location) {
      $rootScope.$on('$routeChangeStart', function (event) {
-       if (!$rootScope.analyzed) {
+       if (!$rootScope.analyzed && $location.path() !== '/') {
          console.log('No docs, redirecting to sources');
-         $location.path('/');
+         $location.path('/sources');
        }
        else {
          console.log('ALLOW');
