@@ -46,15 +46,21 @@ angular.module('ariadneApp')
             if (entity.$.type.indexOf("EVENT") >= 0){
               type = "EVENT"
             }
+            var mentions = "<ul>";
+            angular.forEach(entity.mentref, function(mention, mKey){
+              mentions = mentions + "<li>" + data.mentions[mention.$.mid].snippets.phrase + "</li>";
+            })
+            mentions = mentions + "</ul>"
 
             var pushed = {
               name: entity.mentref[0]._,
               group: type,
-              mention: data.mentions[entity.mentref[0].$.mid].snippets.pre + data.mentions[entity.mentref[0].$.mid].snippets.term + data.mentions[entity.mentref[0].$.mid].snippets.post
+              mention: mentions
             }
             // Add entry to indicate the graph index associated with the entity eid
             entityKey[entity.$.eid] = entityInt;
             entityInt += 1;
+            console.log(pushed)
             graphData['nodes'].push(pushed);
           }
         });

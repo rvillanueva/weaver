@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ariadneApp')
-  .controller('GraphCtrl', function ($scope, $filter, d3Factory, apiFactory) {
+  .controller('GraphCtrl', function ($scope, $filter, $q, d3Factory, apiFactory) {
 
     $scope.graphFilter = "PERSON";
 
@@ -13,8 +13,19 @@ angular.module('ariadneApp')
       $scope.entities = data.entities;
       $scope.links = data.relations;
       $scope.mention = data.mentions;
-      d3Factory.setForce($scope.db, $scope.index);
-      d3Factory.updateForce($scope.db, $scope.graphFilter, $scope.graphSearch)
+      var promises = []
+      var deferred = $q.defer();
+      angular.forEach($scope.db.mentions, function(mention, mKey){
+        apiFactory.getSnippet(mKey, 2).then(function(data){
+          mention.snippets = data;
+          deferred.resolve('complete');
+        })
+        promises.push(deferred.promise);
+      })
+      $q.all(promises).then(function(){
+        d3Factory.setForce($scope.db, $scope.index, $scope.graphFilter, $scope.graphSearch);
+        d3Factory.updateForce($scope.db, $scope.graphFilter, $scope.graphSearch);
+      })
     });
 
     $scope.redraw = function(type, index, data){

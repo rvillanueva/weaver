@@ -432,7 +432,7 @@ angular.module('ariadneApp')
         }
         if(sid){
           phraseStart = sents[sid].tokens[0].token[0].$.begin*1;
-          phraseEnd = sents[sid].tokens[0].token[sents[sid].tokens[0].token.length-1].$.begin*1
+          phraseEnd = sents[sid].tokens[0].token[sents[sid].tokens[0].token.length-1].$.begin*1+1
           if(sents[sid+1]){
             phrase = text.slice(phraseStart, phraseEnd)
           }
