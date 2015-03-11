@@ -1,0 +1,53 @@
+<div class="selectbox">
+  <div class="row">
+    <div class="col-md-12">
+      <h4>Done. What would you like to see?</h4>
+    </div>
+    <div class="col-md-3">
+      <a href="/map" ng-click="ok()">
+        <div class="panel panel-default">
+          <div class="panel-heading centered"><h4>Map</h4></div>
+          <div class="panel-body nopad">
+            <img src="/assets/images/map-button.png" class="img-responsive">
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3">
+      <a href="/timeline"ng-click="ok()">
+        <div class="panel panel-default">
+          <div class="panel-heading centered"><h4>Timeline</h4></div>
+          <div class="panel-body nopad">
+            <img src="/assets/images/timeline-button.png" class="img-responsive">
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3">
+      <a href="/graph" ng-click="ok()">
+        <div class="panel panel-default">
+          <div class="panel-heading centered"><h4>Graph</h4></div>
+          <div class="panel-body nopad">
+            <img src="/assets/images/graph-button.png" class="img-responsive">
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3">
+      <a href="/entities" ng-click="ok()">
+        <div class="panel panel-default">
+          <div class="panel-heading centered"><h4>Entities</h4></div>
+          <div class="panel-body nopad">
+            <img src="/assets/images/graph-button.png" class="img-responsive">
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+<div class="modal-footer centered">
+  <div class="righted">
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+  </div>
+    <img src="/assets/images/watson.gif" ng-if="analyzing">
+</div>

@@ -180,7 +180,7 @@ angular.module('ariadneApp')
     "Chadians":"Chad",
     "Chilean":"Chile",
     "Chileans":"Chile",
-    "Chinese":"People's Republic of China",
+    "Chinese":"China",
     "Christmas Island":"Christmas Island",
     "Christmas Islanders":"Christmas Island",
     "Cocos Island":"Cocos (Keeling) Islands",

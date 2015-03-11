@@ -1,0 +1,20 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+<div id="timeline-embed"></div>
+<br>
+<div class="col-lg-4" ng-repeat="date in dates">
+  <div class="panel panel-default">
+  <div class="panel-heading"><h4>{{date.mentref[0]._}}</h4></div>
+  <div class="panel-body">
+    Start Date: {{date.date[0].start.date | date:'medium'}}<br>
+    End Date: {{date.date[0].end.date | date:'medium'}}<br>
+    Accuracy: {{date.$.score * 100 | number: 0}}%<br>
+    Type: {{date.$.type}}<br>
+    <br>
+    Mentions:
+    <span ng-repeat="mention in event.mentref">
+      <a href="#"><span class="glyphicon glyphicon-bookmark" popover="...{{db.mentions[mention.$.mid].snippets.pre}}*{{db.mentions[mention.$.mid].snippets.term}}*{{db.mentions[mention.$.mid].snippets.post}}..." popover-trigger="mouseenter" popover-placement="top" popover-popup-delay="250" popover-append-to-body="true"></span></a>&nbsp;
+    </span>
+    <br><br>
+  </div>
+  </div>
+</div>

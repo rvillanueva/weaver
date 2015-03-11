@@ -1,0 +1,99 @@
+.landing {
+  width: 100%;
+  font-size: 20px;
+}
+
+.intro {
+  background: #61bbb8;
+  color: #FFFFFF;
+  padding-top: 75px;
+  padding-bottom: 100px;
+  width: 100%;
+}
+
+.try-btn {
+  margin-top: 75px;
+  border-width: 3px;
+  padding: 16px 36px 16px 36px;
+  border-color: #FFFFFF;
+  background-color: Transparent;
+  font-size: 24px;
+  color: #FFFFFF;
+}
+
+.try-btn-teal:hover {
+  background-color: #FFFFFF;
+  color: #61bbb8;
+}
+
+.headline {
+  font-size: 64px;
+  line-height: 1.1em;
+}
+
+.subtitle {
+  font-size: 30px;
+  line-height: 1em;
+}
+
+.subsubtitle {
+  font-size: 20px;
+}
+
+.features {
+  padding: 70px 100px 70px 100px;
+}
+
+.feature-text {
+  margin: 10px;
+  font-size: 26px;
+}
+
+.featurette {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.tiny-text {
+  font-size: 16px
+}
+
+.cognitive-elements{
+  margin-top: 20px;
+  margin-bottom:20px;
+}
+
+.uses {
+  background: #001934;
+  color: #FFFFFF;
+  padding: 100px;
+}
+
+
+.uses.try-btn{
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.try-btn-dark:hover {
+  background-color: #FFFFFF;
+  color:#001934;
+}
+
+.uses .usebox{
+  padding: 30px;
+}
+
+.call-to-action{
+  background: #f04e37;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 30px;
+  padding: 30px;
+}
+
+.team {
+  padding: 40px 100px 40px 100px;
+  height:120px;
+  font-color: #001934;
+}

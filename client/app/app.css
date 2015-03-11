@@ -51,3 +51,11 @@
   text-align: left;
   width: 100%
 }
+
+.nopad {
+  padding:0;
+}
+
+.selectbox {
+  padding: 20px;
+}

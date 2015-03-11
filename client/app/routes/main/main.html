@@ -1,0 +1,99 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<!--<script type="text/ng-template" id="myModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Add Document</h3>
+    </div>
+    <br>
+    <div class="form-group">
+      <label for="docTitle" class="col-lg-2 control-label">Title</label>
+      <div class="col-lg-10">
+        <input type="text" class="form-control" id="docTitle" ng-model="addDoc.title">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="docText" class="col-lg-2 control-label">Text</label>
+      <div class="col-lg-10">
+        <textarea ng-model="addDoc.txt" rows="8" class="form-control" id="docText"></textarea>
+      </div>
+      &nbsp;
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">OK</button>
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div>
+</script>-->
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <span ng-if="!analyzed"><button class="btn btn-primary btn-md" ng-click="getRelation()" ng-disabled="analyzing || documents.length == 0">Analyze</button>&nbsp; &nbsp; &nbsp; &nbsp;</span>
+      <button class="btn btn-default btn-sm" ng-click="addSearch()"ng-disabled="analyzing"><span class="glyphicon glyphicon-plus"></span> Search</button>
+      &nbsp; &nbsp;
+      <button class="btn btn-default btn-sm" ng-click="add('url')" ng-disabled="analyzing"><span class="glyphicon glyphicon-plus"></span> URL</button>
+      &nbsp; &nbsp;
+      <!--<button class="btn btn-default btn-sm" disabled="true"><span class="glyphicon glyphicon-plus"></span> Twitter</button>
+      &nbsp; &nbsp;-->
+      <button class="btn btn-default btn-sm" ng-click="add('text')" ng-disabled="analyzing"><span class="glyphicon glyphicon-plus"></span> Text</button>
+      &nbsp; &nbsp;
+      <button class="btn btn-default btn-sm" ng-click="saveJSON(documents)"><span class="glyphicon glyphicon-download-alt"></span> Save JSON</button>
+      <br><br>
+    <div>
+        <div class="col-lg-6">
+          <span ng-if="documents.length == 0 || !documents">
+            No documents. Add a few to analyze!<br><br>
+            <h4>Sample Data</h4>
+            <div class="row">
+              <a href="#">
+                <div class="col-lg-6" ng-repeat="sample in sampleDocs" ng-click="setDocs(sample.url)">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      {{sample.title}}
+                    </div>
+                    <div class="panel-body" style="padding:0;">
+                      <img ng-src="{{sample.image}}" class="img-responsive" style="margin:0;padding:0"></img>
+                    </ul>
+                      <div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <br>
+            <br>
+          </span>
+          <div class="list-group" ng-if="documents.length > 0">
+            <a href="#" class="list-group-item" ng-repeat="doc in documents" ng-click="viewDoc($index)">
+              {{doc.title}}
+              <span class="pull-right" ng-if="!analyzed"><span class="glyphicon glyphicon-minus-sign" ng-click="removeDoc($index)"></span></span>
+            </a>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="centered" ng-if="analyzing">
+            <img src="/assets/images/watson.gif">
+          </div>
+          <div ng-show="!analyzing">
+            <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+            <span ng-if="viewer.image">
+              <img ng-src="{{viewer.image}}" style="height: 200px"></img>
+              <br>
+            </span>
+            <h3>{{viewer.title}}</h3>
+            <div ng-if="viewer.source">({{viewer.source}})<br></div>
+            <div ng-if="viewer.date"><strong>Date:</strong> {{viewer.date | date:'medium'}}<br><br></div>
+            <div style="white-space:pre-wrap;">{{viewer.text}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+      <p>Weaver by <a href="https://github.com/rvillanueva">Ryan Villanueva</a></p>
+      <button class="btn btn-md btn-info" ng-if="test" ng-click="test()">Test Button</button>
+  </div>
+</footer>
