@@ -30,6 +30,14 @@ angular.module('ariadneApp', [
     });
   })
 
+  .config(function (localStorageServiceProvider) {
+    localStorageServiceProvider
+      .setPrefix('ariadneApp')
+      .setStorageType('sessionStorage')
+      .setNotify(true, true)
+  })
+
+
   .run(function ($rootScope, $location) {
      $rootScope.$on('$routeChangeStart', function (event) {
        if (!$rootScope.analyzed && $location.path() !== '/') {
@@ -41,10 +49,3 @@ angular.module('ariadneApp', [
        }
      });
     })
-
-  .config(function (localStorageServiceProvider) {
-    localStorageServiceProvider
-      .setPrefix('ariadneApp')
-      .setStorageType('sessionStorage')
-      .setNotify(true, true)
-  });

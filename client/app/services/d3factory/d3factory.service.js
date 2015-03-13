@@ -87,7 +87,7 @@ angular.module('ariadneApp')
       var graphData = parseData(data, search);
 
         svg = d3.select("#canvas").append("svg")
-            .attr("width", width)
+            .attr("width", "100%")
             .attr("height", height);
 
         var force = d3.layout.force()

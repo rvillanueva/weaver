@@ -2,7 +2,7 @@
 
 angular.module('ariadneApp')
   .controller('GraphCtrl', function ($scope, $filter, $q, d3Factory, apiFactory, tutorialFactory) {
-    tutorialFactory.demo();
+    tutorialFactory.demo('graph');
 
     $scope.graphFilter = "PERSON";
 

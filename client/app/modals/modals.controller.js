@@ -157,9 +157,10 @@ angular.module('ariadneApp').controller('SelectModalInstanceCtrl', function ($sc
   $scope.format = 'dd-MMMM-yyyy';
 });
 
-angular.module('ariadneApp').controller('IntroModalInstanceCtrl', function ($scope, $modalInstance) {
+angular.module('ariadneApp').controller('IntroModalInstanceCtrl', function ($scope, $modalInstance, tutorialFactory, localStorageService) {
 
   $scope.ok = function () {
+    tutorialFactory.updateTutorial('intro', 'main')
     $modalInstance.close('complete');
   };
 

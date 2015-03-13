@@ -2,7 +2,7 @@
 
 angular.module('ariadneApp')
   .controller('EntitiesCtrl', function ($scope, apiFactory, tutorialFactory) {
-    tutorialFactory.demo();
+    tutorialFactory.demo('entities');
     $scope.entityFilter = "PERSON";
     //$scope.namedFilter = 'NAM';
 

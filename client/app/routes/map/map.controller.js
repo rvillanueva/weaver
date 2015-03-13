@@ -2,7 +2,7 @@
 
 angular.module('ariadneApp')
   .controller('MapCtrl', function ($scope, $filter, $timeout, $q, uiGmapGoogleMapApi, apiFactory, geocodeFactory, tutorialFactory) {
-    tutorialFactory.demo();
+    tutorialFactory.demo('map');
 
     $scope.places = [];
     $scope.markers = [];

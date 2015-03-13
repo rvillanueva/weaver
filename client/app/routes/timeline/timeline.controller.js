@@ -2,7 +2,7 @@
 
 angular.module('ariadneApp')
   .controller('TimelineCtrl', function ($scope, $filter, apiFactory, tutorialFactory) {
-    tutorialFactory.demo();
+    tutorialFactory.demo('timeline');
 
     apiFactory.get().then(function(data) {
       $scope.entities = data.entities;

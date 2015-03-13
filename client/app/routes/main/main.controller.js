@@ -171,7 +171,7 @@ angular.module('ariadneApp')
       image: '/assets/images/bokoharam.jpg'
     },{
       id: 'measles',
-      title: 'Measles on the Rise',
+      title: 'Tracking Measles',
       url: '/assets/sample_data/measles.json',
       image: '/assets/images/measles.jpg'
     },
@@ -216,10 +216,6 @@ angular.module('ariadneApp')
    $scope.closeAlert = function(index) {
      $scope.alerts.splice(index, 1);
    };
-
-   $scope.test = function(){
-     $scope.getRelation('/assets/sample_data/alqaedares.json')
-   }
 
    $scope.analyzed = $rootScope.analyzed;
    $rootScope.$on('analyzed', function (event) {

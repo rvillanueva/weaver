@@ -74,7 +74,7 @@
           <div class="centered" ng-if="analyzing">
             <img src="/assets/images/watson.gif">
           </div>
-          <div ng-show="!analyzing">
+          <div>
             <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
             <span ng-if="viewer.image">
               <img ng-src="{{viewer.image}}" style="height: 200px"></img>
