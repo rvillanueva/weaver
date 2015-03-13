@@ -11,16 +11,16 @@ angular.module('ariadneApp')
       'link': '/sources'
     },
     {
-      'title': 'Graph',
-      'link': '/graph'
+      'title': 'Map',
+      'link': '/map'
     },
     {
       'title': 'Timeline',
       'link': '/timeline'
     },
     {
-      'title': 'Map',
-      'link': '/map'
+      'title': 'Graph',
+      'link': '/graph'
     },
     {
       'title': 'Entities',

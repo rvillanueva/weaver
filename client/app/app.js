@@ -7,7 +7,8 @@ angular.module('ariadneApp', [
   'ngRoute',
   'ui.bootstrap',
   'ngAria',
-  'uiGmapgoogle-maps'
+  'uiGmapgoogle-maps',
+  'LocalStorageModule'
 ])
 
 
@@ -40,3 +41,10 @@ angular.module('ariadneApp', [
        }
      });
     })
+
+  .config(function (localStorageServiceProvider) {
+    localStorageServiceProvider
+      .setPrefix('ariadneApp')
+      .setStorageType('sessionStorage')
+      .setNotify(true, true)
+  });

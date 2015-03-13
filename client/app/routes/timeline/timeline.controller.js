@@ -1,7 +1,9 @@
 'use strict';
 
 angular.module('ariadneApp')
-  .controller('TimelineCtrl', function ($scope, $filter, apiFactory) {
+  .controller('TimelineCtrl', function ($scope, $filter, apiFactory, tutorialFactory) {
+    tutorialFactory.demo();
+
     apiFactory.get().then(function(data) {
       $scope.entities = data.entities;
       $scope.dates = $filter('entityFilter')($scope.entities, 'DATE');

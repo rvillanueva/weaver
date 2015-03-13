@@ -1,7 +1,9 @@
 'use strict';
 
 angular.module('ariadneApp')
-  .controller('MainCtrl', function ($scope, $rootScope, $location, $modal, $filter, $http, apiFactory) {
+  .controller('MainCtrl', function ($scope, $rootScope, $location, $modal, $filter, $http, apiFactory, tutorialFactory) {
+
+    tutorialFactory.intro();
 
   $scope.documents = [];
 
@@ -163,16 +165,30 @@ angular.module('ariadneApp')
      };
 
     $scope.sampleDocs = [{
-      title: 'News Search: \"Al Qaeda\"',
+      id: 'bokoharam',
+      title: 'The Alliances of Boko Haram',
+      url: '/assets/sample_data/bokoharam.json',
+      image: '/assets/images/bokoharam.jpg'
+    },{
+      id: 'measles',
+      title: 'Measles on the Rise',
+      url: '/assets/sample_data/measles.json',
+      image: '/assets/images/measles.jpg'
+    },
+    {
+      id: 'alqaeda',
+      title: 'Al Qaeda Convicted',
       url: '/assets/sample_data/alqaeda.json',
       image: '/assets/images/alqaeda.jpg'
     },{
+      id: 'china',
       title: 'Wikileaks Embassy Cables: \"China\"',
       url: '/assets/sample_data/china.json',
       image: '/assets/images/china.jpg'
     },
     {
-      title: 'DOJ: Ferguson/Michael Brown Investigation',
+      id: 'ferguson',
+      title: 'Ferguson/Michael Brown DOJ Documents',
       url: '/assets/sample_data/ferguson.json',
       image: '/assets/images/ferguson.jpg'
     }]
@@ -184,6 +200,11 @@ angular.module('ariadneApp')
        $scope.documents = data;
        $scope.viewDoc(0);
      })
+   }
+
+   $scope.setDemo = function(id){
+     tutorialFactory.setDemo(id);
+     tutorialFactory.demo('start');
    }
 
    $scope.alerts = [];

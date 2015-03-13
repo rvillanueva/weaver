@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('ariadneApp')
-  .controller('EntitiesCtrl', function ($scope, apiFactory) {
+  .controller('EntitiesCtrl', function ($scope, apiFactory, tutorialFactory) {
+    tutorialFactory.demo();
     $scope.entityFilter = "PERSON";
     //$scope.namedFilter = 'NAM';
 

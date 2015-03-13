@@ -42,10 +42,10 @@
         <div class="col-lg-6">
           <span ng-if="documents.length == 0 || !documents">
             No documents. Add a few to analyze!<br><br>
-            <h4>Sample Data</h4>
+            <h4>Tutorials</h4>
             <div class="row">
               <a href="#">
-                <div class="col-lg-6" ng-repeat="sample in sampleDocs" ng-click="setDocs(sample.url)">
+                <div class="col-lg-6" ng-repeat="sample in sampleDocs" ng-click="setDocs(sample.url);setDemo(sample.id)">
                   <div class="panel panel-default">
                     <div class="panel-heading">
                       {{sample.title}}

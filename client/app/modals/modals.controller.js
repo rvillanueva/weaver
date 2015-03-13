@@ -94,7 +94,7 @@ angular.module('ariadneApp').controller('SearchModalInstanceCtrl', function ($sc
     if ($scope.api == 'webhose'){
       params.language = 'english';
       params.size = 10;
-      params.site_type = 'news';
+      params.site_type = ['blogs','forums'];
     } else {
       params.count = 10;
     }
@@ -136,7 +136,7 @@ angular.module('ariadneApp').controller('SelectModalInstanceCtrl', function ($sc
   $scope.cancel = function () {
     $modalInstance.dismiss('cancel');
   };
-  
+
   $scope.toggleMin = function() {
     $scope.minDate = $scope.minDate ? null : new Date();
   };
@@ -156,3 +156,45 @@ angular.module('ariadneApp').controller('SelectModalInstanceCtrl', function ($sc
 
   $scope.format = 'dd-MMMM-yyyy';
 });
+
+angular.module('ariadneApp').controller('IntroModalInstanceCtrl', function ($scope, $modalInstance) {
+
+  $scope.ok = function () {
+    $modalInstance.close('complete');
+  };
+
+  $scope.open = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+
+    $scope.opened = true;
+  };
+
+});
+
+angular.module('ariadneApp').controller('TutorialModalInstanceCtrl', function ($scope, $modalInstance, tutorial) {
+
+console.log(tutorial)
+
+  $scope.modal = {
+    header: tutorial.header,
+    body: tutorial.text,
+  }
+
+  $scope.ok = function () {
+    $modalInstance.close('ok');
+
+  };
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+
+  $scope.open = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+
+    $scope.opened = true;
+  };
+
+})

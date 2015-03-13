@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('ariadneApp')
-  .controller('GraphCtrl', function ($scope, $filter, $q, d3Factory, apiFactory) {
+  .controller('GraphCtrl', function ($scope, $filter, $q, d3Factory, apiFactory, tutorialFactory) {
+    tutorialFactory.demo();
 
     $scope.graphFilter = "PERSON";
 

@@ -21,16 +21,17 @@
     <link rel="stylesheet" href="app/app.css">
       <!-- injector:css -->
       <link rel="stylesheet" href="app/app.css">
-      <link rel="stylesheet" href="app/map/map.css">
       <link rel="stylesheet" href="app/routes/entities/entities.css">
       <link rel="stylesheet" href="app/routes/graph/graph.css">
-      <link rel="stylesheet" href="app/routes/insights/insights.css">
       <link rel="stylesheet" href="app/routes/landing/landing.css">
       <link rel="stylesheet" href="app/routes/main/main.css">
+      <link rel="stylesheet" href="app/routes/map/map.css">
       <link rel="stylesheet" href="app/routes/timeline/timeline.css">
       <link rel="stylesheet" href="components/docmodal/docmodal.css">
+      <link rel="stylesheet" href="components/intromodal/intromodal.css">
       <link rel="stylesheet" href="components/searchmodal/searchmodal.css">
       <link rel="stylesheet" href="components/selectmodal/selectmodal.css">
+      <link rel="stylesheet" href="components/tutorialmodal/tutorialmodal.css">
       <link rel="stylesheet" href="components/urlmodal/urlmodal.css">
       <!-- endinjector -->
     <!-- endbuild -->
@@ -71,6 +72,7 @@
       <script src="bower_components/d3/d3.js"></script>
       <script src="bower_components/angular-aria/angular-aria.js"></script>
       <script src="bower_components/angular-google-maps/dist/angular-google-maps.js"></script>
+      <script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
       <!-- endbower -->
     <!-- endbuild -->
 
@@ -79,29 +81,30 @@
           <!-- injector:js -->
           <script src="app/components/navbar/navbar.controller.js"></script>
           <script src="app/filters/entityfilter/entityfilter.filter.js"></script>
-          <script src="app/map/map.controller.js"></script>
-          <script src="app/map/map.js"></script>
           <script src="app/modals/modals.controller.js"></script>
           <script src="app/routes/entities/entities.controller.js"></script>
           <script src="app/routes/entities/entities.js"></script>
           <script src="app/routes/graph/graph.controller.js"></script>
           <script src="app/routes/graph/graph.js"></script>
-          <script src="app/routes/insights/insights.controller.js"></script>
-          <script src="app/routes/insights/insights.js"></script>
           <script src="app/routes/landing/landing.controller.js"></script>
           <script src="app/routes/landing/landing.js"></script>
           <script src="app/routes/main/main.controller.js"></script>
           <script src="app/routes/main/main.js"></script>
+          <script src="app/routes/map/map.controller.js"></script>
+          <script src="app/routes/map/map.js"></script>
           <script src="app/routes/timeline/timeline.controller.js"></script>
           <script src="app/routes/timeline/timeline.js"></script>
           <script src="app/services/apifactory/apifactory.service.js"></script>
           <script src="app/services/d3factory/d3factory.service.js"></script>
           <script src="app/services/geocodeFactory/geocodeFactory.service.js"></script>
           <script src="app/services/snippetfactory/snippetfactory.service.js"></script>
+          <script src="app/services/tutorialfactory/tutorialfactory.service.js"></script>
           <script src="components/docmodal/docmodal.service.js"></script>
+          <script src="components/intromodal/intromodal.js"></script>
           <script src="components/navbar/navbar.controller.js"></script>
           <script src="components/searchmodal/searchmodal.js"></script>
           <script src="components/selectmodal/selectmodal.js"></script>
+          <script src="components/tutorialmodal/tutorialmodal.js"></script>
           <script src="components/urlmodal/urlmodal.js"></script>
           <!-- endinjector -->
         <!-- endbuild -->
