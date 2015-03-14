@@ -30,6 +30,7 @@
       <div class="panel-body">
         Accuracy: {{entity.$.score * 100 | number: 0}}%<br>
         Type: {{entity.$.type}}<br>
+        Level: {{entity.$.level}}
         Mentions:
         <span ng-repeat="mention in entity.mentref">
           <a href="#"><span class="glyphicon glyphicon-bookmark" popover="...{{db.mentions[mention.$.mid].snippets.pre}}*{{db.mentions[mention.$.mid].snippets.term}}*{{db.mentions[mention.$.mid].snippets.post}}..." popover-trigger="mouseenter" popover-placement="top" popover-popup-delay="250" popover-append-to-body="true"></span></a>&nbsp;

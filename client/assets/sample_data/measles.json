@@ -52,19 +52,6 @@
         "end": 11306
     },
     {
-        "title": "Measles cases linked to Las Vegas restaurant",
-        "lang": "en",
-        "tags": [],
-        "image": null,
-        "videos": [],
-        "text": "",
-        "source": "WCVB Boston",
-        "date": "1425844499",
-        "$$hashKey": "object:62",
-        "start": 18097,
-        "end": 18097
-    },
-    {
         "title": "Measles cases turn attention to bounty of childhood vaccines",
         "lang": "en",
         "canonicalLink": "http://www.latimes.com/local/lanow/la-me-ln-measles-outbreak-at-149-cases-in-eight-states-canada-and-mexico-20150220-story.html",
@@ -114,5 +101,20 @@
         "$$hashKey": "object:65",
         "start": 59312,
         "end": 63879
+    },
+    {
+        "title": "The Measles Outbreak Is Twice As Big As You Thought",
+        "description": "The number of U.S. measles cases has continued climbing toward 200, with 173 cases noted in the CDC’s most recent report March 6 — but that’s only half the story. If you add in the cases multiplying north of the border, the outbreak nearly doubles in size. Canada is also facing [...]",
+        "keywords": "Health,Pharma and Health,Travel,healthcare,Pharma &amp; Healthcare",
+        "lang": "en",
+        "canonicalLink": "http://www.forbes.com/sites/tarahaelle/2015/03/12/the-measles-outbreak-is-twice-as-big-as-you-thought/",
+        "tags": [],
+        "image": "http://specials-images.forbesimg.com/dam/imageserve/464477954/640x0.jpg?fit=scale&background=000000",
+        "videos": [],
+        "text": "The number of U.S. measles cases has continued climbing toward 200, with 173 cases noted in the CDC’s most recent report March 6 — but that’s only half the story. If you add in the cases multiplying north of the border, the outbreak nearly doubles in size.\n\nCanada is also facing a major outbreak of the viral illness with more than 100 cases in the Lanaudière region of Quebec, all tracing back to two families who visited Disneyland in December, according to the CBC, Canada’s state broadcast news station. At a press conference Feb. 21, Quebec public health officials announced 21 measles cases. Less than three weeks later, the cases have climbed to 119 – all in unvaccinated individuals.\n\n“The reason it’s spreading so rapidly is that that’s the nature of the virus,” said Mark Schleiss, director of the Division of Pediatric Infectious Diseases at the University of Minnesota Medical School. “Measles is believed to be one of the most contagious infectious viruses known in human history.”\n\nThe viral particles of measles can infect someone when they’re inhaled or when they encounter your skin or mucous membrane, Schleiss said, and they remain infectious in the air and on surfaces and objects for several hours after an infected person has left the room. Nine out of every ten non-immune individuals who encounter those particles will develop the illness.\n\nThe two families who returned from Disneyland with the infectious souvenir appear to be members of a religious community whose adherents say that vaccination goes against their faith, reported the CBC. But every major world religion supports vaccination to protect children from vaccine-preventable diseases, and this group’s religious objection has put not only their own community’s children in danger but also the children of other Canadians. One of the children with measles attended the school École intégrée de Saint-Pierre while infectious, and a person can transmit the disease to others for up to four days before the disease’s telltale rash appears. Approximately 700 students and staff are at the school, and public officials estimate that 160 students are not fully vaccinated against measles.\n\nOne of the more pernicious misconceptions that has crept up during this outbreak is the idea that the particular strain associated with the Disneyland outbreak is not one that the vaccine can prevent, but this idea is flat-out false. Unlike the flu vaccine, which does need to be reformulated each year to protect against the regularly changing strains of the flu virus, the measles vaccine offers all-in-one protections against this disease.\n\n“Even if you’re looking at strains that are different or have mutated, there’s absolutely no evidence that the vaccine that’s used in clinical practice would fail to protect against those,” Schleiss said. “There’s no evidence whatsoever that strain variation contributes to outbreaks. The explanation for the outbreak, pure and simple, is failure to be immunized.”\n\nWhen the proportion of a community immunized against measles reaches at least 95 percent, the disease is far less likely to lead to major outbreaks. That 95 percent coverage won’t eliminate the disease as the WHO hopes eventually to do, Schleiss said, but it will enable public health officials to retain pretty good control over the disease. But 95 percent coverage at the state or province level isn’t enough.\n\n“It’s really pockets of unimmunized children and communities that are notoriously anti-vaccine where you set the stage for measles,” he said, and he expects that the economic impact of the disease may be one of the factors that eventually leads parents who philosophically object to the vaccine to go ahead and vaccinate their children. “I hope it will be a driving force to try to get people to embrace vaccination and protect their children and themselves,” he said.\n\nUntil more of these pockets reach a higher level of herd immunity, however, the disease will continue to spread, and it may only be a matter of time before a child dies from the disease. An estimated 1 in 1,000 children will die from measles, and with 644 cases total last year in the U.S., it’s not unreasonable to think this year’s tally might exceed 1,000. A toddler has already died from the disease in Germany, which has a superior medical system on par with that in the U.S., and the outbreak there is not quite at 600 cases yet.\n\n“It seems that it is invariably children who suffer our ignorance,” said Paul Offit, director of the Vaccine Education Center and a professor of pediatrics in the Division of Infectious Diseases at The Children’s Hospital of Philadelphia. “How many have to suffer and die from preventable diseases before we are willing to learn this lesson?”\n\nOffit watched children die during the U.S. measles outbreak in 1989-91, when hygiene practices and medical care were certainly excellent. But there is no treatment for measles beyond supportive care, and it is impossible to predict which individuals will develop complications such as pneumonia, brain swelling (which can lead to brain damage) or death — all of which can occur in previously healthy children.",
+        "type": "url",
+        "date": "2015-03-12T04:00:00.000Z",
+        "$$hashKey": "object:109",
+        "index": 6
     }
 ]
