@@ -15,6 +15,10 @@ module.exports = function(app) {
   app.use('/api/twitter', require('./api/twitter'));
   app.use('/api/webhose', require('./api/websearch/webhose'));
   app.use('/api/yahoo', require('./api/websearch/yahoo'));
+  app.use('/api/watson/tts', require('./api/watson/tts'));
+  app.use('/api/watson/translate', require('./api/watson/translate'));
+
+
 
 
 

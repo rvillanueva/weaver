@@ -36,7 +36,7 @@ angular.module('ariadneApp')
         stages:{
           start:{
             header: 'Tracking Measles',
-            text: 'A search for \'measles outbreak\' on March 11, 2015.'
+            text: 'We conducted a news search for \'measles outbreak\' on March 11, 2015.'
           },
           map: {
             header: 'The Outbreak Battleground',
@@ -54,7 +54,40 @@ angular.module('ariadneApp')
           start:{
             header: 'The Trial of Naseer',
             text: 'This is a search for Nasser.'
-          }
+          },
+          map: {
+            header: 'Global Terrorism',
+            text: 'Who was kidnapped from Yemen?'
+          },
+          timeline: {
+            header: 'Retracing Their Steps',
+            text:'Why was 2011 important for both Abid Naseer and Minh Quang Pham?'
+          },
+          graph: {
+            header: 'A Tangled Web',
+            text: 'What is Naseer’s connection with Khalid al-Fawwaz?'
+          },
+        }
+      },
+      china: {
+        name: null,
+        stages:{
+          start:{
+            header: 'Cablegate',
+            text: 'This is a search for Nasser.'
+          },
+          map: {
+            header: 'Global Terrorism',
+            text: 'Who was kidnapped from Yemen?'
+          },
+          timeline: {
+            header: 'Retracing Their Steps',
+            text:'Why was 2011 important for both Abid Naseer and Minh Quang Pham?'
+          },
+          graph: {
+            header: 'A Tangled Web',
+            text: 'What is Naseer’s connection with Khalid al-Fawwaz?'
+          },
         }
       },
 

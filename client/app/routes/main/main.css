@@ -50,3 +50,10 @@
 .centered {
   text-align: center;
 }
+
+.viewer-img {
+  height: 200px;
+  border-width:1px;
+  border-color: #000000;
+  border-style: solid;
+}

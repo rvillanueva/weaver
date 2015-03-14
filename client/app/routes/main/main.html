@@ -27,64 +27,67 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-12">
-      <span ng-if="!analyzed"><button class="btn btn-primary btn-md" ng-click="getRelation()" ng-disabled="analyzing || documents.length == 0">Analyze</button>&nbsp; &nbsp; &nbsp; &nbsp;</span>
-      <button class="btn btn-default btn-sm" ng-click="addSearch()"ng-disabled="analyzing"><span class="glyphicon glyphicon-plus"></span> Search</button>
-      &nbsp; &nbsp;
-      <button class="btn btn-default btn-sm" ng-click="add('url')" ng-disabled="analyzing"><span class="glyphicon glyphicon-plus"></span> URL</button>
-      &nbsp; &nbsp;
-      <!--<button class="btn btn-default btn-sm" disabled="true"><span class="glyphicon glyphicon-plus"></span> Twitter</button>
-      &nbsp; &nbsp;-->
-      <button class="btn btn-default btn-sm" ng-click="add('text')" ng-disabled="analyzing"><span class="glyphicon glyphicon-plus"></span> Text</button>
-      &nbsp; &nbsp;
-      <button class="btn btn-default btn-sm" ng-click="saveJSON(documents)"><span class="glyphicon glyphicon-download-alt"></span> Save JSON</button>
-      <br><br>
-    <div>
-        <div class="col-lg-6">
-          <span ng-if="documents.length == 0 || !documents">
-            No documents. Add a few to analyze!<br><br>
-            <h4>Tutorials</h4>
-            <div class="row">
-              <a href="#">
-                <div class="col-lg-6" ng-repeat="sample in sampleDocs" ng-click="setDocs(sample.url);setDemo(sample.id)">
-                  <div class="panel panel-default">
-                    <div class="panel-heading">
-                      {{sample.title}}
-                    </div>
-                    <div class="panel-body" style="padding:0;">
-                      <img ng-src="{{sample.image}}" class="img-responsive" style="margin:0;padding:0"></img>
-                    </ul>
-                      <div>
-                      </div>
+      <div class="col-lg-6">
+        <span class="dropdown">
+          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true" ng-disabled="analyzing">
+            <span class="glyphicon glyphicon-plus"></span> Add
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="addSearch()">Search</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="add('url')">URL</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="add('text')">Text</a></li>
+          </ul>
+        </span>&nbsp; &nbsp;
+        <span ng-if="!analyzed"><button class="btn btn-primary" ng-click="getRelation()" ng-if="documents.length > 0" ng-disabled="analyzing">Analyze</button></span>
+        <button class="btn btn-default btn-sm pull-right" ng-click="saveJSON(documents)" ng-if="documents.length > 0"><span class="glyphicon glyphicon-download-alt"></span> Save JSON</button>
+        <br><br>
+        <span ng-if="documents.length == 0 || !documents">
+          No documents. Add a few to analyze!<br><br>
+          <h3>Tutorials</h3>
+          <div class="row">
+            <a href="#">
+              <div class="col-lg-6" ng-repeat="sample in sampleDocs" ng-click="setDocs(sample.url);setDemo(sample.id)">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    {{sample.title}}
+                  </div>
+                  <div class="panel-body" style="padding:0;">
+                    <img ng-src="{{sample.image}}" class="img-responsive" style="margin:0;padding:0;"></img>
+                  </ul>
+                    <div>
                     </div>
                   </div>
                 </div>
-              </a>
-            </div>
-            <br>
-            <br>
-          </span>
-          <div class="list-group" ng-if="documents.length > 0">
-            <a href="#" class="list-group-item" ng-repeat="doc in documents" ng-click="viewDoc($index)">
-              {{doc.title}}
-              <span class="pull-right" ng-if="!analyzed"><span class="glyphicon glyphicon-minus-sign" ng-click="removeDoc($index)"></span></span>
+              </div>
             </a>
           </div>
+          <br>
+          <br>
+        </span>
+        <div class="list-group" ng-if="documents.length > 0">
+          <a href="#" class="list-group-item" ng-repeat="doc in documents" ng-click="viewDoc($index)" ng-class="{active: viewer.index == $index}">
+            {{doc.title}}
+            <span class="pull-right" ng-if="!analyzed"><span class="glyphicon glyphicon-minus-sign" ng-click="removeDoc($index)"></span></span>
+          </a>
         </div>
-        <div class="col-lg-6">
-          <div class="centered" ng-if="analyzing">
-            <img src="/assets/images/watson.gif">
-          </div>
-          <div>
-            <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
-            <span ng-if="viewer.image">
-              <img ng-src="{{viewer.image}}" style="height: 200px"></img>
-              <br>
-            </span>
-            <h3>{{viewer.title}}</h3>
-            <div ng-if="viewer.source">({{viewer.source}})<br></div>
-            <div ng-if="viewer.date"><strong>Date:</strong> {{viewer.date | date:'medium'}}<br><br></div>
-            <div style="white-space:pre-wrap;">{{viewer.text}}</div>
-          </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="centered" ng-if="analyzing">
+          <img src="/assets/images/watson.gif">
+          <br>
+          <br>
+        </div>
+        <div>
+          <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+          <span ng-if="viewer.image">
+            <img ng-src="{{viewer.image}}" class="viewer-img"></img>
+            <br>
+          </span>
+          <h3>{{viewer.title}}</h3>
+          <div ng-if="viewer.source">({{viewer.source}})<br></div>
+          <div ng-if="viewer.date"><strong>Date:</strong> {{viewer.date | date:'medium'}}<br><br></div>
+          <div style="white-space:pre-wrap;">{{viewer.text}}</div>
         </div>
       </div>
     </div>

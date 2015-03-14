@@ -83,11 +83,6 @@ angular.module('ariadneApp')
       })
     }
 
-
-
-    var parseDate = function(text, ref, type){
-    }
-
     var docIndex = function(mid){
       var docInd;
       var start = db.mentions[mid].begin;
@@ -193,6 +188,26 @@ angular.module('ariadneApp')
       }
       $rootScope.$broadcast('analyzed', true);
       $rootScope.analyzed = true;
+    }
+
+    var translate = function(text, lang){
+      var langKey = {
+        fr: 'mt-frfr-enus',
+        pt: 'mt-ptbr-enus',
+        es: 'mt-enus-eses',
+        ar: 'mt-arar-enus'
+      }
+      var deferred = $q.defer();
+      var header = {
+        text: text,
+        sid: langKey[lang],
+        rt: 'text'
+      }
+      $http.post('/api/watson/translate', header).success(function(data) {
+        var response = data;
+        deferred.resolve(response)
+      })
+      return deferred.promise();
     }
 
 

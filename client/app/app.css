@@ -59,3 +59,7 @@
 .selectbox {
   padding: 20px;
 }
+
+.ng-enter {
+  animation: fadeInRight 0.5s;
+}

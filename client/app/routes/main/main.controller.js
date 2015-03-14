@@ -11,6 +11,17 @@ angular.module('ariadneApp')
     index: null
   }
 
+  $scope.addButton = {
+    isopen: false
+  };
+
+  $scope.toggleDropdown = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope.addButton.isopen = !$scope.addButton.isopen;
+  };
+
+
   var getSources = function(){
     console.log('starting')
     apiFactory.getSources().then(function(data){
@@ -177,22 +188,25 @@ angular.module('ariadneApp')
     },
     {
       id: 'alqaeda',
-      title: 'Al Qaeda Convicted',
+      title: 'Al Qaeda Convictions',
       url: '/assets/sample_data/alqaeda.json',
       image: '/assets/images/alqaeda.jpg'
     },{
       id: 'china',
-      title: 'Wikileaks Embassy Cables: \"China\"',
+      title: 'Wikileaks: China',
       url: '/assets/sample_data/china.json',
       image: '/assets/images/china.jpg'
     },
-    {
-      id: 'ferguson',
-      title: 'Ferguson/Michael Brown DOJ Documents',
-      url: '/assets/sample_data/ferguson.json',
-      image: '/assets/images/ferguson.jpg'
-    }]
+    ]
 
+    $scope.otherDocs = [
+      {
+        id: 'ferguson',
+        title: 'Ferguson/Michael Brown DOJ Documents',
+        url: '/assets/sample_data/ferguson.json',
+        image: '/assets/images/ferguson.jpg'
+      }
+    ]
 
     $scope.setDocs = function(url){
       console.log(url)
@@ -221,5 +235,16 @@ angular.module('ariadneApp')
    $rootScope.$on('analyzed', function (event) {
      $scope.analyzed = true;
    });
+
+   $scope.test = function(){
+     var header = {
+       text: 'Je suis Charlie Hebdo.',
+       sid: 'mt-frfr-enus',
+       rt: 'text'
+     }
+     $http.post('/api/translate', header).success(function(data) {
+       console.log(data)
+     })
+   }
 
   });
