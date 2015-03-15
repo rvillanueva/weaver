@@ -56,10 +56,16 @@
   padding:0;
 }
 
-.selectbox {
-  padding: 20px;
+.ng-enter {
+  animation: fadeIn 0.5s;
 }
 
-.ng-enter {
-  animation: fadeInRight 0.5s;
+.navbar {
+  margin-bottom: 0px;
 }
+
+button {outline:0 !important}
+
+a {outline:0 !important}
+
+div {outline:0 !important}

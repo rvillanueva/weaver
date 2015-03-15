@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ariadneApp')
-  .controller('MainCtrl', function ($scope, $rootScope, $location, $modal, $filter, $http, apiFactory, tutorialFactory) {
+  .controller('MainCtrl', function ($scope, $rootScope, $window, $location, $modal, $filter, $http, apiFactory, tutorialFactory) {
 
     tutorialFactory.intro();
 
@@ -175,30 +175,8 @@ angular.module('ariadneApp')
       });
      };
 
-    $scope.sampleDocs = [{
-      id: 'bokoharam',
-      title: 'The Alliances of Boko Haram',
-      url: '/assets/sample_data/bokoharam.json',
-      image: '/assets/images/bokoharam.jpg'
-    },{
-      id: 'measles',
-      title: 'Tracking Measles',
-      url: '/assets/sample_data/measles.json',
-      image: '/assets/images/measles.jpg'
-    },
-    {
-      id: 'alqaeda',
-      title: 'Al Qaeda Convictions',
-      url: '/assets/sample_data/alqaeda.json',
-      image: '/assets/images/alqaeda.jpg'
-    },{
-      id: 'china',
-      title: 'Wikileaks: China',
-      url: '/assets/sample_data/china.json',
-      image: '/assets/images/china.jpg'
-    },
-    ]
-
+    $scope.sampleDocs = tutorialFactory.getTutorials();
+    console.log($scope.sampleDocs)
     $scope.otherDocs = [
       {
         id: 'ferguson',
@@ -218,6 +196,7 @@ angular.module('ariadneApp')
 
    $scope.setDemo = function(id){
      tutorialFactory.setDemo(id);
+     console.log(id)
      tutorialFactory.demo('start');
    }
 
@@ -236,15 +215,8 @@ angular.module('ariadneApp')
      $scope.analyzed = true;
    });
 
-   $scope.test = function(){
-     var header = {
-       text: 'Je suis Charlie Hebdo.',
-       sid: 'mt-frfr-enus',
-       rt: 'text'
-     }
-     $http.post('/api/translate', header).success(function(data) {
-       console.log(data)
-     })
+   $scope.clearAll = function(){
+     $window.location.reload()
    }
 
   });

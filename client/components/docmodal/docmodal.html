@@ -1,30 +1,31 @@
 <div class="modal-header">
     <h3 class="modal-title">Add Document</h3>
 </div>
-<br>
-<div class="form-group">
-  <label for="textTitle" class="col-lg-2 control-label">Title</label>
-  <div class="col-lg-10">
-    <input type="text" class="form-control" id="textTitle" ng-model="addText.title">
+<div class="modal-body">
+  <div class="form-group">
+    <label for="textTitle" class="col-lg-2 control-label">Title</label>
+    <div class="col-lg-10">
+      <input type="text" class="form-control" id="textTitle" ng-model="addText.title">
+    </div>
   </div>
-</div>
-<div class="form-group">
-  <label for="addUrl" class="col-lg-2 control-label">Date</label>
-  <div class="col-lg-10">
-    <p class="input-group">
-      <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="addText.date" is-open="opened" datepicker-options="dateOptions" close-text="Close" />
-      <span class="input-group-btn">
-        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-      </span>
-    </p>
+  <div class="form-group">
+    <label for="addUrl" class="col-lg-2 control-label">Date</label>
+    <div class="col-lg-10">
+      <p class="input-group">
+        <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="addText.date" is-open="opened" datepicker-options="dateOptions" close-text="Close" />
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+      </p>
+    </div>
   </div>
-</div>
-<div class="form-group">
-  <label for="textText" class="col-lg-2 control-label">Text</label>
-  <div class="col-lg-10">
-    <textarea ng-model="addText.text" rows="8" class="form-control" id="textText"></textarea>
+  <div class="form-group">
+    <label for="textText" class="col-lg-2 control-label">Text</label>
+    <div class="col-lg-10">
+      <textarea ng-model="addText.text" rows="8" class="form-control" id="textText"></textarea>
+    </div>
+    &nbsp;
   </div>
-  &nbsp;
 </div>
 <div class="modal-footer">
     <button class="btn btn-primary" ng-click="ok()">OK</button>

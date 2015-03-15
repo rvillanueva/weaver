@@ -1,4 +1,4 @@
-<div ng-include="'components/navbar/navbar.html'"></div>
+<div ng-include="'components/navbar/navbar.html'"></div><br>
 
 <!--<script type="text/ng-template" id="myModalContent.html">
     <div class="modal-header">
@@ -29,25 +29,34 @@
     <div class="col-lg-12">
       <div class="col-lg-6">
         <span class="dropdown">
-          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true" ng-disabled="analyzing">
-            <span class="glyphicon glyphicon-plus"></span> Add
-            <span class="caret"></span>
+          <button class="btn btn-default dropdown-toggle" type="button" id="addMenu" data-toggle="dropdown" aria-expanded="true" ng-disabled="analyzing">
+            <span class="fa fa-plus"></span>
           </button>
-          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+          <ul class="dropdown-menu" role="menu" aria-labelledby="addMenu">
             <li role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="addSearch()">Search</a></li>
             <li role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="add('url')">URL</a></li>
             <li role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="add('text')">Text</a></li>
           </ul>
         </span>&nbsp; &nbsp;
-        <span ng-if="!analyzed"><button class="btn btn-primary" ng-click="getRelation()" ng-if="documents.length > 0" ng-disabled="analyzing">Analyze</button></span>
-        <button class="btn btn-default btn-sm pull-right" ng-click="saveJSON(documents)" ng-if="documents.length > 0"><span class="glyphicon glyphicon-download-alt"></span> Save JSON</button>
+        <button class="btn btn-primary" ng-click="getRelation()" ng-if="documents.length > 0 && !analyzed" ng-disabled="analyzing">Analyze</button>
+        <span class="pull-right">
+          <span class="dropdown" ng-if="documents.length > 0">
+            <button class="btn btn-default dropdown-toggle" type="button" id="optionsMenu" data-toggle="dropdown" aria-expanded="true">
+              <span class="fa fa-cog"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="optionsMenu">
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="saveJson(documents)"><span class="fa fa-download"></span> Save JSON</a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="#" ng-click="clearAll()"><span class="fa fa-times"></span> Clear All</a></li>
+            </ul>
+          </span>&nbsp; &nbsp;
+        </span>
         <br><br>
         <span ng-if="documents.length == 0 || !documents">
           No documents. Add a few to analyze!<br><br>
           <h3>Tutorials</h3>
           <div class="row">
             <a href="#">
-              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" ng-repeat="sample in sampleDocs" ng-click="setDocs(sample.url);setDemo(sample.id)">
+              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" ng-repeat="(sKey,sample) in sampleDocs" ng-click="setDocs(sample.url);setDemo(sKey)">
                 <div class="panel panel-default">
                   <div class="panel-heading">
                     {{sample.title}}
@@ -68,7 +77,7 @@
         <div class="list-group" ng-if="documents.length > 0">
           <a href="#" class="list-group-item" ng-repeat="doc in documents" ng-click="viewDoc($index)" ng-class="{active: viewer.index == $index}">
             {{doc.title}}
-            <span class="pull-right" ng-if="!analyzed"><span class="glyphicon glyphicon-minus-sign" ng-click="removeDoc($index)"></span></span>
+            <span class="pull-right" ng-if="!analyzed"><span class="fa fa-minus-circle" ng-click="removeDoc($index)"></span></span>
           </a>
         </div>
       </div>

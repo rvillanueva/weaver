@@ -11,7 +11,10 @@ angular.module('ariadneApp')
         }
       },
       bokoharam: {
-        name: null,
+        title: 'Friends and Foes of Boko Haram',
+        url: '/assets/sample_data/bokoharam.json',
+        image: '/assets/images/bokoharam.jpg',
+        order: 1,
         stages:{
           start:{
             header: 'The Friends and Foes of Boko Haram',
@@ -32,7 +35,10 @@ angular.module('ariadneApp')
         }
       },
       measles: {
-        name: null,
+        title: 'Tracking Measles',
+        url: '/assets/sample_data/measles.json',
+        image: '/assets/images/measles.jpg',
+        order: 2,
         stages:{
           start:{
             header: 'Tracking Measles',
@@ -49,7 +55,10 @@ angular.module('ariadneApp')
         }
       },
       alqaeda: {
-        name: null,
+        title: 'The Trail of a Terrorist',
+        url: '/assets/sample_data/alqaeda.json',
+        image: '/assets/images/alqaeda.jpg',
+        order:3,
         stages:{
           start:{
             header: 'The Trial of Naseer',
@@ -70,7 +79,11 @@ angular.module('ariadneApp')
         }
       },
       china: {
-        name: null,
+        id: 'china',
+        title: 'Wikileaks Reveals China',
+        url: '/assets/sample_data/china.json',
+        image: '/assets/images/china.jpg',
+        order:4,
         stages:{
           start:{
             header: 'Cablegate',
@@ -135,38 +148,39 @@ angular.module('ariadneApp')
      }
 
     var demo = function (page, review) {
-      if(typeof tutorials[currentTutorial].stages[page] !== 'undefined'){
-        if(typeof myTutorials[currentTutorial] == 'undefined'){
-          myTutorials[currentTutorial] = {
-            stages: {}
+      if(currentTutorial){
+        if(typeof tutorials[currentTutorial].stages[page] !== 'undefined'){
+          if(typeof myTutorials[currentTutorial] == 'undefined'){
+            myTutorials[currentTutorial] = {
+              stages: {}
+            }
           }
-        }
-        if(typeof myTutorials[currentTutorial].stages[page] == 'undefined'){
-          myTutorials[currentTutorial].stages[page] = {
-            completed: false
+          if(typeof myTutorials[currentTutorial].stages[page] == 'undefined'){
+            myTutorials[currentTutorial].stages[page] = {
+              completed: false
+            }
           }
-        }
-        if(tutorials[currentTutorial].stages[page] && !myTutorials[currentTutorial].stages[page].complete || review){
-            var modalInstance = $modal.open({
-              templateUrl: '../components/tutorialmodal/tutorialmodal.html',
-              controller: 'TutorialModalInstanceCtrl',
-              size: 'lg',
-              backdrop: true,
-              resolve: {
-                tutorial: function () {
-                  return tutorials[currentTutorial].stages[page];
+          if(tutorials[currentTutorial].stages[page] && !myTutorials[currentTutorial].stages[page].complete || review){
+              var modalInstance = $modal.open({
+                templateUrl: '../components/tutorialmodal/tutorialmodal.html',
+                controller: 'TutorialModalInstanceCtrl',
+                size: 'lg',
+                backdrop: true,
+                resolve: {
+                  tutorial: function () {
+                    return tutorials[currentTutorial].stages[page];
+                  }
                 }
-              }
-          });
+            });
 
 
-             modalInstance.result.then(function (data) {
-             }, function () {
-               console.log('Modal dismissed at: ' + new Date());
-             });
+               modalInstance.result.then(function (data) {
+               }, function () {
+                 console.log('Modal dismissed at: ' + new Date());
+               });
+          }
         }
       }
-
     };
 
     // Public API here
@@ -181,6 +195,11 @@ angular.module('ariadneApp')
       },
       demo: function(page, review){
         demo(page, review)
+      },
+      getTutorials: function(){
+        var demos = tutorials;
+        delete demos.intro
+        return demos;
       },
       toggleTutorial: function(tutorial, status){
         // Unused

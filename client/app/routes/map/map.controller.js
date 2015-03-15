@@ -14,7 +14,7 @@ angular.module('ariadneApp')
       var geocoder = new google.maps.Geocoder();
 
       var mapOptions = {
-        zoom: 6,
+        zoom: 4,
         center: myLatlng
       }
 
@@ -28,7 +28,6 @@ angular.module('ariadneApp')
 
       // Attach marker data to place data and push to markers
       var addMarker = function(place){
-        console.log('marker placed')
         var position = new google.maps.LatLng(place.geo.latitude,place.geo.longitude);
         var marker = new google.maps.Marker({
             position: position,
@@ -80,7 +79,6 @@ angular.module('ariadneApp')
               longitude: results[0].geometry.location.B,
               data: results,
             };
-            console.log(results)
             var position = new google.maps.LatLng(place.geo.latitude, place.geo.longitude)
 
             place.id = place.$.eid;
@@ -97,6 +95,18 @@ angular.module('ariadneApp')
             $scope.placesQueue.splice(key, 1);
           } else {
             console.log("Geocode was not successful for the following reason: " + status);
+            $scope.placesQueue.push(place);
+            if (overflow == false){
+              var waitTime = (overflowCount+1)*3
+              console.log('overflowed, waiting ' + waitTime + ' seconds');
+              $timeout(function(){
+                overflow = false;
+                overflowCount ++;
+                $scope.codeAddresses($scope.placesQueue);
+                // Overflow starts at 2 seconds and grows exponentially for each overflow
+                console.log(overflowCount + ' geocode attempt');
+              }, 1000 * waitTime);
+            }
             overflow = true;
           }
         });
@@ -108,18 +118,6 @@ angular.module('ariadneApp')
             $scope.codeAddress(place, key);
           }
         })
-        console.log($scope.placesQueue)
-        if (overflow == true){
-          var waitTime = (overflowCount+1)*3
-          console.log('overflowed, waiting ' + waitTime + ' seconds');
-          $timeout(function(){
-            overflow = false;
-            overflowCount ++;
-            $scope.codeAddresses($scope.placesQueue);
-            // Overflow starts at 2 seconds and grows exponentially for each overflow
-            console.log(overflowCount + ' geocode attempt');
-          }, 1000 * waitTime);
-        }
       }
 
       apiFactory.get().then(function(data) {
@@ -131,7 +129,6 @@ angular.module('ariadneApp')
         angular.forEach($scope.allPlaces, function(place, key){
           if (!place.geo){
             $scope.placesQueue.push(place)
-            console.log(key)
           } else {
             addMarker(place)
           }

@@ -2,20 +2,21 @@
     <h3 class="modal-title">Search Web</h3>
     Retrieve latest news, discussions, and blogs. Yahoo is pure news articles while Webhose.io retrieves news, comments, blogs, and discussions.
 </div>
-<br>
-<div class="form-group">
-  <label for="api" class="col-lg-2 control-label">Source</label>
-  <div class="col-lg-10">
-    <select id="api" ng-model="api">
-      <option value="yahoo">News</option>
-      <option value="webhose">Blogs, Discussions, and Comments</option>
-    </select>
-  </div>
-</div><br>
-<div class="form-group">
-  <label for="url" class="col-lg-2 control-label">Search Term</label>
-  <div class="col-lg-10">
-    <input type="text" class="form-control" id="url" ng-model="search.term">
+<div class="modal-body">
+  <div class="form-group">
+    <label for="api" class="col-lg-2 control-label">Source</label>
+    <div class="col-lg-10">
+      <select id="api" ng-model="api">
+        <option value="yahoo">News</option>
+        <option value="webhose">Blogs, Discussions, and Comments</option>
+      </select>
+    </div>
+  </div><br>
+  <div class="form-group">
+    <label for="url" class="col-lg-2 control-label">Search Term</label>
+    <div class="col-lg-10">
+      <input type="text" class="form-control" id="url" ng-model="search.term">
+    </div>
   </div>
 </div>
   &nbsp;

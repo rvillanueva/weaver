@@ -237,7 +237,6 @@ angular.module('ariadneApp')
         return deferred.promise;
       },
       updateEntity: function (data, key) {
-        console.log(db)
         db.entities[key] = data;
         return db.entities[key];
       },
