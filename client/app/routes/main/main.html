@@ -56,7 +56,7 @@
           <h3>Tutorials</h3>
           <div class="row">
             <a href="#">
-              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" ng-repeat="(sKey,sample) in sampleDocs" ng-click="setDocs(sample.url);setDemo(sKey)">
+              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" ng-repeat="sample in sampleDocs | orderBy:'order'" ng-click="setDocs(sample.url);setDemo(sample.id)">
                 <div class="panel panel-default">
                   <div class="panel-heading">
                     {{sample.title}}

@@ -32,7 +32,7 @@ angular.module('ariadneApp')
     }
 
     $rootScope.$on('analyzed', function(){
-      $scope.menuAll = $scope.menuExpanded;
+      $scope.menu = $scope.menuAll;
     })
 
     $scope.isCollapsed = true;

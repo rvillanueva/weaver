@@ -175,7 +175,14 @@ angular.module('ariadneApp')
       });
      };
 
-    $scope.sampleDocs = tutorialFactory.getTutorials();
+    $scope.retrieved = tutorialFactory.getTutorials();
+    $scope.sampleDocs = [];
+    angular.forEach($scope.retrieved, function(doc, dKey){
+      var pushed = doc;
+      pushed.id = dKey;
+      $scope.sampleDocs.push(pushed)
+    })
+
     console.log($scope.sampleDocs)
     $scope.otherDocs = [
       {
@@ -196,7 +203,6 @@ angular.module('ariadneApp')
 
    $scope.setDemo = function(id){
      tutorialFactory.setDemo(id);
-     console.log(id)
      tutorialFactory.demo('start');
    }
 

@@ -95,8 +95,12 @@ angular.module('ariadneApp')
             $scope.placesQueue.splice(key, 1);
           } else {
             console.log("Geocode was not successful for the following reason: " + status);
-            $scope.placesQueue.push(place);
-            if (overflow == false){
+            if (status !== 'ZERO_RESULTS'){
+              $scope.placesQueue.push(place);
+            } else {
+              console.log('Could not find ' + term)
+            }
+            if (overflow == false && $scope.placesQueue.length > 0){
               var waitTime = (overflowCount+1)*3
               console.log('overflowed, waiting ' + waitTime + ' seconds');
               $timeout(function(){

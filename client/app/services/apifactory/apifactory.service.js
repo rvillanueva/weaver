@@ -188,19 +188,14 @@ angular.module('ariadneApp')
       }
       $rootScope.$broadcast('analyzed', true);
       $rootScope.analyzed = true;
+      console.log('broadcast analyzed')
     }
 
     var translate = function(text, lang){
-      var langKey = {
-        fr: 'mt-frfr-enus',
-        pt: 'mt-ptbr-enus',
-        es: 'mt-enus-eses',
-        ar: 'mt-arar-enus'
-      }
       var deferred = $q.defer();
       var header = {
         text: text,
-        sid: langKey[lang],
+        sid: lang,
         rt: 'text'
       }
       $http.post('/api/watson/translate', header).success(function(data) {

@@ -4,7 +4,7 @@
     <div class="form-group">
       <label for="entityFilter" class="col-lg-2 control-label">Type</label>
       <div class="col-lg-10">
-        <select id="entityFilter" ng-model="entityFilter">
+        <select id="entityFilter" ng-model="entityFilter" ng-change="resort()">
           <option value="ALL">All</option>
           <option value="PERSON">Person</option>
           <option value="PEOPLE">People</option>
@@ -15,12 +15,15 @@
           <option value="TIME">Times</option>
           <option value="EVENTS">Events</option>
           <option value="FACILITY">Facility</option>
+          <option value="WEAPON">Weapon</option>
+          <option value="DISEASE">Disease</option>
         </select>
       </div>
+      Named? <input type="checkbox" ng-model="namedFilter" ng-true-value="'NAM'" ng-false-value="false"></input>
   </div>
   <br>
   <br>
-    <div class="col-lg-4" ng-repeat="entity in entities | entityFilter:entityFilter:namedFilter">
+    <div class="col-lg-4" ng-repeat="entity in entityArray | orderBy:'mentref[0]._'">
       <div class="panel panel-default">
       <div class="panel-heading"><h4>{{entity.mentref[0]._}}</h4>
       </div>
@@ -30,10 +33,10 @@
         Level: {{entity.$.level}}<br>
         Mentions:
         <span ng-repeat="mention in entity.mentref">
-          <a href="#"><span class="glyphicon glyphicon-bookmark" popover="...{{db.mentions[mention.$.mid].snippets.pre}}*{{db.mentions[mention.$.mid].snippets.term}}*{{db.mentions[mention.$.mid].snippets.post}}..." popover-trigger="mouseenter" popover-placement="top" popover-popup-delay="250" popover-append-to-body="true"></span></a>&nbsp;
+          <a href="#"><span class="glyphicon glyphicon-bookmark" popover="{{mentions[mention.$.mid].snippets.phrase}}" popover-trigger="mouseenter" popover-placement="top" popover-popup-delay="250" popover-append-to-body="true"></span></a>&nbsp;
         </span><br><br>
         <ul>
-          <li ng-repeat="relation in entity.relations">
+          <li ng-repeat="relation in entity.relations" ng-if="relation.type !== 'agentOf'">
             <span>
               {{relation.type}} {{relations[relation.rid].relmentions[0].relmention[0].rel_mention_arg[1]._}}
             </span>

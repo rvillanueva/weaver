@@ -53,15 +53,15 @@
 }
 
 .nopad {
-  padding:0;
+  padding:0 !important;
 }
 
 .ng-enter {
-  animation: fadeIn 0.5s;
+  animation: fadeIn 0.5s !important;
 }
 
 .navbar {
-  margin-bottom: 0px;
+  margin-bottom: 0px !important;
 }
 
 button {outline:0 !important}
