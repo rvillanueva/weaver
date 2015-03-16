@@ -12,6 +12,48 @@
       </select>
     </div>
   </div><br>
+  <div class="form-group" ng-if="api=='webhose'">
+    <label for="language" class="col-lg-2 control-label">Language</label>
+    <div class="col-lg-10">
+      <select id="language" ng-model="language.webhose">
+        <option value="english">English</option>
+        <option value="arabic">Arabic</option>
+        <option value="french">French</option>
+        <option value="portugese">Portugese</option>
+        <option value="spanish">Spanish</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-group" ng-if="api=='yahoo'">
+    <label for="language" class="col-lg-2 control-label">Language</label>
+    <div class="col-lg-10">
+      <select id="language" ng-model="language.yahoo">
+        <option value="en">English - All</option>
+        <option value="en-au">Australia – English</option>
+        <option value="en-ca">Canada - English</option>
+        <option value="en-gb">United Kingdom - English</option>
+        <option value="en-ie">Ireland - English</option>
+        <option value="en-in">India – English</option>
+        <option value="en-my">Malaysia - English</option>
+        <option value="en-nz">New Zealand - English</option>
+        <option value="en-ph">Philippines - English</option>
+        <option value="en-sg">Singapore - English</option>
+        <option value="en-us">United States - English</option>
+        <option value="es-ar">Argentina - Spanish</option>
+        <option value="es-cl">Chile - Spanish</option>
+        <option value="es-co">Colombia - Spanish</option>
+        <option value="es-es">Spain – Spanish</option>
+        <option value="es-mx">Mexico- Spanish</option>
+        <option value="es-pe">Peru – Spanish</option>
+        <option value="es-es">United States - Spanish</option>
+        <option value="es-ve">Venezuela - Spanish</option>
+        <option value="fr-ca">Canada - French</option>
+        <option value="fr-ch">Switzerland - French</option>
+        <option value="fr-fr">France - French</option>
+        <option value="pt-br">Brazil – Portuguese</option>
+      </select>
+    </div>
+  </div><br>
   <div class="form-group">
     <label for="url" class="col-lg-2 control-label">Search Term</label>
     <div class="col-lg-10">

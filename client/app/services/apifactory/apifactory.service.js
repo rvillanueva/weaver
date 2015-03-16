@@ -201,8 +201,10 @@ angular.module('ariadneApp')
       $http.post('/api/watson/translate', header).success(function(data) {
         var response = data;
         deferred.resolve(response)
+      }).error(function(error){
+        deferred.reject(error)
       })
-      return deferred.promise();
+      return deferred.promise;
     }
 
 
@@ -337,68 +339,122 @@ angular.module('ariadneApp')
       },
       getNews: function (params, api) {
         var deferred = $q.defer();
+        console.log(params)
         var url;
         if(api == 'webhose'){
           url = '/api/webhose'
         } else {
           url = '/api/yahoo/news'
         }
-        $http({
-            url: url,
-            method: "GET",
-            params: params,
-         }).success(function(results) {
-           var docs = [];
-           var proms = [];
-           if(api == 'webhose'){
-             angular.forEach(results.posts, function(result, rKey){
-               var title;
-               if (result.title.length > 0){
-                 title = result.title;
-               } else {
-                 title = result.thread.title;
-               }
-               var pushed = {
-                 text: result.text,
-                 title: title,
-                 date: result.published,
-               };
-               docs.push(pushed)
-             })
-             deferred.resolve(docs);
+        if (params.q){
 
-           } else if (api == 'yahoo'){
-             var urls = []
-             console.log(results)
-             for (var i = 0; i < results.length; i++){
-               urls.push(results[i].url);
+          $http({
+              url: url,
+              method: "GET",
+              params: params,
+           }).success(function(results) {
+             var docs = [];
+             var foreignDocs = [];
+             var proms = [];
+             if(api == 'webhose'){
+               angular.forEach(results.posts, function(result, rKey){
+                 var title;
+                 if (result.title.length > 0){
+                   title = result.title;
+                 } else {
+                   title = result.thread.title;
+                 }
+                 var pushed = {
+                   text: result.text,
+                   title: title,
+                   date: result.published,
+                 };
+                 docs.push(pushed)
+               })
+               deferred.resolve(docs);
+
+             } else if (api == 'yahoo'){
+               var urls = []
+               console.log(results)
+               for (var i = 0; i < results.length; i++){
+                 urls.push(results[i].url);
+               }
+                $http({
+                   url: ('/api/unfluff'),
+                   method: "GET",
+                   params: {url: urls}
+                }).success(function(data) {
+                  console.log(data)
+                  var offset = 0;
+                  var sourceLang = params.market.slice(0,2);
+                  var langKey = {
+                    es: 'mt-eses-enus',
+                    fr: 'mt-frfr-enus',
+                    pt: 'mt-ptbr-enus',
+                    ar: 'mt-arar-enus'
+                  }
+                  angular.forEach(data, function(datum, dKey){
+                    if (datum){
+                      if(sourceLang == 'en' || !params.market){
+                        if(datum.text.length > 1000){
+                          var pushed = datum;
+                          pushed.title = results[dKey].title;
+                          pushed.source = results[dKey].source;
+                          pushed.date = results[dKey].date;
+                          docs.push(pushed);
+                        } else {
+                          offset ++
+                        }
+                      } else {
+                        var savedData = [];
+                        savedData.push(results[dKey])
+                        if (datum.text.length > 1000){
+                          translate(datum.text, langKey[sourceLang]).then(function(translation){
+                            translate(datum.title, langKey[sourceLang]).then(function(title){
+                              var pushed = datum;
+                              pushed.text = translation.translation;
+                              pushed.title = title.translation;
+                              pushed.source = results[dKey].source;
+                              pushed.original = {
+                                text: translation.txt,
+                                title: title.txt
+                              };
+                              pushed.date = results[dKey].date;
+                              docs.push(pushed);
+                              if (docs.length == data.length - offset){
+                                deferred.resolve(docs);
+                              }
+                            }, function(error){
+                              console.log('Error translating title: ' + error)
+                              offset += 1
+                              if (docs.length == data.length - offset){
+                                deferred.resolve(docs);
+                              }
+                            })
+                          }, function(error){
+                            console.log('Error translating: ' + error)
+                            offset += 1
+                            if (docs.length == data.length - offset){
+                              deferred.resolve(docs);
+                            }
+                          })
+                        } else {
+                          offset +=1
+                        }
+                      }
+                    } else {
+                      offset +=1;
+                    }
+                    if (docs.length == data.length - offset){
+                      deferred.resolve(docs);
+                    }
+                  })
+               })
              }
-              $http({
-                 url: ('/api/unfluff'),
-                 method: "GET",
-                 params: {url: urls}
-              }).success(function(data) {
-                console.log(data)
-                var offset = 0;
-                for (var i = 0; i < data.length; i++){
-                  console.log(data);
-                  if (data[i]){
-                    var pushed = data[i];
-                    pushed.title = results[i].title;
-                    pushed.source = results[i].source;
-                    pushed.date = results[i].date;
-                    console.log(pushed);
-                    docs.push(pushed);
-                  } else {
-                    offset +=1;
-                  }
-                  if (docs.length == data.length - offset){
-                    deferred.resolve(docs);
-                  }
-                }
-             })
-           }
-        })
+          })
+        } else {
+          deferred.reject('Error: Please enter a search term.')
+        }
         return deferred.promise;
       },
       docIndex: function (mid) {
@@ -471,8 +527,8 @@ angular.module('ariadneApp')
             pre = text.slice(sents[sid].tokens[0].token[0].$.begin,begin);
           }
           if(!post){
-            post = text.slice(end)
-            postPhrase = text.slice(phraseEnd)
+            post = text.slice(end);
+            postPhrase = text.slice(phraseEnd);
           }
           var postData = {
             pre: pre,
@@ -491,6 +547,13 @@ angular.module('ariadneApp')
       },
       getRelation: function (rid) {
         return db.relations[rid];
+      },
+      translate: function (text, lang) {
+        var deferred = $q.defer();
+        translate(text, lang).then(function(data){
+          deferred.resolve(data)
+        })
+        return deferred.promise;
       },
     };
   });

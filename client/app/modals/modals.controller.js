@@ -84,22 +84,39 @@ angular.module('ariadneApp').controller('SearchModalInstanceCtrl', function ($sc
 
   $scope.search;
 
+  $scope.language={
+    webhose: 'english',
+    yahoo: 'en'
+  }
+
   $scope.ok = function (){
+
     $scope.analyzing = true;
 
     var params = {
-      q: $scope.search.term,
-      format: 'json'
+      q: $scope.search.term
     }
     if ($scope.api == 'webhose'){
-      params.language = 'english';
-      params.size = 10;
+      params.language = $scope.language.webhose;
+      params.size = 20;
       params.site_type = ['blogs','forums'];
     } else {
-      params.count = 10;
+      params.count = 15;
+      if($scope.language.yahoo !== 'en'){
+        params.market = $scope.language.yahoo;
+      }
     }
     apiFactory.getNews(params, $scope.api).then(function(data){
-      $modalInstance.close(data);
+      var responses = data;
+      var charCount = 0;
+      var posted = []
+      angular.forEach(responses, function(response, rKey){
+        if((charCount + response.text.length) < 100000){
+          charCount = charCount + response.text.length;
+          posted.push(response)
+        }
+      })
+      $modalInstance.close(posted);
     })
   };
 
