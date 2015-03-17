@@ -148,6 +148,7 @@ angular.module('ariadneApp')
           var mid = entity.mentref[0].$.mid
           var docNum = docIndex(mid);
           // Retrieve document reference date
+          console.log('docNum: ' + docNum)
           if (docNum){
             if (typeof saved.docs[docNum].date !== 'undefined'){
               ref = new Date(saved.docs[docNum].date);
@@ -270,7 +271,7 @@ angular.module('ariadneApp')
           concatenated = concatenated.concat(post.text + " ");
           post.start = concatPosition;
           post.end = concatPosition + post.text.length;
-          concatPosition = concatPosition + concatenated.length + 2
+          concatPosition = concatPosition + post.text.length + 2
           saved.docs.push(post)
         });
         if(!demoKey){

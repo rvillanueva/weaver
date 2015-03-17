@@ -52,6 +52,7 @@ router.post('/date', function(req, res){
 
 router.post('/parse', function(req, res){
   var ref;
+  console.log(req.body.ref)
   if (req.body.ref){
     ref = req.body.ref
   }
