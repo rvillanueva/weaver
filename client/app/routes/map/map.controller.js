@@ -106,6 +106,7 @@ angular.module('ariadneApp')
               $timeout(function(){
                 overflow = false;
                 overflowCount ++;
+                console.log($scope.placesQueue)
                 $scope.codeAddresses($scope.placesQueue);
                 // Overflow starts at 2 seconds and grows exponentially for each overflow
                 console.log(overflowCount + ' geocode attempt');

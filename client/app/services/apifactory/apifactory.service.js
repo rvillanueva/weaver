@@ -436,27 +436,40 @@ angular.module('ariadneApp')
                         savedData.push(results[dKey])
                         if (datum.text.length > 1000){
                           translate(datum.text, langKey[sourceLang]).then(function(translation){
-                            translate(datum.title, langKey[sourceLang]).then(function(title){
+                            var pushTranslation = function(titleTranslated){
                               var pushed = datum;
                               pushed.text = translation.translation;
-                              pushed.title = title.translation;
+                              pushed.title = titleTranslated.translation;
                               pushed.source = results[dKey].source;
                               pushed.original = {
                                 text: translation.txt,
-                                title: title.txt
+                                title: titleTranslated.txt
                               };
                               pushed.date = results[dKey].date;
                               docs.push(pushed);
+                              console.log(docs)
                               if (docs.length == data.length - offset){
                                 deferred.resolve(docs);
                               }
-                            }, function(error){
-                              console.log('Error translating title: ' + error)
-                              offset += 1
-                              if (docs.length == data.length - offset){
-                                deferred.resolve(docs);
+                            }
+                            if (datum.title.length > 0){
+                              translate(datum.title, langKey[sourceLang]).then(function(title){
+                                pushTranslation(title)
+                              }, function(error){
+                                console.log('Error translating title: ' + error)
+                                offset += 1
+                                if (docs.length == data.length - offset){
+                                  deferred.resolve(docs);
+                                }
+                              })
+                            } else {
+                              var titlePlaceholder = {
+                                translation: 'Untitled',
+                                txt: null
                               }
-                            })
+                              pushTranslation(titlePlaceholder);
+                            }
+
                           }, function(error){
                             console.log('Error translating: ' + error)
                             offset += 1
