@@ -36,9 +36,11 @@ angular.module('ariadneApp')
 
 angular.module('ariadneApp').controller('UrlModalInstanceCtrl', function ($scope, $modalInstance, apiFactory) {
 
+  $scope.language = 'en'
+
   $scope.ok = function () {
     $scope.analyzing = true;
-    apiFactory.getUrl($scope.addUrl.url).then(function(data){
+    apiFactory.getUrl($scope.addUrl.url, $scope.language).then(function(data){
       var date = $scope.addUrl.date;
       $scope.addUrl = data;
       $scope.addUrl.type = 'url'

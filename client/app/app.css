@@ -64,8 +64,17 @@
   margin-bottom: 0px !important;
 }
 
+.btn-delete:hover {
+  color: #f04e37 !important;
+}
+
 button {outline:0 !important}
 
 a {outline:0 !important}
 
 div {outline:0 !important}
+
+.tutorial-img{
+  height: 200px;
+  margin: 40px;
+}

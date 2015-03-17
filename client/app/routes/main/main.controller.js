@@ -52,29 +52,40 @@ angular.module('ariadneApp')
 
     }
 
-    $scope.getRelation = function(demoKey){
+    $scope.getRelation = function(demoRes, demoDocs){
       $scope.analyzing = true;
       $scope.postData = []
       var count = '';
-      angular.forEach($scope.documents, function(doc, key){
-        $scope.postData.push(doc);
-        count = count + doc.text;
-      })
+      var relationshipCall = function(docs, demoKey){
+        angular.forEach(docs, function(doc, key){
+          $scope.postData.push(doc);
+          count = count + doc.text;
+        })
 
-      if(count.length < 100000){
-        apiFactory.addSource($scope.postData, demoKey).then(function(data) {
-          console.log(data)
+        if(count.length < 100000){
+          apiFactory.addSource($scope.postData, demoKey).then(function(data) {
+            console.log(data)
+            $scope.analyzing = false;
+            $scope.completed();
+          }, function(error){
+            $scope.addAlert('There seems to be a problem with the Watson Relationship Extraction API.')
+            $scope.analyzing = false;
+          });
+        } else {
           $scope.analyzing = false;
-          $scope.completed();
-        }, function(error){
-          $scope.addAlert('There seems to be a problem with the Watson Relationship Extraction API. Please try again later.')
-          $scope.analyzing = false;
-        });
-      } else {
-        $scope.analyzing = false;
-        $scope.addAlert('Sources contain ' + $filter('number')(count.length,0) + ' characters. Limit is 100,000 characters.');
+          $scope.addAlert('Sources contain ' + $filter('number')(count.length,0) + ' characters. Limit is 100,000 characters.');
+        }
       }
 
+      if(demoRes){
+        $http.get(demoDocs).success(function(response){
+          relationshipCall(response.docs, demoRes)
+        })
+      } else {
+        relationshipCall($scope.documents)
+      }
+
+      event.preventDefault();
 
 
     };

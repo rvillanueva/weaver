@@ -69,6 +69,13 @@ angular.module('ariadneApp')
       }
     }
 
+    var langKey = {
+      es: 'mt-eses-enus',
+      fr: 'mt-frfr-enus',
+      pt: 'mt-ptbr-enus',
+      ar: 'mt-arar-enus'
+    }
+
     var db = boilerplate;
 
     var rebuild = function(){
@@ -246,6 +253,9 @@ angular.module('ariadneApp')
         return deferred.promise;
       },
       addSource: function (postData, demoKey) {
+        if(demoKey){
+          console.log(demoKey)
+        }
         db = boilerplate;
         var deferred = $q.defer();
         var concatenated = "";
@@ -275,15 +285,17 @@ angular.module('ariadneApp')
           // Dummy data
           //$http.get('/app/dummy.json').success(function(data)
           if(data.rep){
-            addSource(data, saved);
-            deferred.resolve(db)
+            if(data.rep.$.sts == 'OK'){
+              addSource(data, saved);
+              deferred.resolve(db)
+            } else {
+              deferred.reject('error');
+            }
           } else {
             deferred.reject('error');
-            console.log('Error returning from Relationship Extraction API');
           }
           }).error(function(error){
             deferred.reject('error');
-            console.log('Error returning from Relationship Extraction API');
           })
         } else {
           $http.get(demoKey).success(function(data){
@@ -313,15 +325,34 @@ angular.module('ariadneApp')
         }
         return deferred.promise;
       },
-      getUrl: function (url) {
+      getUrl: function (url, lang) {
         var deferred = $q.defer();
         $http({
             url: ('/api/unfluff'),
             method: "GET",
             params: {url: url}
          }).success(function(data) {
-           console.log(data)
-          deferred.resolve(data);
+           var unfluffed = data;
+           if (lang !== 'en'){
+             translate(unfluffed.text, langKey[lang]).then(function(translation){
+               if(translation.translation !== 'Timeout'){
+                 translate(unfluffed.title, langKey[lang]).then(function(title){
+                   var pushed = unfluffed;
+                   pushed.title = title.translation;
+                   pushed.text = translation.translation;
+                   pushed.original = {
+                     text: unfluffed.text,
+                     title: unfluffed.title
+                   };
+                   deferred.resolve(pushed);
+                 })
+               } else {
+                 deferred.resolve(unfluffed)
+               }
+             })
+           } else {
+             deferred.resolve(unfluffed)
+           }
         })
         return deferred.promise;
       },
@@ -387,12 +418,6 @@ angular.module('ariadneApp')
                   console.log(data)
                   var offset = 0;
                   var sourceLang = params.market.slice(0,2);
-                  var langKey = {
-                    es: 'mt-eses-enus',
-                    fr: 'mt-frfr-enus',
-                    pt: 'mt-ptbr-enus',
-                    ar: 'mt-arar-enus'
-                  }
                   angular.forEach(data, function(datum, dKey){
                     if (datum){
                       if(sourceLang == 'en' || !params.market){

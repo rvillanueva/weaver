@@ -30,6 +30,11 @@ angular.module('ariadneApp')
       } else {
         $scope.namedFilter = false;
       }
+
+      $scope.compile();
+    }
+
+    $scope.compile = function(){
       var filtered = $filter('entityFilter')($scope.entities, $scope.entityFilter, $scope.namedFilter)
       $scope.entityArray = []
       angular.forEach(filtered, function(entity, eKey){
