@@ -30,6 +30,7 @@ angular.module('ariadneApp')
       if (sources.docs){
         if (sources.docs.length > 0){
           $scope.documents = sources.docs;
+          $scope.viewDoc(0)
         }
       }
     })
@@ -79,7 +80,8 @@ angular.module('ariadneApp')
 
       if(demoRes){
         $http.get(demoDocs).success(function(response){
-          relationshipCall(response.docs, demoRes)
+          $scope.documents = response;
+          relationshipCall($scope.documents, demoRes)
         })
       } else {
         relationshipCall($scope.documents)
@@ -146,10 +148,6 @@ angular.module('ariadneApp')
           console.log('Modal dismissed at: ' + new Date());
         });
       };
-
-    if($scope.documents && $scope.documents.length > 0){
-      $scope.viewDoc(0);
-    }
 
     $scope.saveJSON = function(data, filename){
       console.log(data)

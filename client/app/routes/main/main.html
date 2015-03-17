@@ -89,7 +89,7 @@
           <br>
         </div>
         <div>
-          <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}<br><br>You can try again later or try our <a href="#" ng-click="getRelation('../assets/sample_data/alqaedares.json','../assets/sample_data/alqaeda.json')">demo data.</a></alert>
+          <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}<br><br>You can try again later or try our <a href="#" ng-click="getRelation('/assets/sample_data/alqaedares.json','/assets/sample_data/alqaeda.json')">demo data.</a></alert>
           <span ng-if="viewer.image">
             <img ng-src="{{viewer.image}}" class="viewer-img"></img>
             <br>
