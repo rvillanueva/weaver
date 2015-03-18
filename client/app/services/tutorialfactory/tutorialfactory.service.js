@@ -125,7 +125,7 @@ angular.module('ariadneApp')
 
     }
 
-    var localData = localStorageService.get('myTutorials')
+    var localData = null //localStorageService.get('myTutorials')
     var myTutorials;
 
     if(localData){
@@ -137,6 +137,11 @@ angular.module('ariadneApp')
           }
         }
       }
+    }
+
+    var introDone = localStorageService.get('intro')
+    if(introDone){
+      myTutorials.intro.complete = true;
     }
 
 
@@ -160,6 +165,7 @@ angular.module('ariadneApp')
 
        modalInstance.result.then(function (data) {
          myTutorials.intro.complete = true;
+         localStorageService.set('intro', true)
          console.log('completed')
        }, function () {
          console.log('Modal dismissed at: ' + new Date());
