@@ -1,7 +1,8 @@
 applications:
 - services:
   - Relationship Extraction-r3
+  - Machine Translation-qc
   name: weaver
   command: node server/app.js
   path: .
-  memory: 512M
+  memory: 1G

@@ -78,3 +78,9 @@ div {outline:0 !important}
   height: 200px;
   margin: 40px;
 }
+
+.panel-tutorial-hover{
+  background: #61bbb8 !important;
+  color:#FFF !important;
+  border-color: #61bbb8 !important;
+}

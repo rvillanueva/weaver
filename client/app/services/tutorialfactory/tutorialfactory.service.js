@@ -22,7 +22,7 @@ angular.module('ariadneApp')
           },
           map: {
             header: 'Mapping Combat',
-            text: 'The map view allows you to plot locations mentioned in your documents. This is especially valuable when events with regional implications such as violence or disease outbreaks.<br><h4>Challenges</h4><ul><li>Where is violence occurring in Nigeria?</li><li>Who controls which area?</li><li>Who is gaining ground?</li><li>What other geographic regions are affected? How?</li>'
+            text: 'The map view allows you to plot locations mentioned in your documents. This is especially valuable for events with regional implications such as violence or disease outbreaks.<br><h4>Challenges</h4><ul><li>Where is violence occurring in Nigeria?</li><li>Who controls which area?</li><li>Who is gaining ground?</li><li>What other geographic regions are affected? How?</li>'
           },
           timeline: {
             header: 'A History of Boko Haram',
@@ -30,7 +30,11 @@ angular.module('ariadneApp')
           },
           graph: {
             header: 'A Who\'s Who of Radical Islamists',
-            text:'<h4>Challenges</h4><ul><li>Who is al-Baghdadi?</li><li>What is Boko Haram’s relationship to Abu Bakr al-Baghdadi?</li><li>What is Boko Haram\'s relationship to ISIS?</li>'
+            text:'The graph view allows you to view relationships between different entities, whether they are people, places, or actions. This visual representation of the text can reveal connections previously overlooked with large amounts of data.<br><br><h4>Challenges</h4><ul><li>Who is al-Baghdadi?</li><li>What is Boko Haram’s relationship to Abu Bakr al-Baghdadi?</li><li>What is Boko Haram\'s relationship to ISIS?</li>'
+          },
+          entities: {
+            header: 'Friends and Foes',
+            text: 'The entity view allows you to see a summary of all people, places, things, events, and more, and mapped to where they appear in the text. This is useful for understanding quickly understanding in where an entity is referenced and how often.'
           },
         }
       },
@@ -46,11 +50,19 @@ angular.module('ariadneApp')
           },
           map: {
             header: 'The Outbreak Battleground',
-            text: 'The map view allows you to plot locations mentioned in your documents. This is especially valuable when events with regional implications such as violence or disease outbreaks.<br><h4>Challenges</h4><ul><li>What US state is showing the most widespread outbreak?</li><li>What is the infection rate in Quebec?</li><li>Why is measles affecting Western Africa?</li></ul>'
+            text: 'The map view allows you to plot locations mentioned in your documents. This is especially valuable for events with regional implications such as violence or disease outbreaks.<br><h4>Challenges</h4><ul><li>What US state is showing the most widespread outbreak?</li><li>What is the infection rate in Quebec?</li><li>Why is measles affecting Western Africa?</li></ul>'
           },
           timeline: {
             header: 'A Disease Across Generations',
             text:'The timeline view extracts dates from source texts and plots events. Relative dates (such as \"this Friday\") are identified using the document\'s publication date as a frame of reference. The timeline view is useful in understanding how events affect each other over time and identifying the patterns that occur.<br><br><h4>Challenges</h4><ul><li>What were the major early benchmarks of the measles vaccine?</li><li>What was the earliest reported measles elimination in the United States?</li></ul>'
+          },
+          graph: {
+            header: 'Vectors',
+            text: 'The graph view allows you to view relationships between different entities, whether they are people, places, or actions. This visual representation of the text can reveal connections previously overlooked with large amounts of data.<br><br><h4>Challenges</h4><ul><li>What other regions were affected by the California outbreak? How?</li><li>What areas are at risk in the Quebec outbreak?</li></ul>'
+          },
+          entities: {
+            header: 'Who, What, Where, When',
+            text: 'The entity view allows you to see a summary of all people, places, things, events, and more, and mapped to where they appear in the text. This is useful for understanding quickly understanding in where an entity is referenced and how often.'
           },
         }
       },
@@ -66,7 +78,7 @@ angular.module('ariadneApp')
           },
           map: {
             header: 'Global Terrorism',
-            text: 'TThe map view allows you to plot locations mentioned in your documents. This is especially valuable when events with regional implications such as violence or disease outbreaks.<br><h4>Challenges</h4><ul><li>Who was kidnapped from Yemen?</li></ul>'
+            text: 'The map view allows you to plot locations mentioned in your documents. This is especially valuable for events with regional implications such as violence or disease outbreaks.<br><h4>Challenges</h4><ul><li>Who was kidnapped from Yemen?</li></ul>'
           },
           timeline: {
             header: 'Retracing Their Steps',
@@ -74,7 +86,11 @@ angular.module('ariadneApp')
           },
           graph: {
             header: 'A Tangled Web',
-            text: '<h4>Challenges</h4><ul><li>What is Naseer’s connection with Khalid al-Fawwaz?</li></ul>'
+            text: 'The graph view allows you to view relationships between different entities, whether they are people, places, or actions. This visual representation of the text can reveal connections previously overlooked with large amounts of data.<br><br><h4>Challenges</h4><ul><li>What is Naseer’s connection with Khalid al-Fawwaz?</li></ul>'
+          },
+          entities: {
+            header: 'Witnesses',
+            text: 'The entity view allows you to see a summary of all people, places, things, events, and more, and mapped to where they appear in the text. This is useful for understanding quickly understanding in where an entity is referenced and how often.'
           },
         }
       },
@@ -86,19 +102,23 @@ angular.module('ariadneApp')
         stages:{
           start:{
             header: 'China Searches Wikileaks',
-            text: 'This is a search for Nasser.'
+            text: '<strong>You are staffer for an influential Chinese politician.</strong><br><br> On September 1, 2011, the Wikileaks organization released 251,287 classified U.S. diplomatic cables, one of the largest intelligence breaches in U.S. history. You are interested in reviewing the Wikileaks documents to understand the thought process behind U.S. policy, especially in regards to sensitive topics such as Tibet and Taiwan. <br><br><h4>Getting Started</h4>Your sources have been automatically populated with a selected documents related to China and Taiwan from the leaked diplomatic cables. <br><strong>When you\'re done reviewing the documents, press Analyze and select a view.</strong><br><br><i>(To see the tutorial any time, select the question mark in the bottom right hand corner.)</i>'
           },
           map: {
-            header: 'Global Terrorism',
-            text: 'Who was kidnapped from Yemen?'
+            header: 'Sino-American Relations Around the World',
+            text: 'The map view allows you to plot locations mentioned in your documents. This is especially valuable for events with regional implications such as violence or disease outbreaks.<br><br><h4>Challenges</h4><ul><li>How does the US view Chinese-Latin America relations?</li><li>How does the US believe their arms sales to Taiwan might affect the issue of North Korea?</li><li>What is the Japanese perspective on US-Chinese relations related to the arms sale to Taiwan?</li></ul>'
           },
           timeline: {
             header: 'Retracing Their Steps',
-            text:'Why was 2011 important for both Abid Naseer and Minh Quang Pham?'
+            text:'The timeline view extracts dates from source texts and plots events. Relative dates (such as \"this Friday\") are identified using the document\'s publication date as a frame of reference. The timeline view is useful in understanding how events affect each other over time and identifying the patterns that occur.<br><br><h4>Challenges</h4><ul><li>What symbolically important action did the US take in 2007?</li><li>What was the reaction after January 30, 2010, when Tibetan representatives left China?</li><li>What major event will occur in 2012?</li></ul>'
           },
           graph: {
-            header: 'A Tangled Web',
-            text: 'What is Naseer’s connection with Khalid al-Fawwaz?'
+            header: 'Asia-Pacific: Friends and Foes',
+            text: 'The graph view allows you to view relationships between different entities, whether they are people, places, or actions. This visual representation of the text can reveal connections previously overlooked with large amounts of data.<br><br><h4>Challenges</h4><ul><li>The Dalai Lama is the center of many political relations. Which individuals is he connected to? Which geopolitical entities? What relation does he have with them?'
+          },
+          entities: {
+            header: 'The Players',
+            text: 'The entity view allows you to see a summary of all people, places, things, events, and more, and mapped to where they appear in the text. This is useful for understanding quickly understanding in where an entity is referenced and how often.'
           },
         }
       },
@@ -160,6 +180,10 @@ angular.module('ariadneApp')
             }
           }
           if(tutorials[currentTutorial].stages[page] && !myTutorials[currentTutorial].stages[page].complete || review){
+            var passed = tutorials[currentTutorial].stages[page]
+            passed.page = page;
+            passed.tutorial = currentTutorial;
+
               var modalInstance = $modal.open({
                 templateUrl: '../components/tutorialmodal/tutorialmodal.html',
                 controller: 'TutorialModalInstanceCtrl',
@@ -167,7 +191,7 @@ angular.module('ariadneApp')
                 backdrop: true,
                 resolve: {
                   tutorial: function () {
-                    return tutorials[currentTutorial].stages[page];
+                    return passed;
                   }
                 }
             });

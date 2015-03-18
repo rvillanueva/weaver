@@ -51,6 +51,11 @@
             </ul>
           </span>&nbsp; &nbsp;
         </span>
+        <div class="centered" ng-if="analyzing">
+          <br>
+          <img src="/assets/images/watson.gif">
+        </div>
+        <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}<br><br>Try analyzing again, or if you're the impatient type, try our <a href="#" ng-click="getRelation('/assets/sample_data/alqaedares.json','/assets/sample_data/alqaeda.json')">demo data.</a></alert>
         <br><br>
         <span ng-if="documents.length == 0 || !documents">
           No documents. Add a few to analyze!<br><br>
@@ -58,8 +63,8 @@
           <div class="row">
             <a href="#">
               <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" ng-repeat="sample in sampleDocs | orderBy:'order'" ng-click="setDocs(sample.url);setDemo(sample.id)">
-                <div class="panel panel-default">
-                  <div class="panel-heading">
+                <div class="panel panel-default" ng-mouseover="setHighlight(sample.id)" ng-mouseout="setHighlight(null)">
+                  <div class="panel-heading" ng-class="{'panel-tutorial-hover': tutorialHighlight == sample.id}">
                     {{sample.title}}
                   </div>
                   <div class="panel-body" style="padding:0;">
@@ -83,13 +88,7 @@
         </div>
       </div>
       <div class="col-lg-7">
-        <div class="centered" ng-if="analyzing">
-          <img src="/assets/images/watson.gif">
-          <br>
-          <br>
-        </div>
         <div>
-          <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}<br><br>You can try again later or try our <a href="#" ng-click="getRelation('/assets/sample_data/alqaedares.json','/assets/sample_data/alqaeda.json')">demo data.</a></alert>
           <span ng-if="viewer.image">
             <img ng-src="{{viewer.image}}" class="viewer-img"></img>
             <br>

@@ -57,6 +57,7 @@ angular.module('ariadneApp')
       $scope.analyzing = true;
       $scope.postData = []
       var count = '';
+
       var relationshipCall = function(docs, demoKey){
         angular.forEach(docs, function(doc, key){
           $scope.postData.push(doc);
@@ -232,6 +233,10 @@ angular.module('ariadneApp')
 
    $scope.clearAll = function(){
      $window.location.reload()
+   }
+
+   $scope.setHighlight = function(id){
+     $scope.tutorialHighlight = id;
    }
 
   });

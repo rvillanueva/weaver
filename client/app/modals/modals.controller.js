@@ -192,7 +192,7 @@ angular.module('ariadneApp').controller('IntroModalInstanceCtrl', function ($sco
 
 });
 
-angular.module('ariadneApp').controller('TutorialModalInstanceCtrl', function ($scope, $modalInstance, tutorial) {
+angular.module('ariadneApp').controller('TutorialModalInstanceCtrl', function ($scope, $modalInstance, tutorial, tutorialFactory) {
 
 console.log(tutorial)
 
@@ -202,6 +202,7 @@ console.log(tutorial)
   }
 
   $scope.ok = function () {
+    tutorialFactory.updateTutorial(tutorial.tutorial, tutorial.page)
     $modalInstance.close('ok');
 
   };
