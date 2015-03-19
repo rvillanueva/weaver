@@ -34,7 +34,7 @@ angular.module('ariadneApp')
           },
           entities: {
             header: 'Friends and Foes',
-            text: 'The entity view allows you to see a summary of all people, places, things, events, and more, and mapped to where they appear in the text. This is useful for understanding quickly understanding in where an entity is referenced and how often.'
+            text: 'The entity view allows you to see a summary of all people, places, things, events, and more, and mapped to where they appear in the text. This is useful for understanding quickly understanding where an entity is referenced and how often.'
           },
         }
       },
@@ -62,7 +62,7 @@ angular.module('ariadneApp')
           },
           entities: {
             header: 'Who, What, Where, When',
-            text: 'The entity view allows you to see a summary of all people, places, things, events, and more, and mapped to where they appear in the text. This is useful for understanding quickly understanding in where an entity is referenced and how often.'
+            text: 'The entity view allows you to see a summary of all people, places, things, events, and more, and mapped to where they appear in the text. This is useful for understanding quickly understanding where an entity is referenced and how often.'
           },
         }
       },
@@ -90,7 +90,7 @@ angular.module('ariadneApp')
           },
           entities: {
             header: 'Witnesses',
-            text: 'The entity view allows you to see a summary of all people, places, things, events, and more, and mapped to where they appear in the text. This is useful for understanding quickly understanding in where an entity is referenced and how often.'
+            text: 'The entity view allows you to see a summary of all people, places, things, events, and more, and mapped to where they appear in the text. This is useful for understanding quickly understanding where an entity is referenced and how often.'
           },
         }
       },
@@ -118,7 +118,7 @@ angular.module('ariadneApp')
           },
           entities: {
             header: 'The Players',
-            text: 'The entity view allows you to see a summary of all people, places, things, events, and more, and mapped to where they appear in the text. This is useful for understanding quickly understanding in where an entity is referenced and how often.'
+            text: 'The entity view allows you to see a summary of all people, places, things, events, and more, and mapped to where they appear in the text. This is useful for understanding quickly understanding where an entity is referenced and how often.'
           },
         }
       },

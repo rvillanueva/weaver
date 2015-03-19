@@ -418,7 +418,10 @@ angular.module('ariadneApp')
                 }).success(function(data) {
                   console.log(data)
                   var offset = 0;
-                  var sourceLang = params.market.slice(0,2);
+                  var sourceLang;
+                  if(params.market){
+                    sourceLang = params.market.slice(0,2);
+                  }
                   angular.forEach(data, function(datum, dKey){
                     if (datum){
                       if(sourceLang == 'en' || !params.market){
