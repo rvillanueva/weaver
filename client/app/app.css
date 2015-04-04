@@ -84,3 +84,30 @@ div {outline:0 !important}
   color:#FFF !important;
   border-color: #61bbb8 !important;
 }
+
+.voicebar{
+  position:fixed;
+  right: 10px;
+  bottom: 0;
+  background: #FFFFFF;
+  text-align: right;
+  padding: 20px;
+
+}
+
+.voice-icon{
+  font-size: 4em;
+  cursor: pointer;
+}
+
+.voice-icon:hover{
+  color: #f04e37;
+}
+
+.voice-on{
+  color: #61bbb8;
+}
+
+.voice-off{
+  color: #000000;
+}

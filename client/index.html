@@ -46,6 +46,12 @@
 
     <!-- Add your site or application content here -->
     <div ng-view="" class="holder"></div>
+    <div ng-controller="voiceController" class="overlay row">
+      <div class="voicebar">
+        <i class="fa voice-icon" ng-class="{'voice-on fa-microphone': voiceActive, 'voice-off fa-microphone-slash': !voiceActive}" ng-click="voiceToggle()"></i>
+      </div>
+    </div>
+
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
     <script>
@@ -102,6 +108,8 @@
           <script src="app/services/geocodeFactory/geocodeFactory.service.js"></script>
           <script src="app/services/snippetfactory/snippetfactory.service.js"></script>
           <script src="app/services/tutorialfactory/tutorialfactory.service.js"></script>
+          <script src="app/services/voicefactory/voicefactory.service.js"></script>
+          <script src="app/voice/voice.controller.js"></script>
           <script src="components/docmodal/docmodal.service.js"></script>
           <script src="components/intromodal/intromodal.js"></script>
           <script src="components/navbar/navbar.controller.js"></script>
