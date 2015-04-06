@@ -48,9 +48,9 @@ if (process.env.VCAP_SERVICES) {
   console.log('No VCAP_SERVICES found in ENV, using defaults for local development');
 }
 
-console.log('service_url = ' + service_url);
-console.log('service_username = ' + service_username);
-console.log('service_password = ' + new Array(service_password.length).join("X"));
+//console.log('service_url = ' + service_url);
+//console.log('service_username = ' + service_username);
+//console.log('service_password = ' + new Array(service_password.length).join("X"));
 
 var auth = 'Basic ' + new Buffer(service_username + ':' + service_password).toString('base64');
 

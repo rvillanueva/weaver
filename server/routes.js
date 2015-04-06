@@ -16,7 +16,9 @@ module.exports = function(app) {
   app.use('/api/webhose', require('./api/websearch/webhose'));
   app.use('/api/yahoo', require('./api/websearch/yahoo'));
   app.use('/api/watson/tts', require('./api/watson/tts'));
+  app.use('/api/watson/stt', require('./api/watson/stt'));
   app.use('/api/watson/translate', require('./api/watson/translate'));
+  app.post('/', require('./api/watson/stt'));
 
 
 

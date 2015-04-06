@@ -2,6 +2,8 @@ applications:
 - services:
   - Relationship Extraction-r3
   - Machine Translation-qc
+  - Speech To Text-ma
+  - Text to Speech-xr
   name: weaver
   command: node server/app.js
   path: .

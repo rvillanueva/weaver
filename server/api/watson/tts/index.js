@@ -4,7 +4,8 @@ var express = require('express'),
   app = express(),
   bluemix = require('../../../config/bluemix'),
   TextToSpeech = require('./text-to-speech'),
-  extend = require('util')._extend;
+  extend = require('util')._extend,
+  fs = require('fs');
 
 // Bootstrap application settings
 require('../../../config/express')(app);
