@@ -3,6 +3,8 @@ A Watson Challenge Application
 by Ryan Villanueva (rjvillan@us.ibm.com)
 --------------------------
 
+See the live demo at http://weaver.mybluemix.net.
+
 Weaver takes massive amounts of text and reveals relationships between people, places, times, and events.
 
 Weaver uses several APIs and components to process large amounts of text. An example process flow:
