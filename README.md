@@ -1,7 +1,7 @@
 #weaver
 A Watson Challenge Application
 by Ryan Villanueva (rjvillan@us.ibm.com)
---------------------------
+Demo: http://weaver.mybluemix.net/
 
 Weaver takes massive amounts of text and reveals relationships between people, places, times, and events.
 
