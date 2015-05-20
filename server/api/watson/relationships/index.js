@@ -2,6 +2,7 @@
 
 var express = require('express');
 var controller = require('./watson.controller');
+var http = require('http');
 var https = require('https');
 var url = require('url');
 var querystring = require('querystring');
@@ -62,15 +63,17 @@ router.post('/', function(req, res) {
       headers: {
         'Content-Type'  :'application/x-www-form-urlencoded',
         'X-synctimeout' : '30',
-        'Authorization' :  auth }
+        //'Authorization' :  auth
+      }
     };
 
     // Create a request to POST to Watson
-    var watson_req = https.request(options, function(result) {
+    var watson_req = http.request(options, function(result) {
       result.setEncoding('utf-8');
       var resp_string = '';
 
       result.on("data", function(chunk) {
+        console.log(chunk)
         resp_string += chunk;
       });
 
@@ -79,6 +82,7 @@ router.post('/', function(req, res) {
         parseString(resp_string, function (err, result) {
             resp_json = result
         });
+        console.log(resp_json)
         return res.send(resp_json)
       })
 
